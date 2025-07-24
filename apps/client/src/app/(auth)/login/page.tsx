@@ -7,6 +7,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Form, FormControl, FormField, FormItem, FormLabel } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import axios from 'axios';
+import { toast } from 'sonner';
 
 export default function Login(){
 
@@ -14,8 +16,15 @@ export default function Login(){
         resolver:zodResolver(loginSchema)
     })
 
-    const onSubmit = async () =>{
-
+    const onSubmit = async (data:z.infer<typeof loginSchema>) =>{
+        try {
+            const res = await axios.post('http://localhost:4000/api/auth/login',data);
+            console.log(res);
+            toast(res.data.message)
+        } catch (error) {
+            console.log("error in signup",error);
+            toast("error registering user....")
+        }
     }
 
     return (

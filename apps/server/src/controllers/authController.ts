@@ -8,26 +8,28 @@ import { generateToken } from "../utils/jwt";
 
 export const register= async (req:Request, res:Response) =>{
     try {
-        const data = registerSchema.parse(req.body);
+        const {username,email,password,role}= req.body
         const existingUser = await prisma.user.findUnique({
-            where:{email:data.email}
+            where:{email}
         })
 
         if(existingUser){
-            return res.status(400).json({error:"User already exists"})
+            return res.status(400).json({message:"User already exists"})
         }
 
-        const hashed = await bcrypt.hash(data.password,10);
+        const hashed = await bcrypt.hash(password,10);
 
         const newUser = await prisma.user.create({
             data:{
-                ...data,
-                password:hashed
+                username,
+                email,
+                password:hashed,
+                role
             }
         })
 
-        const token= generateToken(newUser.id);
-        res.status(201).json({user:{id:newUser.id, email:newUser.email}, token})
+        const token= generateToken(newUser);
+        res.status(201).json({user:{id:newUser.id, email:newUser.email}, token, message:"User registered successfully"})
 
     } catch (error) {
         console.log("Error registering new user",error);
@@ -38,21 +40,24 @@ export const register= async (req:Request, res:Response) =>{
 
 export const login = async(req:Request, res:Response)=>{
     try {
-        const data = loginSchema.parse(req.body);
+        const {email,password}= req.body;
 
         const user = await prisma.user.findUnique({
-            where:{email:data.email}
+            where:{email}
         })
 
         if(!user){
-            return res.status(401).json({error:"User with this email does not exists."})
+            return res.status(401).json({message:"User with this email does not exists."})
         }
 
-        const isMatch = await bcrypt.compare(data.password, user.password);
+        const isMatch = await bcrypt.compare(password, user.password);
 
         if(!isMatch){
-            return res.status(400).json({error:"Invalid credentials."})
+            return res.status(400).json({message:"Invalid credentials."})
         }
+        const token = generateToken(user);
+
+        res.status(200).json({user:{id:user.id, email:user.email}, token, message:"sign in successfull"})
     } catch (error) {
         console.log("Error logging user",error);
         res.status(500).json({error:"Internal server error"})

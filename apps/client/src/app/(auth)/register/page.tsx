@@ -7,6 +7,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Form, FormControl, FormField, FormItem, FormLabel } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import axios from 'axios'
+import { toast } from "sonner"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 export default function Register(){
 
@@ -14,8 +17,15 @@ export default function Register(){
         resolver:zodResolver(registerSchema)
     })
 
-    const onSubmit = async () =>{
-
+    const onSubmit = async (data: z.infer<typeof registerSchema>) =>{
+        try {
+            const res = await axios.post('http://localhost:4000/api/auth/register',data);
+            console.log(res);
+            toast(res.data.message)
+        } catch (error) {
+            console.log("error in signup",error);
+            toast("error registering user....")
+        }
     }
 
     return (
@@ -64,6 +74,26 @@ export default function Register(){
                             </FormItem>
                         )}
                         />
+                        <FormField
+                            control={form.control}
+                            name="role"
+                            render={({ field }) => (
+                                <FormItem>
+                                <FormLabel>You role</FormLabel>
+                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormControl>
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="Select a your role." />
+                                    </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                    <SelectItem value="STUDENT">Student</SelectItem>
+                                    <SelectItem value="TRAINER">Trainer</SelectItem>
+                                    </SelectContent>
+                                </Select>
+                                </FormItem>
+                            )}
+                            />
                         <Button type="submit">Submit</Button>
                     </form>
                     </Form>

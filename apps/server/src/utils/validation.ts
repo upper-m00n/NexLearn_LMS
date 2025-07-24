@@ -7,7 +7,7 @@ export const registerSchema= z.object(
         password:z.string()
                 .min(8)
                 .regex(/[A-Z]/,"Must contain an uppercase letter")
-                .regex(/[0-9]/,"Must contain a number")
+                .regex(/[0-9]/,"Must contain a number"),
     }
 );
 
