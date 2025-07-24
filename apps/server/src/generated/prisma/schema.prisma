@@ -21,6 +21,7 @@ model User {
   password  String
   role      Role     @default(STUDENT)
   createdAt DateTime @default(now())
+  courses   Course[] @relation("TrainerCourses")
 }
 
 enum Role {
@@ -29,4 +30,34 @@ enum Role {
   STUDENT
   TRAINER
   VISITOR
+}
+
+model Course {
+  id          String    @id @default(uuid())
+  title       String
+  description String
+  thumbnail   String
+  trainerId   String
+  trainer     User      @relation("TrainerCourses", fields: [trainerId], references: [id])
+  lectures    Lecture[]
+  notes       Note[]
+  createdAt   DateTime  @default(now())
+}
+
+model Lecture {
+  id        String   @id @default(uuid())
+  title     String
+  videoUrl  String
+  courseId  String
+  course    Course   @relation(fields: [courseId], references: [id])
+  createdAt DateTime @default(now())
+}
+
+model Note {
+  id        String   @id @default(uuid())
+  title     String
+  pdfUrl    String
+  courseId  String
+  course    Course   @relation(fields: [courseId], references: [id])
+  createdAt DateTime @default(now())
 }

@@ -129,6 +129,31 @@ exports.Prisma.UserScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.CourseScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  thumbnail: 'thumbnail',
+  trainerId: 'trainerId',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.LectureScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  videoUrl: 'videoUrl',
+  courseId: 'courseId',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.NoteScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  pdfUrl: 'pdfUrl',
+  courseId: 'courseId',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -147,7 +172,10 @@ exports.Role = exports.$Enums.Role = {
 };
 
 exports.Prisma.ModelName = {
-  User: 'User'
+  User: 'User',
+  Course: 'Course',
+  Lecture: 'Lecture',
+  Note: 'Note'
 };
 
 /**
