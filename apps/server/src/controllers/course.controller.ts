@@ -52,4 +52,66 @@ export const createCourse = async(req:Request, res:Response)=>{
     }
 }
 
+// get courses
+
+export const getCourses = async(req:Request, res:Response)=>{
+  const trainerId= req.query.trainerId as string;
+
+  if(!trainerId){
+    return res.status(401).json({error:"Unauthorized. No user id found."});
+  }
+
+  try {
+    const courses= await prisma.course.findMany({
+      where:{trainerId},
+    })
+
+    if(!courses){
+      return res.status(404).json({error:"Trainer not found,"})
+    }
+
+    res.status(200).json(courses);
+  } catch (error) {
+    console.log("Error while fetching course",error);
+    res.status(500).json({message:"Internal server error"})
+  }
+}
+
 // course updates
+
+export const updateCourses = async(req:Request, res:Response)=>{
+  const trainerId= req.query.trainerId as string;
+  const courseId = req.query.courseId as string;
+
+  const {title, description, thumbnail}=req.body;
+
+  if(!trainerId){
+    return res.status(401).json({error:"Unauthorized. No user id found."});
+  }
+
+  try {
+    const updatedCourse= await prisma.course.update({
+      where:{
+        id:courseId,
+        trainerId
+      },
+      data:{
+        title,
+        description,
+        thumbnail
+      }
+    })
+
+    if(!updatedCourse){
+      return res.status(404).json({message:"Trainer not found,"})
+    }
+
+    res.status(200).json({updatedCourse,message:"Course updated successfully!"});
+    
+  } catch (error) {
+    console.log("Error while fetching course",error);
+    res.status(500).json({message:"Internal server error"})
+  }
+}
+
+
