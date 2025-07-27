@@ -9,8 +9,10 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import axios from 'axios';
 import { toast } from 'sonner';
+import { useAuth } from '@/context/AuthContext';
 
 export default function Login(){
+    const {setUser,setToken}= useAuth();
 
     const form = useForm<z.infer<typeof loginSchema>>({
         resolver:zodResolver(loginSchema)
@@ -19,6 +21,12 @@ export default function Login(){
     const onSubmit = async (data:z.infer<typeof loginSchema>) =>{
         try {
             const res = await axios.post('http://localhost:4000/api/auth/login',data);
+            localStorage.setItem("token",res.data.token)
+            localStorage.setItem('user',JSON.stringify(res.data.user));
+
+            setUser(res.data.user);
+            setToken(res.data.token);
+            
             console.log(res);
             toast(res.data.message)
         } catch (error) {

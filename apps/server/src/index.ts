@@ -4,6 +4,8 @@ import dotenv from 'dotenv'
 
 //import routess here
 import authRoutes from './routes/authRoutes'
+import courseRoutes from './routes/courseRoutes'
+import imagekitRoutes from './routes/imagekitRoutes'
 
 dotenv.config();
 
@@ -14,7 +16,9 @@ app.use(express.json());
 
 // use routes
 
-app.use('/api/auth',authRoutes)
+app.use('/api/auth',authRoutes);
+app.use('/api/course',courseRoutes);
+app.use('/api/imagekit',imagekitRoutes)
 
 app.get('/', (_req,res)=>{
     res.send("Api is workinng");

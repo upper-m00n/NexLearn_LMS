@@ -20,6 +20,7 @@ export default function Register(){
     const onSubmit = async (data: z.infer<typeof registerSchema>) =>{
         try {
             const res = await axios.post('http://localhost:4000/api/auth/register',data);
+            localStorage.setItem("token",res.data.token)
             console.log(res);
             toast(res.data.message)
         } catch (error) {

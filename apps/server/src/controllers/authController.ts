@@ -29,7 +29,7 @@ export const register= async (req:Request, res:Response) =>{
         })
 
         const token= generateToken(newUser);
-        res.status(201).json({user:{id:newUser.id, email:newUser.email}, token, message:"User registered successfully"})
+        res.status(201).json({user:{id:newUser.id, email:newUser.email, role:newUser.role}, token, message:"User registered successfully"})
 
     } catch (error) {
         console.log("Error registering new user",error);
@@ -57,7 +57,7 @@ export const login = async(req:Request, res:Response)=>{
         }
         const token = generateToken(user);
 
-        res.status(200).json({user:{id:user.id, email:user.email}, token, message:"sign in successfull"})
+        res.status(200).json({user:{id:user.id, email:user.email, role:user.role}, token, message:"sign in successfull"})
     } catch (error) {
         console.log("Error logging user",error);
         res.status(500).json({error:"Internal server error"})
