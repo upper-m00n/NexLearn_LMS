@@ -64,7 +64,8 @@ export default function CourseForm() {
         }
       })
       toast.success("Course created successfully!")
-      console.log("Submitted Course:", data)
+      //console.log("Submitted Course:", data)
+      router.push('/trainer/courses')
     } catch (error) {
       toast.error("Failed to create course")
       console.error("Error while creating course:", error)
@@ -109,7 +110,7 @@ export default function CourseForm() {
 
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-800 text-white">
+    <div className="flex justify-center items-center min-h-screen bg-gray-100 shadow-2xl text-black">
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-full max-w-xl">

@@ -26,7 +26,6 @@ export const createMuxVideo = async (req: Request, res: Response) => {
 };
 
 //course creation
-
 export const createCourse = async(req:Request, res:Response)=>{
     try {
         const {title, description, thumbnail}= req.body;
@@ -53,7 +52,6 @@ export const createCourse = async(req:Request, res:Response)=>{
 }
 
 // get courses
-
 export const getCourses = async(req:Request, res:Response)=>{
   const trainerId= req.query.trainerId as string;
 
@@ -78,8 +76,7 @@ export const getCourses = async(req:Request, res:Response)=>{
 }
 
 // course updates
-
-export const updateCourses = async(req:Request, res:Response)=>{
+export const updateCourse = async(req:Request, res:Response)=>{
   const trainerId= req.query.trainerId as string;
   const courseId = req.query.courseId as string;
 
@@ -110,6 +107,27 @@ export const updateCourses = async(req:Request, res:Response)=>{
     
   } catch (error) {
     console.log("Error while fetching course",error);
+    res.status(500).json({message:"Internal server error"})
+  }
+}
+
+// delete course
+
+export const deleteCourse = async(req:Request,res:Response)=>{
+  const courseId = req.query.courseId as string;
+
+  try {
+    const deleteCourse = await prisma.course.delete({
+      where:{id:courseId}
+    })
+
+    if(!deleteCourse){
+      return res.status(400).json({message:"Error: Course is not deleted"})
+    }
+
+    res.status(200).json({message:"Course deleted Successfully!"})
+  } catch (error) {
+    console.log("Error deleting course",error);
     res.status(500).json({message:"Internal server error"})
   }
 }

@@ -131,7 +131,7 @@ export default function UpdateCourseForm() {
 
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-800 text-white">
+    <div className="flex justify-center items-center min-h-screen bg-gray-100 text-black shadow-2xl">
         <h1>Update Courses</h1>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-full max-w-xl">

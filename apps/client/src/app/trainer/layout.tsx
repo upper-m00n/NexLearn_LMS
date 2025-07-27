@@ -6,9 +6,9 @@ export default function TrainerLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="min-h-screen bg-gray-900 text-white">
-      <header className="p-4 bg-gray-800 border-b border-gray-700">
-        <h1 className="text-2xl font-bold">Trainer Dashboard</h1>
+    <div className="min-h-screen bg-gray-100 text-black">
+      <header className="p-4 bg-gray-100 border shadow-2xl">
+        <h1 className="text-2xl font-bold text-black">Trainer Dashboard</h1>
       </header>
       <main className="p-6">{children}</main>
     </div>
