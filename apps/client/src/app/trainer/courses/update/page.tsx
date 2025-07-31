@@ -129,7 +129,6 @@ export default function UpdateCourseForm() {
   }
 };
 
-
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100 text-black shadow-2xl">
         <h1>Update Courses</h1>
@@ -173,5 +172,7 @@ export default function UpdateCourseForm() {
         </form>
       </Form>
     </div>
+    
   )
+
 }

@@ -111,7 +111,6 @@ export default function CourseForm() {
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100 shadow-2xl text-black">
-
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-full max-w-xl">
           <FormField

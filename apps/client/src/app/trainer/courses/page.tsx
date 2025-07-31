@@ -52,8 +52,8 @@ export default function Courses(){
         <div>
             <h1>Your Courses</h1>
             {
-                courses.map((course)=>(
-                    <CourseCard course={course}/>
+                courses.map((course,ind)=>(
+                    <CourseCard course={course} key={ind}/>
                 ))
             }
         </div>
