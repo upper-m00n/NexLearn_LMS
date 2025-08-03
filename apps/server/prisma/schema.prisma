@@ -47,7 +47,10 @@ model Course {
 model Lecture {
   id        String   @id @default(uuid())
   title     String
+  description String
   videoUrl  String
+  note     Note?    @relation(fields:[noteId], references:[id])
+  noteId    String? @unique
   courseId  String
   course    Course   @relation(fields: [courseId], references: [id])
   createdAt DateTime @default(now())
@@ -58,6 +61,7 @@ model Note {
   title     String
   pdfUrl    String
   courseId  String
-  course    Course   @relation(fields: [courseId], references: [id])
+  course    Course   @relation(fields:[courseId],references:[id])
+  lecture   Lecture?
   createdAt DateTime @default(now())
 }

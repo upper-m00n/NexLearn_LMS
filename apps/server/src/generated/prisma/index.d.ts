@@ -3457,7 +3457,9 @@ export namespace Prisma {
   export type LectureMinAggregateOutputType = {
     id: string | null
     title: string | null
+    description: string | null
     videoUrl: string | null
+    noteId: string | null
     courseId: string | null
     createdAt: Date | null
   }
@@ -3465,7 +3467,9 @@ export namespace Prisma {
   export type LectureMaxAggregateOutputType = {
     id: string | null
     title: string | null
+    description: string | null
     videoUrl: string | null
+    noteId: string | null
     courseId: string | null
     createdAt: Date | null
   }
@@ -3473,7 +3477,9 @@ export namespace Prisma {
   export type LectureCountAggregateOutputType = {
     id: number
     title: number
+    description: number
     videoUrl: number
+    noteId: number
     courseId: number
     createdAt: number
     _all: number
@@ -3483,7 +3489,9 @@ export namespace Prisma {
   export type LectureMinAggregateInputType = {
     id?: true
     title?: true
+    description?: true
     videoUrl?: true
+    noteId?: true
     courseId?: true
     createdAt?: true
   }
@@ -3491,7 +3499,9 @@ export namespace Prisma {
   export type LectureMaxAggregateInputType = {
     id?: true
     title?: true
+    description?: true
     videoUrl?: true
+    noteId?: true
     courseId?: true
     createdAt?: true
   }
@@ -3499,7 +3509,9 @@ export namespace Prisma {
   export type LectureCountAggregateInputType = {
     id?: true
     title?: true
+    description?: true
     videoUrl?: true
+    noteId?: true
     courseId?: true
     createdAt?: true
     _all?: true
@@ -3580,7 +3592,9 @@ export namespace Prisma {
   export type LectureGroupByOutputType = {
     id: string
     title: string
+    description: string
     videoUrl: string
+    noteId: string | null
     courseId: string
     createdAt: Date
     _count: LectureCountAggregateOutputType | null
@@ -3605,58 +3619,75 @@ export namespace Prisma {
   export type LectureSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     title?: boolean
+    description?: boolean
     videoUrl?: boolean
+    noteId?: boolean
     courseId?: boolean
     createdAt?: boolean
+    note?: boolean | Lecture$noteArgs<ExtArgs>
     course?: boolean | CourseDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["lecture"]>
 
   export type LectureSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     title?: boolean
+    description?: boolean
     videoUrl?: boolean
+    noteId?: boolean
     courseId?: boolean
     createdAt?: boolean
+    note?: boolean | Lecture$noteArgs<ExtArgs>
     course?: boolean | CourseDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["lecture"]>
 
   export type LectureSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     title?: boolean
+    description?: boolean
     videoUrl?: boolean
+    noteId?: boolean
     courseId?: boolean
     createdAt?: boolean
+    note?: boolean | Lecture$noteArgs<ExtArgs>
     course?: boolean | CourseDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["lecture"]>
 
   export type LectureSelectScalar = {
     id?: boolean
     title?: boolean
+    description?: boolean
     videoUrl?: boolean
+    noteId?: boolean
     courseId?: boolean
     createdAt?: boolean
   }
 
-  export type LectureOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "videoUrl" | "courseId" | "createdAt", ExtArgs["result"]["lecture"]>
+  export type LectureOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "videoUrl" | "noteId" | "courseId" | "createdAt", ExtArgs["result"]["lecture"]>
   export type LectureInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    note?: boolean | Lecture$noteArgs<ExtArgs>
     course?: boolean | CourseDefaultArgs<ExtArgs>
   }
   export type LectureIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    note?: boolean | Lecture$noteArgs<ExtArgs>
     course?: boolean | CourseDefaultArgs<ExtArgs>
   }
   export type LectureIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    note?: boolean | Lecture$noteArgs<ExtArgs>
     course?: boolean | CourseDefaultArgs<ExtArgs>
   }
 
   export type $LecturePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Lecture"
     objects: {
+      note: Prisma.$NotePayload<ExtArgs> | null
       course: Prisma.$CoursePayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       title: string
+      description: string
       videoUrl: string
+      noteId: string | null
       courseId: string
       createdAt: Date
     }, ExtArgs["result"]["lecture"]>
@@ -4053,6 +4084,7 @@ export namespace Prisma {
    */
   export interface Prisma__LectureClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    note<T extends Lecture$noteArgs<ExtArgs> = {}>(args?: Subset<T, Lecture$noteArgs<ExtArgs>>): Prisma__NoteClient<$Result.GetResult<Prisma.$NotePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     course<T extends CourseDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CourseDefaultArgs<ExtArgs>>): Prisma__CourseClient<$Result.GetResult<Prisma.$CoursePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -4085,7 +4117,9 @@ export namespace Prisma {
   interface LectureFieldRefs {
     readonly id: FieldRef<"Lecture", 'String'>
     readonly title: FieldRef<"Lecture", 'String'>
+    readonly description: FieldRef<"Lecture", 'String'>
     readonly videoUrl: FieldRef<"Lecture", 'String'>
+    readonly noteId: FieldRef<"Lecture", 'String'>
     readonly courseId: FieldRef<"Lecture", 'String'>
     readonly createdAt: FieldRef<"Lecture", 'DateTime'>
   }
@@ -4484,6 +4518,25 @@ export namespace Prisma {
   }
 
   /**
+   * Lecture.note
+   */
+  export type Lecture$noteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Note
+     */
+    select?: NoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Note
+     */
+    omit?: NoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NoteInclude<ExtArgs> | null
+    where?: NoteWhereInput
+  }
+
+  /**
    * Lecture without action
    */
   export type LectureDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4667,6 +4720,7 @@ export namespace Prisma {
     courseId?: boolean
     createdAt?: boolean
     course?: boolean | CourseDefaultArgs<ExtArgs>
+    lecture?: boolean | Note$lectureArgs<ExtArgs>
   }, ExtArgs["result"]["note"]>
 
   export type NoteSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -4698,6 +4752,7 @@ export namespace Prisma {
   export type NoteOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "pdfUrl" | "courseId" | "createdAt", ExtArgs["result"]["note"]>
   export type NoteInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     course?: boolean | CourseDefaultArgs<ExtArgs>
+    lecture?: boolean | Note$lectureArgs<ExtArgs>
   }
   export type NoteIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     course?: boolean | CourseDefaultArgs<ExtArgs>
@@ -4710,6 +4765,7 @@ export namespace Prisma {
     name: "Note"
     objects: {
       course: Prisma.$CoursePayload<ExtArgs>
+      lecture: Prisma.$LecturePayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -5112,6 +5168,7 @@ export namespace Prisma {
   export interface Prisma__NoteClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     course<T extends CourseDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CourseDefaultArgs<ExtArgs>>): Prisma__CourseClient<$Result.GetResult<Prisma.$CoursePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    lecture<T extends Note$lectureArgs<ExtArgs> = {}>(args?: Subset<T, Note$lectureArgs<ExtArgs>>): Prisma__LectureClient<$Result.GetResult<Prisma.$LecturePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5542,6 +5599,25 @@ export namespace Prisma {
   }
 
   /**
+   * Note.lecture
+   */
+  export type Note$lectureArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Lecture
+     */
+    select?: LectureSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Lecture
+     */
+    omit?: LectureOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LectureInclude<ExtArgs> | null
+    where?: LectureWhereInput
+  }
+
+  /**
    * Note without action
    */
   export type NoteDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5601,7 +5677,9 @@ export namespace Prisma {
   export const LectureScalarFieldEnum: {
     id: 'id',
     title: 'title',
+    description: 'description',
     videoUrl: 'videoUrl',
+    noteId: 'noteId',
     courseId: 'courseId',
     createdAt: 'createdAt'
   };
@@ -5634,6 +5712,14 @@ export namespace Prisma {
   };
 
   export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+  export const NullsOrder: {
+    first: 'first',
+    last: 'last'
+  };
+
+  export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
 
   /**
@@ -5832,37 +5918,48 @@ export namespace Prisma {
     NOT?: LectureWhereInput | LectureWhereInput[]
     id?: StringFilter<"Lecture"> | string
     title?: StringFilter<"Lecture"> | string
+    description?: StringFilter<"Lecture"> | string
     videoUrl?: StringFilter<"Lecture"> | string
+    noteId?: StringNullableFilter<"Lecture"> | string | null
     courseId?: StringFilter<"Lecture"> | string
     createdAt?: DateTimeFilter<"Lecture"> | Date | string
+    note?: XOR<NoteNullableScalarRelationFilter, NoteWhereInput> | null
     course?: XOR<CourseScalarRelationFilter, CourseWhereInput>
   }
 
   export type LectureOrderByWithRelationInput = {
     id?: SortOrder
     title?: SortOrder
+    description?: SortOrder
     videoUrl?: SortOrder
+    noteId?: SortOrderInput | SortOrder
     courseId?: SortOrder
     createdAt?: SortOrder
+    note?: NoteOrderByWithRelationInput
     course?: CourseOrderByWithRelationInput
   }
 
   export type LectureWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    noteId?: string
     AND?: LectureWhereInput | LectureWhereInput[]
     OR?: LectureWhereInput[]
     NOT?: LectureWhereInput | LectureWhereInput[]
     title?: StringFilter<"Lecture"> | string
+    description?: StringFilter<"Lecture"> | string
     videoUrl?: StringFilter<"Lecture"> | string
     courseId?: StringFilter<"Lecture"> | string
     createdAt?: DateTimeFilter<"Lecture"> | Date | string
+    note?: XOR<NoteNullableScalarRelationFilter, NoteWhereInput> | null
     course?: XOR<CourseScalarRelationFilter, CourseWhereInput>
-  }, "id">
+  }, "id" | "noteId">
 
   export type LectureOrderByWithAggregationInput = {
     id?: SortOrder
     title?: SortOrder
+    description?: SortOrder
     videoUrl?: SortOrder
+    noteId?: SortOrderInput | SortOrder
     courseId?: SortOrder
     createdAt?: SortOrder
     _count?: LectureCountOrderByAggregateInput
@@ -5876,7 +5973,9 @@ export namespace Prisma {
     NOT?: LectureScalarWhereWithAggregatesInput | LectureScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Lecture"> | string
     title?: StringWithAggregatesFilter<"Lecture"> | string
+    description?: StringWithAggregatesFilter<"Lecture"> | string
     videoUrl?: StringWithAggregatesFilter<"Lecture"> | string
+    noteId?: StringNullableWithAggregatesFilter<"Lecture"> | string | null
     courseId?: StringWithAggregatesFilter<"Lecture"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Lecture"> | Date | string
   }
@@ -5891,6 +5990,7 @@ export namespace Prisma {
     courseId?: StringFilter<"Note"> | string
     createdAt?: DateTimeFilter<"Note"> | Date | string
     course?: XOR<CourseScalarRelationFilter, CourseWhereInput>
+    lecture?: XOR<LectureNullableScalarRelationFilter, LectureWhereInput> | null
   }
 
   export type NoteOrderByWithRelationInput = {
@@ -5900,6 +6000,7 @@ export namespace Prisma {
     courseId?: SortOrder
     createdAt?: SortOrder
     course?: CourseOrderByWithRelationInput
+    lecture?: LectureOrderByWithRelationInput
   }
 
   export type NoteWhereUniqueInput = Prisma.AtLeast<{
@@ -5912,6 +6013,7 @@ export namespace Prisma {
     courseId?: StringFilter<"Note"> | string
     createdAt?: DateTimeFilter<"Note"> | Date | string
     course?: XOR<CourseScalarRelationFilter, CourseWhereInput>
+    lecture?: XOR<LectureNullableScalarRelationFilter, LectureWhereInput> | null
   }, "id">
 
   export type NoteOrderByWithAggregationInput = {
@@ -6076,15 +6178,19 @@ export namespace Prisma {
   export type LectureCreateInput = {
     id?: string
     title: string
+    description: string
     videoUrl: string
     createdAt?: Date | string
+    note?: NoteCreateNestedOneWithoutLectureInput
     course: CourseCreateNestedOneWithoutLecturesInput
   }
 
   export type LectureUncheckedCreateInput = {
     id?: string
     title: string
+    description: string
     videoUrl: string
+    noteId?: string | null
     courseId: string
     createdAt?: Date | string
   }
@@ -6092,15 +6198,19 @@ export namespace Prisma {
   export type LectureUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
     videoUrl?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    note?: NoteUpdateOneWithoutLectureNestedInput
     course?: CourseUpdateOneRequiredWithoutLecturesNestedInput
   }
 
   export type LectureUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
     videoUrl?: StringFieldUpdateOperationsInput | string
+    noteId?: NullableStringFieldUpdateOperationsInput | string | null
     courseId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -6108,7 +6218,9 @@ export namespace Prisma {
   export type LectureCreateManyInput = {
     id?: string
     title: string
+    description: string
     videoUrl: string
+    noteId?: string | null
     courseId: string
     createdAt?: Date | string
   }
@@ -6116,6 +6228,7 @@ export namespace Prisma {
   export type LectureUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
     videoUrl?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -6123,7 +6236,9 @@ export namespace Prisma {
   export type LectureUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
     videoUrl?: StringFieldUpdateOperationsInput | string
+    noteId?: NullableStringFieldUpdateOperationsInput | string | null
     courseId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -6134,6 +6249,7 @@ export namespace Prisma {
     pdfUrl: string
     createdAt?: Date | string
     course: CourseCreateNestedOneWithoutNotesInput
+    lecture?: LectureCreateNestedOneWithoutNoteInput
   }
 
   export type NoteUncheckedCreateInput = {
@@ -6142,6 +6258,7 @@ export namespace Prisma {
     pdfUrl: string
     courseId: string
     createdAt?: Date | string
+    lecture?: LectureUncheckedCreateNestedOneWithoutNoteInput
   }
 
   export type NoteUpdateInput = {
@@ -6150,6 +6267,7 @@ export namespace Prisma {
     pdfUrl?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     course?: CourseUpdateOneRequiredWithoutNotesNestedInput
+    lecture?: LectureUpdateOneWithoutNoteNestedInput
   }
 
   export type NoteUncheckedUpdateInput = {
@@ -6158,6 +6276,7 @@ export namespace Prisma {
     pdfUrl?: StringFieldUpdateOperationsInput | string
     courseId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lecture?: LectureUncheckedUpdateOneWithoutNoteNestedInput
   }
 
   export type NoteCreateManyInput = {
@@ -6347,15 +6466,42 @@ export namespace Prisma {
     createdAt?: SortOrder
   }
 
+  export type StringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
+  export type NoteNullableScalarRelationFilter = {
+    is?: NoteWhereInput | null
+    isNot?: NoteWhereInput | null
+  }
+
   export type CourseScalarRelationFilter = {
     is?: CourseWhereInput
     isNot?: CourseWhereInput
   }
 
+  export type SortOrderInput = {
+    sort: SortOrder
+    nulls?: NullsOrder
+  }
+
   export type LectureCountOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
+    description?: SortOrder
     videoUrl?: SortOrder
+    noteId?: SortOrder
     courseId?: SortOrder
     createdAt?: SortOrder
   }
@@ -6363,7 +6509,9 @@ export namespace Prisma {
   export type LectureMaxOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
+    description?: SortOrder
     videoUrl?: SortOrder
+    noteId?: SortOrder
     courseId?: SortOrder
     createdAt?: SortOrder
   }
@@ -6371,9 +6519,34 @@ export namespace Prisma {
   export type LectureMinOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
+    description?: SortOrder
     videoUrl?: SortOrder
+    noteId?: SortOrder
     courseId?: SortOrder
     createdAt?: SortOrder
+  }
+
+  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type LectureNullableScalarRelationFilter = {
+    is?: LectureWhereInput | null
+    isNot?: LectureWhereInput | null
   }
 
   export type NoteCountOrderByAggregateInput = {
@@ -6552,10 +6725,26 @@ export namespace Prisma {
     deleteMany?: NoteScalarWhereInput | NoteScalarWhereInput[]
   }
 
+  export type NoteCreateNestedOneWithoutLectureInput = {
+    create?: XOR<NoteCreateWithoutLectureInput, NoteUncheckedCreateWithoutLectureInput>
+    connectOrCreate?: NoteCreateOrConnectWithoutLectureInput
+    connect?: NoteWhereUniqueInput
+  }
+
   export type CourseCreateNestedOneWithoutLecturesInput = {
     create?: XOR<CourseCreateWithoutLecturesInput, CourseUncheckedCreateWithoutLecturesInput>
     connectOrCreate?: CourseCreateOrConnectWithoutLecturesInput
     connect?: CourseWhereUniqueInput
+  }
+
+  export type NoteUpdateOneWithoutLectureNestedInput = {
+    create?: XOR<NoteCreateWithoutLectureInput, NoteUncheckedCreateWithoutLectureInput>
+    connectOrCreate?: NoteCreateOrConnectWithoutLectureInput
+    upsert?: NoteUpsertWithoutLectureInput
+    disconnect?: NoteWhereInput | boolean
+    delete?: NoteWhereInput | boolean
+    connect?: NoteWhereUniqueInput
+    update?: XOR<XOR<NoteUpdateToOneWithWhereWithoutLectureInput, NoteUpdateWithoutLectureInput>, NoteUncheckedUpdateWithoutLectureInput>
   }
 
   export type CourseUpdateOneRequiredWithoutLecturesNestedInput = {
@@ -6566,10 +6755,26 @@ export namespace Prisma {
     update?: XOR<XOR<CourseUpdateToOneWithWhereWithoutLecturesInput, CourseUpdateWithoutLecturesInput>, CourseUncheckedUpdateWithoutLecturesInput>
   }
 
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null
+  }
+
   export type CourseCreateNestedOneWithoutNotesInput = {
     create?: XOR<CourseCreateWithoutNotesInput, CourseUncheckedCreateWithoutNotesInput>
     connectOrCreate?: CourseCreateOrConnectWithoutNotesInput
     connect?: CourseWhereUniqueInput
+  }
+
+  export type LectureCreateNestedOneWithoutNoteInput = {
+    create?: XOR<LectureCreateWithoutNoteInput, LectureUncheckedCreateWithoutNoteInput>
+    connectOrCreate?: LectureCreateOrConnectWithoutNoteInput
+    connect?: LectureWhereUniqueInput
+  }
+
+  export type LectureUncheckedCreateNestedOneWithoutNoteInput = {
+    create?: XOR<LectureCreateWithoutNoteInput, LectureUncheckedCreateWithoutNoteInput>
+    connectOrCreate?: LectureCreateOrConnectWithoutNoteInput
+    connect?: LectureWhereUniqueInput
   }
 
   export type CourseUpdateOneRequiredWithoutNotesNestedInput = {
@@ -6578,6 +6783,26 @@ export namespace Prisma {
     upsert?: CourseUpsertWithoutNotesInput
     connect?: CourseWhereUniqueInput
     update?: XOR<XOR<CourseUpdateToOneWithWhereWithoutNotesInput, CourseUpdateWithoutNotesInput>, CourseUncheckedUpdateWithoutNotesInput>
+  }
+
+  export type LectureUpdateOneWithoutNoteNestedInput = {
+    create?: XOR<LectureCreateWithoutNoteInput, LectureUncheckedCreateWithoutNoteInput>
+    connectOrCreate?: LectureCreateOrConnectWithoutNoteInput
+    upsert?: LectureUpsertWithoutNoteInput
+    disconnect?: LectureWhereInput | boolean
+    delete?: LectureWhereInput | boolean
+    connect?: LectureWhereUniqueInput
+    update?: XOR<XOR<LectureUpdateToOneWithWhereWithoutNoteInput, LectureUpdateWithoutNoteInput>, LectureUncheckedUpdateWithoutNoteInput>
+  }
+
+  export type LectureUncheckedUpdateOneWithoutNoteNestedInput = {
+    create?: XOR<LectureCreateWithoutNoteInput, LectureUncheckedCreateWithoutNoteInput>
+    connectOrCreate?: LectureCreateOrConnectWithoutNoteInput
+    upsert?: LectureUpsertWithoutNoteInput
+    disconnect?: LectureWhereInput | boolean
+    delete?: LectureWhereInput | boolean
+    connect?: LectureWhereUniqueInput
+    update?: XOR<XOR<LectureUpdateToOneWithWhereWithoutNoteInput, LectureUpdateWithoutNoteInput>, LectureUncheckedUpdateWithoutNoteInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -6664,6 +6889,48 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type NestedStringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
+  export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
   export type CourseCreateWithoutTrainerInput = {
     id?: string
     title: string
@@ -6748,14 +7015,18 @@ export namespace Prisma {
   export type LectureCreateWithoutCourseInput = {
     id?: string
     title: string
+    description: string
     videoUrl: string
     createdAt?: Date | string
+    note?: NoteCreateNestedOneWithoutLectureInput
   }
 
   export type LectureUncheckedCreateWithoutCourseInput = {
     id?: string
     title: string
+    description: string
     videoUrl: string
+    noteId?: string | null
     createdAt?: Date | string
   }
 
@@ -6774,6 +7045,7 @@ export namespace Prisma {
     title: string
     pdfUrl: string
     createdAt?: Date | string
+    lecture?: LectureCreateNestedOneWithoutNoteInput
   }
 
   export type NoteUncheckedCreateWithoutCourseInput = {
@@ -6781,6 +7053,7 @@ export namespace Prisma {
     title: string
     pdfUrl: string
     createdAt?: Date | string
+    lecture?: LectureUncheckedCreateNestedOneWithoutNoteInput
   }
 
   export type NoteCreateOrConnectWithoutCourseInput = {
@@ -6844,7 +7117,9 @@ export namespace Prisma {
     NOT?: LectureScalarWhereInput | LectureScalarWhereInput[]
     id?: StringFilter<"Lecture"> | string
     title?: StringFilter<"Lecture"> | string
+    description?: StringFilter<"Lecture"> | string
     videoUrl?: StringFilter<"Lecture"> | string
+    noteId?: StringNullableFilter<"Lecture"> | string | null
     courseId?: StringFilter<"Lecture"> | string
     createdAt?: DateTimeFilter<"Lecture"> | Date | string
   }
@@ -6876,6 +7151,27 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Note"> | Date | string
   }
 
+  export type NoteCreateWithoutLectureInput = {
+    id?: string
+    title: string
+    pdfUrl: string
+    createdAt?: Date | string
+    course: CourseCreateNestedOneWithoutNotesInput
+  }
+
+  export type NoteUncheckedCreateWithoutLectureInput = {
+    id?: string
+    title: string
+    pdfUrl: string
+    courseId: string
+    createdAt?: Date | string
+  }
+
+  export type NoteCreateOrConnectWithoutLectureInput = {
+    where: NoteWhereUniqueInput
+    create: XOR<NoteCreateWithoutLectureInput, NoteUncheckedCreateWithoutLectureInput>
+  }
+
   export type CourseCreateWithoutLecturesInput = {
     id?: string
     title: string
@@ -6899,6 +7195,33 @@ export namespace Prisma {
   export type CourseCreateOrConnectWithoutLecturesInput = {
     where: CourseWhereUniqueInput
     create: XOR<CourseCreateWithoutLecturesInput, CourseUncheckedCreateWithoutLecturesInput>
+  }
+
+  export type NoteUpsertWithoutLectureInput = {
+    update: XOR<NoteUpdateWithoutLectureInput, NoteUncheckedUpdateWithoutLectureInput>
+    create: XOR<NoteCreateWithoutLectureInput, NoteUncheckedCreateWithoutLectureInput>
+    where?: NoteWhereInput
+  }
+
+  export type NoteUpdateToOneWithWhereWithoutLectureInput = {
+    where?: NoteWhereInput
+    data: XOR<NoteUpdateWithoutLectureInput, NoteUncheckedUpdateWithoutLectureInput>
+  }
+
+  export type NoteUpdateWithoutLectureInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    pdfUrl?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    course?: CourseUpdateOneRequiredWithoutNotesNestedInput
+  }
+
+  export type NoteUncheckedUpdateWithoutLectureInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    pdfUrl?: StringFieldUpdateOperationsInput | string
+    courseId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type CourseUpsertWithoutLecturesInput = {
@@ -6957,6 +7280,29 @@ export namespace Prisma {
     create: XOR<CourseCreateWithoutNotesInput, CourseUncheckedCreateWithoutNotesInput>
   }
 
+  export type LectureCreateWithoutNoteInput = {
+    id?: string
+    title: string
+    description: string
+    videoUrl: string
+    createdAt?: Date | string
+    course: CourseCreateNestedOneWithoutLecturesInput
+  }
+
+  export type LectureUncheckedCreateWithoutNoteInput = {
+    id?: string
+    title: string
+    description: string
+    videoUrl: string
+    courseId: string
+    createdAt?: Date | string
+  }
+
+  export type LectureCreateOrConnectWithoutNoteInput = {
+    where: LectureWhereUniqueInput
+    create: XOR<LectureCreateWithoutNoteInput, LectureUncheckedCreateWithoutNoteInput>
+  }
+
   export type CourseUpsertWithoutNotesInput = {
     update: XOR<CourseUpdateWithoutNotesInput, CourseUncheckedUpdateWithoutNotesInput>
     create: XOR<CourseCreateWithoutNotesInput, CourseUncheckedCreateWithoutNotesInput>
@@ -6986,6 +7332,35 @@ export namespace Prisma {
     trainerId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lectures?: LectureUncheckedUpdateManyWithoutCourseNestedInput
+  }
+
+  export type LectureUpsertWithoutNoteInput = {
+    update: XOR<LectureUpdateWithoutNoteInput, LectureUncheckedUpdateWithoutNoteInput>
+    create: XOR<LectureCreateWithoutNoteInput, LectureUncheckedCreateWithoutNoteInput>
+    where?: LectureWhereInput
+  }
+
+  export type LectureUpdateToOneWithWhereWithoutNoteInput = {
+    where?: LectureWhereInput
+    data: XOR<LectureUpdateWithoutNoteInput, LectureUncheckedUpdateWithoutNoteInput>
+  }
+
+  export type LectureUpdateWithoutNoteInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    videoUrl?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    course?: CourseUpdateOneRequiredWithoutLecturesNestedInput
+  }
+
+  export type LectureUncheckedUpdateWithoutNoteInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    videoUrl?: StringFieldUpdateOperationsInput | string
+    courseId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type CourseCreateManyTrainerInput = {
@@ -7027,7 +7402,9 @@ export namespace Prisma {
   export type LectureCreateManyCourseInput = {
     id?: string
     title: string
+    description: string
     videoUrl: string
+    noteId?: string | null
     createdAt?: Date | string
   }
 
@@ -7041,21 +7418,27 @@ export namespace Prisma {
   export type LectureUpdateWithoutCourseInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
     videoUrl?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    note?: NoteUpdateOneWithoutLectureNestedInput
   }
 
   export type LectureUncheckedUpdateWithoutCourseInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
     videoUrl?: StringFieldUpdateOperationsInput | string
+    noteId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type LectureUncheckedUpdateManyWithoutCourseInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
     videoUrl?: StringFieldUpdateOperationsInput | string
+    noteId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -7064,6 +7447,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     pdfUrl?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lecture?: LectureUpdateOneWithoutNoteNestedInput
   }
 
   export type NoteUncheckedUpdateWithoutCourseInput = {
@@ -7071,6 +7455,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     pdfUrl?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lecture?: LectureUncheckedUpdateOneWithoutNoteNestedInput
   }
 
   export type NoteUncheckedUpdateManyWithoutCourseInput = {

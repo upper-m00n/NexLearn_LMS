@@ -141,7 +141,9 @@ exports.Prisma.CourseScalarFieldEnum = {
 exports.Prisma.LectureScalarFieldEnum = {
   id: 'id',
   title: 'title',
+  description: 'description',
   videoUrl: 'videoUrl',
+  noteId: 'noteId',
   courseId: 'courseId',
   createdAt: 'createdAt'
 };
@@ -162,6 +164,11 @@ exports.Prisma.SortOrder = {
 exports.Prisma.QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
+};
+
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
 };
 exports.Role = exports.$Enums.Role = {
   ADMIN: 'ADMIN',

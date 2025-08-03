@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import mux from "../libs/mux";
 import prisma from "../prisma/client";
-import { protect } from "../middleware/authMiddleware";
 
 export const createMuxVideo = async (req: Request, res: Response) => {
   try {
@@ -18,10 +17,12 @@ export const createMuxVideo = async (req: Request, res: Response) => {
     return res.status(200).json({
       uploadUrl: upload.url,
       uploadId: upload.id,
+      message:"Video has been uploaded"
     });
+
   } catch (error) {
     console.error("Error creating Mux upload:", error);
-    res.status(500).json({ error: "Failed to create video upload" });
+    res.status(500).json({ message: "Failed to create video upload" });
   }
 };
 

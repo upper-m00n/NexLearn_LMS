@@ -56,6 +56,17 @@ export function CourseCard({course}:CourseCardProps) {
       toast(message);
     }
   }
+
+  const handleView=(course:CourseCardProps["course"])=>{
+    const query= new URLSearchParams({
+        id:course.id,
+        title:course.title,
+        description:course.description,
+        thumbnail:course.thumbnail
+    }).toString();
+
+    router.push(`/trainer/courses?${query}`)
+  }
   
   return (
     <Card className="w-full max-w-sm">
@@ -67,7 +78,7 @@ export function CourseCard({course}:CourseCardProps) {
         <CardAction>
            <AlertDialog>
             <AlertDialogTrigger asChild>
-              <Button variant="outline" className="bg-red-700">Delete</Button>
+              <Button variant="outline">Delete</Button>
             </AlertDialogTrigger>
             <AlertDialogContent>
               <AlertDialogHeader>
@@ -83,14 +94,14 @@ export function CourseCard({course}:CourseCardProps) {
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>
-          <Button variant="outline" className="bg-yellow-500" onClick={()=> handleUpdate(course)}>Update</Button>
+          <Button variant="outline" onClick={()=> handleUpdate(course)}>Update</Button>
         </CardAction>
       </CardHeader>
       <CardContent>
         <img src={course.thumbnail} alt="" className="w-full rounded"/>
       </CardContent>
       <CardFooter className="flex-col gap-2">
-        <Button variant="outline" className="w-full">
+        <Button variant="outline" className="w-full" onClick={()=> handleView(course)}>
           View Course
         </Button>
       </CardFooter>
