@@ -1,6 +1,30 @@
 import { Request,Response } from "express";
 import  prisma  from "../prisma/client";
 import {v4 as uuidv4} from 'uuid'
+import cloudinary from "../libs/cloudinary";
+
+// generate cloudinary signature
+
+export const generateUploadSignature=async (req:Request,res:Response)=>{
+    try{
+        const timestamp= Math.round(new Date().getTime()/1000);
+
+        const signature = cloudinary.utils.api_sign_request(
+            {
+                timestamp:timestamp,
+                folder: 'lecture_videos', // Must match frontend if used
+                upload_preset: process.env.CLOUDINARY_UPLOAD_PRESET
+            },
+            process.env.CLOUDINARY_API_SECRET as string
+        );
+
+        res.json({timestamp,signature});
+    }
+    catch(error){
+        console.log("Error while generating uploadsignature", error);
+        res.status(500).json({message:"Unable to generate upload signature."});
+    }
+}
 
 
 // create lecture 
@@ -96,5 +120,32 @@ export const deleteLecture= async(req:Request, res:Response)=>{
     catch(error){
         console.log("Error while deleting lecture",error);
         res.status(500).json({message:"Internal server error."})
+    }
+}
+
+// get single lecture
+
+export const getLecture= async(req:Request,res:Response)=>{
+    try {
+        const {lectureId}=req.params;
+
+        if(!lectureId) return res.status(400).json({message:"LectureId is required"});
+
+        const lec= await prisma.lecture.findUnique({
+            where:{id:lectureId as string}
+        })
+
+        const noteId= lec?.noteId;
+
+        const note= await prisma.note.findUnique({
+            where:{id:noteId as string}
+        })
+
+        console.log("lecture",lec)
+        res.status(200).json({lec,note,message:"Successfully fetched lecture."})
+      
+    } catch (error) {
+        console.log("Error while fetching lecture.",error);
+        res.status(500).json({message:"Internal Server Error"})
     }
 }

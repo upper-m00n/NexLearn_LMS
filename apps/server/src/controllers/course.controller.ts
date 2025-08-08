@@ -1,30 +1,5 @@
 import { Request, Response } from "express";
-import mux from "../libs/mux";
 import prisma from "../prisma/client";
-
-export const createMuxVideo = async (req: Request, res: Response) => {
-  try {
-    const { title } = req.body;
-
-    const upload = await mux.video.uploads.create({
-      new_asset_settings: {
-        playback_policy: ["public"],
-        passthrough: title,
-      },
-      cors_origin: "http://localhost:3000", // ✅ your frontend domain
-    });
-
-    return res.status(200).json({
-      uploadUrl: upload.url,
-      uploadId: upload.id,
-      message:"Video has been uploaded"
-    });
-
-  } catch (error) {
-    console.error("Error creating Mux upload:", error);
-    res.status(500).json({ message: "Failed to create video upload" });
-  }
-};
 
 //course creation
 export const createCourse = async(req:Request, res:Response)=>{

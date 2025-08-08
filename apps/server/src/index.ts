@@ -7,7 +7,6 @@ import authRoutes from './routes/authRoutes'
 import courseRoutes from './routes/courseRoutes'
 import imagekitRoutes from './routes/imagekitRoutes'
 import lectureRoutes from './routes/lectureRoutes'
-import muxRoutes from './routes/muxRoutes'
 
 dotenv.config();
 
@@ -20,12 +19,11 @@ app.use(cors({
 app.use(express.json());
 
 // use routes
-
 app.use('/api/auth',authRoutes);
 app.use('/api/course',courseRoutes);
 app.use('/api/imagekit',imagekitRoutes);
 app.use('/api/lecture',lectureRoutes);
-app.use('/api/mux',muxRoutes)
+
 
 app.get('/', (_req,res)=>{
     res.send("Api is workinng");
