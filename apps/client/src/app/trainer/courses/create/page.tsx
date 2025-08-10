@@ -43,6 +43,7 @@ export default function CourseForm() {
     defaultValues: {
       title: "",
       description: "",
+      price:"",
     },
   })
 
@@ -133,6 +134,18 @@ export default function CourseForm() {
                 <FormLabel>Course Description</FormLabel>
                 <FormControl>
                   <Input placeholder="Write course description here." {...field} />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="price"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Course Price</FormLabel>
+                <FormControl>
+                  <Input placeholder="set course price." {...field} />
                 </FormControl>
               </FormItem>
             )}

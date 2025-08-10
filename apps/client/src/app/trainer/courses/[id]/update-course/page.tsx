@@ -16,12 +16,26 @@ import { Input } from "@/components/ui/input"
 import { toast } from "sonner"
 import axios from "axios"
 import { useAuth } from "@/context/AuthContext";
-import { useRouter } from "next/navigation";
-import { useSearchParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
+import { BASE_URL } from "@/axios/axios";
+import { Course } from "@/types/course";
 
 export default function UpdateCourseForm() {
   const router = useRouter();
   const {user,token,loading}= useAuth();
+
+  const params=useParams();
+  const courseId=params.id;
+  //console.log("courseId",courseId);
+
+  //states
+  
+  const [course,setCourse]=useState<Course>({
+    title:"",
+    description:"",
+    price:"",
+    thumbnail:""
+  });
 
   //console.log("user",user)
   useEffect(()=>{
@@ -36,15 +50,25 @@ export default function UpdateCourseForm() {
     }
   },[user,token,router,loading])
 
-  const searchParams=useSearchParams();
+  useEffect(()=>{
+    const fetchCourse= async()=>{
+      try {
+        const res= await axios.get(`http://localhost:4000/api/course/get/${courseId}`);
+        setCourse(res.data);
+        console.log("course",res.data);
+        setThumbnailUrl(res.data.thumbnail);
+        toast.success("Course fetched successfully!");
+      } catch (error) {
+        console.log("Error while fetching course");
+        toast.error("Unable to fetch course.");
+      }
+    }
 
-  const courseId = searchParams.get('id') || '';
-  const title= searchParams.get('title') || '';
-  const description= searchParams.get('description') || '';
-  const thumbnail= searchParams.get('thumbnail')|| '';
-  
+    fetchCourse();
+  },[]);
 
-  const [thumbnailUrl, setThumbnailUrl] = useState(thumbnail)
+
+  const [thumbnailUrl, setThumbnailUrl] = useState('')
   const [message,setMessage]=useState("");
 
   const form = useForm<z.infer<typeof courseSchema>>({
@@ -52,15 +76,17 @@ export default function UpdateCourseForm() {
     defaultValues: {
       title: "",
       description: "",
+      price:""
     },
   })
 
   useEffect(()=>{
     form.reset({
-      title,
-      description,
+      title:course.title,
+      description:course.description,
+      price:course.price
     })
-  },[title,description,form]);
+  },[course.title,course.description,course.price,form]);
 
   const onSubmit = async (values: z.infer<typeof courseSchema>) => {
     if (!thumbnailUrl) {
@@ -154,6 +180,18 @@ export default function UpdateCourseForm() {
                 <FormLabel>Course Description</FormLabel>
                 <FormControl>
                   <Input placeholder="Write course description here." {...field} />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="price"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Course Price</FormLabel>
+                <FormControl>
+                  <Input placeholder="update course price." {...field} />
                 </FormControl>
               </FormItem>
             )}

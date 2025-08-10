@@ -134,6 +134,8 @@ exports.Prisma.CourseScalarFieldEnum = {
   title: 'title',
   description: 'description',
   thumbnail: 'thumbnail',
+  price: 'price',
+  rating: 'rating',
   trainerId: 'trainerId',
   createdAt: 'createdAt'
 };

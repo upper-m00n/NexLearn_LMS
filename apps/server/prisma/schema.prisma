@@ -37,6 +37,8 @@ model Course {
   title       String
   description String
   thumbnail   String
+  price       String?
+  rating      String?
   trainerId   String
   trainer     User      @relation("TrainerCourses", fields: [trainerId], references: [id])
   lectures    Lecture[]

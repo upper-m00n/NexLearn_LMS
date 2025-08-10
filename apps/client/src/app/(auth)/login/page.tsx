@@ -10,9 +10,11 @@ import { Button } from '@/components/ui/button';
 import axios from 'axios';
 import { toast } from 'sonner';
 import { useAuth } from '@/context/AuthContext';
+import { useRouter } from 'next/navigation';
 
 export default function Login(){
     const {setUser,setToken}= useAuth();
+    const router=useRouter();
 
     const form = useForm<z.infer<typeof loginSchema>>({
         resolver:zodResolver(loginSchema)
@@ -29,6 +31,7 @@ export default function Login(){
             
             console.log(res);
             toast(res.data.message)
+            router.push('/trainer')
         } catch (error) {
             console.log("error in signup",error);
             toast("error registering user....")

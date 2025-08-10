@@ -2330,6 +2330,8 @@ export namespace Prisma {
     title: string | null
     description: string | null
     thumbnail: string | null
+    price: string | null
+    rating: string | null
     trainerId: string | null
     createdAt: Date | null
   }
@@ -2339,6 +2341,8 @@ export namespace Prisma {
     title: string | null
     description: string | null
     thumbnail: string | null
+    price: string | null
+    rating: string | null
     trainerId: string | null
     createdAt: Date | null
   }
@@ -2348,6 +2352,8 @@ export namespace Prisma {
     title: number
     description: number
     thumbnail: number
+    price: number
+    rating: number
     trainerId: number
     createdAt: number
     _all: number
@@ -2359,6 +2365,8 @@ export namespace Prisma {
     title?: true
     description?: true
     thumbnail?: true
+    price?: true
+    rating?: true
     trainerId?: true
     createdAt?: true
   }
@@ -2368,6 +2376,8 @@ export namespace Prisma {
     title?: true
     description?: true
     thumbnail?: true
+    price?: true
+    rating?: true
     trainerId?: true
     createdAt?: true
   }
@@ -2377,6 +2387,8 @@ export namespace Prisma {
     title?: true
     description?: true
     thumbnail?: true
+    price?: true
+    rating?: true
     trainerId?: true
     createdAt?: true
     _all?: true
@@ -2459,6 +2471,8 @@ export namespace Prisma {
     title: string
     description: string
     thumbnail: string
+    price: string | null
+    rating: string | null
     trainerId: string
     createdAt: Date
     _count: CourseCountAggregateOutputType | null
@@ -2485,6 +2499,8 @@ export namespace Prisma {
     title?: boolean
     description?: boolean
     thumbnail?: boolean
+    price?: boolean
+    rating?: boolean
     trainerId?: boolean
     createdAt?: boolean
     trainer?: boolean | UserDefaultArgs<ExtArgs>
@@ -2498,6 +2514,8 @@ export namespace Prisma {
     title?: boolean
     description?: boolean
     thumbnail?: boolean
+    price?: boolean
+    rating?: boolean
     trainerId?: boolean
     createdAt?: boolean
     trainer?: boolean | UserDefaultArgs<ExtArgs>
@@ -2508,6 +2526,8 @@ export namespace Prisma {
     title?: boolean
     description?: boolean
     thumbnail?: boolean
+    price?: boolean
+    rating?: boolean
     trainerId?: boolean
     createdAt?: boolean
     trainer?: boolean | UserDefaultArgs<ExtArgs>
@@ -2518,11 +2538,13 @@ export namespace Prisma {
     title?: boolean
     description?: boolean
     thumbnail?: boolean
+    price?: boolean
+    rating?: boolean
     trainerId?: boolean
     createdAt?: boolean
   }
 
-  export type CourseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "thumbnail" | "trainerId" | "createdAt", ExtArgs["result"]["course"]>
+  export type CourseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "thumbnail" | "price" | "rating" | "trainerId" | "createdAt", ExtArgs["result"]["course"]>
   export type CourseInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     trainer?: boolean | UserDefaultArgs<ExtArgs>
     lectures?: boolean | Course$lecturesArgs<ExtArgs>
@@ -2548,6 +2570,8 @@ export namespace Prisma {
       title: string
       description: string
       thumbnail: string
+      price: string | null
+      rating: string | null
       trainerId: string
       createdAt: Date
     }, ExtArgs["result"]["course"]>
@@ -2980,6 +3004,8 @@ export namespace Prisma {
     readonly title: FieldRef<"Course", 'String'>
     readonly description: FieldRef<"Course", 'String'>
     readonly thumbnail: FieldRef<"Course", 'String'>
+    readonly price: FieldRef<"Course", 'String'>
+    readonly rating: FieldRef<"Course", 'String'>
     readonly trainerId: FieldRef<"Course", 'String'>
     readonly createdAt: FieldRef<"Course", 'DateTime'>
   }
@@ -5667,6 +5693,8 @@ export namespace Prisma {
     title: 'title',
     description: 'description',
     thumbnail: 'thumbnail',
+    price: 'price',
+    rating: 'rating',
     trainerId: 'trainerId',
     createdAt: 'createdAt'
   };
@@ -5854,6 +5882,8 @@ export namespace Prisma {
     title?: StringFilter<"Course"> | string
     description?: StringFilter<"Course"> | string
     thumbnail?: StringFilter<"Course"> | string
+    price?: StringNullableFilter<"Course"> | string | null
+    rating?: StringNullableFilter<"Course"> | string | null
     trainerId?: StringFilter<"Course"> | string
     createdAt?: DateTimeFilter<"Course"> | Date | string
     trainer?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -5866,6 +5896,8 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrder
     thumbnail?: SortOrder
+    price?: SortOrderInput | SortOrder
+    rating?: SortOrderInput | SortOrder
     trainerId?: SortOrder
     createdAt?: SortOrder
     trainer?: UserOrderByWithRelationInput
@@ -5881,6 +5913,8 @@ export namespace Prisma {
     title?: StringFilter<"Course"> | string
     description?: StringFilter<"Course"> | string
     thumbnail?: StringFilter<"Course"> | string
+    price?: StringNullableFilter<"Course"> | string | null
+    rating?: StringNullableFilter<"Course"> | string | null
     trainerId?: StringFilter<"Course"> | string
     createdAt?: DateTimeFilter<"Course"> | Date | string
     trainer?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -5893,6 +5927,8 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrder
     thumbnail?: SortOrder
+    price?: SortOrderInput | SortOrder
+    rating?: SortOrderInput | SortOrder
     trainerId?: SortOrder
     createdAt?: SortOrder
     _count?: CourseCountOrderByAggregateInput
@@ -5908,6 +5944,8 @@ export namespace Prisma {
     title?: StringWithAggregatesFilter<"Course"> | string
     description?: StringWithAggregatesFilter<"Course"> | string
     thumbnail?: StringWithAggregatesFilter<"Course"> | string
+    price?: StringNullableWithAggregatesFilter<"Course"> | string | null
+    rating?: StringNullableWithAggregatesFilter<"Course"> | string | null
     trainerId?: StringWithAggregatesFilter<"Course"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Course"> | Date | string
   }
@@ -6110,6 +6148,8 @@ export namespace Prisma {
     title: string
     description: string
     thumbnail: string
+    price?: string | null
+    rating?: string | null
     createdAt?: Date | string
     trainer: UserCreateNestedOneWithoutCoursesInput
     lectures?: LectureCreateNestedManyWithoutCourseInput
@@ -6121,6 +6161,8 @@ export namespace Prisma {
     title: string
     description: string
     thumbnail: string
+    price?: string | null
+    rating?: string | null
     trainerId: string
     createdAt?: Date | string
     lectures?: LectureUncheckedCreateNestedManyWithoutCourseInput
@@ -6132,6 +6174,8 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     thumbnail?: StringFieldUpdateOperationsInput | string
+    price?: NullableStringFieldUpdateOperationsInput | string | null
+    rating?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     trainer?: UserUpdateOneRequiredWithoutCoursesNestedInput
     lectures?: LectureUpdateManyWithoutCourseNestedInput
@@ -6143,6 +6187,8 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     thumbnail?: StringFieldUpdateOperationsInput | string
+    price?: NullableStringFieldUpdateOperationsInput | string | null
+    rating?: NullableStringFieldUpdateOperationsInput | string | null
     trainerId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lectures?: LectureUncheckedUpdateManyWithoutCourseNestedInput
@@ -6154,6 +6200,8 @@ export namespace Prisma {
     title: string
     description: string
     thumbnail: string
+    price?: string | null
+    rating?: string | null
     trainerId: string
     createdAt?: Date | string
   }
@@ -6163,6 +6211,8 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     thumbnail?: StringFieldUpdateOperationsInput | string
+    price?: NullableStringFieldUpdateOperationsInput | string | null
+    rating?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -6171,6 +6221,8 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     thumbnail?: StringFieldUpdateOperationsInput | string
+    price?: NullableStringFieldUpdateOperationsInput | string | null
+    rating?: NullableStringFieldUpdateOperationsInput | string | null
     trainerId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -6414,6 +6466,21 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type StringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
   export type UserScalarRelationFilter = {
     is?: UserWhereInput
     isNot?: UserWhereInput
@@ -6431,6 +6498,11 @@ export namespace Prisma {
     none?: NoteWhereInput
   }
 
+  export type SortOrderInput = {
+    sort: SortOrder
+    nulls?: NullsOrder
+  }
+
   export type LectureOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -6444,6 +6516,8 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrder
     thumbnail?: SortOrder
+    price?: SortOrder
+    rating?: SortOrder
     trainerId?: SortOrder
     createdAt?: SortOrder
   }
@@ -6453,6 +6527,8 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrder
     thumbnail?: SortOrder
+    price?: SortOrder
+    rating?: SortOrder
     trainerId?: SortOrder
     createdAt?: SortOrder
   }
@@ -6462,11 +6538,13 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrder
     thumbnail?: SortOrder
+    price?: SortOrder
+    rating?: SortOrder
     trainerId?: SortOrder
     createdAt?: SortOrder
   }
 
-  export type StringNullableFilter<$PrismaModel = never> = {
+  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
     notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -6478,7 +6556,10 @@ export namespace Prisma {
     startsWith?: string | StringFieldRefInput<$PrismaModel>
     endsWith?: string | StringFieldRefInput<$PrismaModel>
     mode?: QueryMode
-    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
   export type NoteNullableScalarRelationFilter = {
@@ -6489,11 +6570,6 @@ export namespace Prisma {
   export type CourseScalarRelationFilter = {
     is?: CourseWhereInput
     isNot?: CourseWhereInput
-  }
-
-  export type SortOrderInput = {
-    sort: SortOrder
-    nulls?: NullsOrder
   }
 
   export type LectureCountOrderByAggregateInput = {
@@ -6524,24 +6600,6 @@ export namespace Prisma {
     noteId?: SortOrder
     courseId?: SortOrder
     createdAt?: SortOrder
-  }
-
-  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    mode?: QueryMode
-    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedStringNullableFilter<$PrismaModel>
-    _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
   export type LectureNullableScalarRelationFilter = {
@@ -6661,6 +6719,10 @@ export namespace Prisma {
     connect?: NoteWhereUniqueInput | NoteWhereUniqueInput[]
   }
 
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null
+  }
+
   export type UserUpdateOneRequiredWithoutCoursesNestedInput = {
     create?: XOR<UserCreateWithoutCoursesInput, UserUncheckedCreateWithoutCoursesInput>
     connectOrCreate?: UserCreateOrConnectWithoutCoursesInput
@@ -6753,10 +6815,6 @@ export namespace Prisma {
     upsert?: CourseUpsertWithoutLecturesInput
     connect?: CourseWhereUniqueInput
     update?: XOR<XOR<CourseUpdateToOneWithWhereWithoutLecturesInput, CourseUpdateWithoutLecturesInput>, CourseUncheckedUpdateWithoutLecturesInput>
-  }
-
-  export type NullableStringFieldUpdateOperationsInput = {
-    set?: string | null
   }
 
   export type CourseCreateNestedOneWithoutNotesInput = {
@@ -6936,6 +6994,8 @@ export namespace Prisma {
     title: string
     description: string
     thumbnail: string
+    price?: string | null
+    rating?: string | null
     createdAt?: Date | string
     lectures?: LectureCreateNestedManyWithoutCourseInput
     notes?: NoteCreateNestedManyWithoutCourseInput
@@ -6946,6 +7006,8 @@ export namespace Prisma {
     title: string
     description: string
     thumbnail: string
+    price?: string | null
+    rating?: string | null
     createdAt?: Date | string
     lectures?: LectureUncheckedCreateNestedManyWithoutCourseInput
     notes?: NoteUncheckedCreateNestedManyWithoutCourseInput
@@ -6985,6 +7047,8 @@ export namespace Prisma {
     title?: StringFilter<"Course"> | string
     description?: StringFilter<"Course"> | string
     thumbnail?: StringFilter<"Course"> | string
+    price?: StringNullableFilter<"Course"> | string | null
+    rating?: StringNullableFilter<"Course"> | string | null
     trainerId?: StringFilter<"Course"> | string
     createdAt?: DateTimeFilter<"Course"> | Date | string
   }
@@ -7177,6 +7241,8 @@ export namespace Prisma {
     title: string
     description: string
     thumbnail: string
+    price?: string | null
+    rating?: string | null
     createdAt?: Date | string
     trainer: UserCreateNestedOneWithoutCoursesInput
     notes?: NoteCreateNestedManyWithoutCourseInput
@@ -7187,6 +7253,8 @@ export namespace Prisma {
     title: string
     description: string
     thumbnail: string
+    price?: string | null
+    rating?: string | null
     trainerId: string
     createdAt?: Date | string
     notes?: NoteUncheckedCreateNestedManyWithoutCourseInput
@@ -7240,6 +7308,8 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     thumbnail?: StringFieldUpdateOperationsInput | string
+    price?: NullableStringFieldUpdateOperationsInput | string | null
+    rating?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     trainer?: UserUpdateOneRequiredWithoutCoursesNestedInput
     notes?: NoteUpdateManyWithoutCourseNestedInput
@@ -7250,6 +7320,8 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     thumbnail?: StringFieldUpdateOperationsInput | string
+    price?: NullableStringFieldUpdateOperationsInput | string | null
+    rating?: NullableStringFieldUpdateOperationsInput | string | null
     trainerId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     notes?: NoteUncheckedUpdateManyWithoutCourseNestedInput
@@ -7260,6 +7332,8 @@ export namespace Prisma {
     title: string
     description: string
     thumbnail: string
+    price?: string | null
+    rating?: string | null
     createdAt?: Date | string
     trainer: UserCreateNestedOneWithoutCoursesInput
     lectures?: LectureCreateNestedManyWithoutCourseInput
@@ -7270,6 +7344,8 @@ export namespace Prisma {
     title: string
     description: string
     thumbnail: string
+    price?: string | null
+    rating?: string | null
     trainerId: string
     createdAt?: Date | string
     lectures?: LectureUncheckedCreateNestedManyWithoutCourseInput
@@ -7319,6 +7395,8 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     thumbnail?: StringFieldUpdateOperationsInput | string
+    price?: NullableStringFieldUpdateOperationsInput | string | null
+    rating?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     trainer?: UserUpdateOneRequiredWithoutCoursesNestedInput
     lectures?: LectureUpdateManyWithoutCourseNestedInput
@@ -7329,6 +7407,8 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     thumbnail?: StringFieldUpdateOperationsInput | string
+    price?: NullableStringFieldUpdateOperationsInput | string | null
+    rating?: NullableStringFieldUpdateOperationsInput | string | null
     trainerId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lectures?: LectureUncheckedUpdateManyWithoutCourseNestedInput
@@ -7368,6 +7448,8 @@ export namespace Prisma {
     title: string
     description: string
     thumbnail: string
+    price?: string | null
+    rating?: string | null
     createdAt?: Date | string
   }
 
@@ -7376,6 +7458,8 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     thumbnail?: StringFieldUpdateOperationsInput | string
+    price?: NullableStringFieldUpdateOperationsInput | string | null
+    rating?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lectures?: LectureUpdateManyWithoutCourseNestedInput
     notes?: NoteUpdateManyWithoutCourseNestedInput
@@ -7386,6 +7470,8 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     thumbnail?: StringFieldUpdateOperationsInput | string
+    price?: NullableStringFieldUpdateOperationsInput | string | null
+    rating?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lectures?: LectureUncheckedUpdateManyWithoutCourseNestedInput
     notes?: NoteUncheckedUpdateManyWithoutCourseNestedInput
@@ -7396,6 +7482,8 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     thumbnail?: StringFieldUpdateOperationsInput | string
+    price?: NullableStringFieldUpdateOperationsInput | string | null
+    rating?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

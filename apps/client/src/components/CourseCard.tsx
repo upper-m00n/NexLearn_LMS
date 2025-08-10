@@ -32,14 +32,8 @@ export function CourseCard({course}:CourseCardProps) {
 
   // handle update
   const handleUpdate=(course:CourseCardProps["course"])=>{
-    const query= new URLSearchParams({
-        id:course.id,
-        title:course.title,
-        description:course.description,
-        thumbnail:course.thumbnail
-    }).toString();
-
-    router.push(`/trainer/courses/update?${query}`)
+  
+    router.push(`/trainer/courses/${course.id}/update-course`)
   }
 
   // handle delete
@@ -58,14 +52,7 @@ export function CourseCard({course}:CourseCardProps) {
   }
 
   const handleView=(course:CourseCardProps["course"])=>{
-    const query= new URLSearchParams({
-        id:course.id,
-        title:course.title,
-        description:course.description,
-        thumbnail:course.thumbnail
-    }).toString();
-
-    router.push(`/trainer/courses?${query}`)
+    router.push(`/trainer/courses?${course.id}`)
   }
   
   return (

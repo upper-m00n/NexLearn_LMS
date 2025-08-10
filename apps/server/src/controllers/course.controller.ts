@@ -4,7 +4,7 @@ import prisma from "../prisma/client";
 //course creation
 export const createCourse = async(req:Request, res:Response)=>{
     try {
-        const {title, description, thumbnail}= req.body;
+        const {title, description, thumbnail, price}= req.body;
         const userId= req.user?.id;
 
         if(!userId){
@@ -17,6 +17,7 @@ export const createCourse = async(req:Request, res:Response)=>{
                 description,
                 thumbnail,
                 trainerId:userId,
+                price
             }
         })
 
@@ -51,12 +52,36 @@ export const getCourses = async(req:Request, res:Response)=>{
   }
 }
 
+// get single course
+export const getCourse = async(req:Request, res:Response)=>{
+  const courseId= req.params.courseId as string;
+
+  if(!courseId){
+    return res.status(400).json({error:" Course Id is required."});
+  }
+
+  try {
+    const course= await prisma.course.findUnique({
+      where:{id:courseId},
+    })
+
+    if(!course){
+      return res.status(404).json({error:"Course not found,"})
+    }
+
+    res.status(200).json(course);
+  } catch (error) {
+    console.log("Error while fetching course",error);
+    res.status(500).json({message:"Internal server error"})
+  }
+}
+
 // course updates
 export const updateCourse = async(req:Request, res:Response)=>{
   const trainerId= req.query.trainerId as string;
   const courseId = req.query.courseId as string;
 
-  const {title, description, thumbnail}=req.body;
+  const {title, description, thumbnail,price}=req.body;
 
   if(!trainerId){
     return res.status(401).json({error:"Unauthorized. No user id found."});
@@ -71,7 +96,8 @@ export const updateCourse = async(req:Request, res:Response)=>{
       data:{
         title,
         description,
-        thumbnail
+        thumbnail,
+        price
       }
     })
 

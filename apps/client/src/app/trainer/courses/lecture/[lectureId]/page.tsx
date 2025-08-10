@@ -58,9 +58,8 @@ const lecture=()=>{
     },[lectureId])
 
    
-
     return(
-        <div className="min-h-screen p-6">
+        <div className="min-h-screen p-6 bg-gray-100">
           {!lecture?(
             <p>Loading...</p>
           ):(
@@ -70,7 +69,7 @@ const lecture=()=>{
               <div className="w-full aspect-video">
                 <video 
                   controls
-                  className="w-full h-full rounded-lg"
+                  className="w-full max-w-[1000px] max-h-[500px] h-full rounded-lg"
                   src={lecture.videoUrl}
                 />
               </div>
@@ -80,9 +79,8 @@ const lecture=()=>{
                 <p className="text-lg">{lecture.description}</p>
               </div>
               
-
               {noteUrl && (
-                <div className="w-full h-[600px] border rounded-lg overflow-hidden">
+                <div className="w-full h-[600px] border-8 border-amber-100 rounded-lg overflow-hidden">
                   <h2 className="p-5 text-2xl font-bold">Lecture Notes</h2>
                   <iframe
                     src={noteUrl}
