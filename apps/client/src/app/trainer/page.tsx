@@ -46,7 +46,7 @@ export default function TrainerDashboard() {
     }
 
     fetchCourses();
-  },[courses,user,token,loading])
+  },[user])
 
   return (
     <main className="p-6 space-y-8">

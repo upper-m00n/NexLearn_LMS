@@ -52,7 +52,7 @@ export function CourseCard({course}:CourseCardProps) {
   }
 
   const handleView=(course:CourseCardProps["course"])=>{
-    router.push(`/trainer/courses?${course.id}`)
+    router.push(`/trainer/courses/${course.id}`)
   }
   
   return (

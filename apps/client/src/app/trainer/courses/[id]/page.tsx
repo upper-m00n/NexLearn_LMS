@@ -2,7 +2,7 @@
 import { useAuth } from "@/context/AuthContext";
 import { useEffect, useState } from "react";
 import Image from "next/image"
-import { useSearchParams } from "next/navigation";
+import { useParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import axios from "axios";
@@ -10,6 +10,7 @@ import { toast } from "sonner";
 import { Separator } from "@/components/ui/separator"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
+import { Course } from "@/types/course";
 
 type Lecture={
   id: string;
@@ -22,17 +23,23 @@ type Lecture={
 const course=()=>{
   
   const {user,token,loading}= useAuth();
-  const searchParams = useSearchParams();
+  const params = useParams();
 
+  const courseId= params.id;
+
+  const [course,setCourse]= useState<Course>({
+    title:"",
+    description:"",
+    price:""
+  });
   const [lectures, setLectures]= useState<Lecture[]>([]);
   const [loadingLectures,setLoadingLectures]= useState(false);
   const [message,setMessage]= useState("");
   const [deleteMessage, setDeleteMessage]= useState("");
 
-  const courseId = searchParams.get('id') || '';
-  const title= searchParams.get('title') || '';
-  const description= searchParams.get('description') || '';
-  const thumbnail= searchParams.get('thumbnail')|| '';
+  const [thumbnailUrl, setThumbnailUrl] = useState('')
+
+  
   const router= useRouter();
 
   const handleCreateLecture=()=>{
@@ -40,6 +47,18 @@ const course=()=>{
   }
 
   useEffect(()=>{
+    const fetchCourse= async()=>{
+      try {
+        const res= await axios.get(`http://localhost:4000/api/course/get/${courseId}`);
+        setCourse(res.data);
+        console.log("course",res.data);
+        setThumbnailUrl(res.data.thumbnail);
+        toast.success("Course fetched successfully!");
+      } catch (error) {
+        console.log("Error while fetching course");
+        toast.error("Unable to fetch course.");
+      }
+    }
     const fetchLectures= async()=>{
       try {
         setLoadingLectures(true);
@@ -48,7 +67,6 @@ const course=()=>{
         if(res.data?.lectures){
           setLectures(res.data.lectures);
         }
-        
         setMessage(res.data.message);
         toast(message);
         
@@ -60,6 +78,7 @@ const course=()=>{
         setLoadingLectures(false);
       }
     }
+    fetchCourse();
     fetchLectures();
   },[])
 
@@ -85,20 +104,21 @@ const course=()=>{
 
   return(
     <div className="w-full max-w-4xl mx-auto bg-white p-6 rounded-lg shadow space-y-8">
+    
   {/* Course Title and Thumbnail */}
   <div className="space-y-4">
-    <h1 className="text-3xl font-bold">{title}</h1>
+    <h1 className="text-3xl font-bold">{course.title}</h1>
 
     <div className="relative w-full max-w-[500px] h-64 rounded-md overflow-hidden">
       <Image
-        src={thumbnail || "/placeholder.svg"}
-        alt={title}
+        src={thumbnailUrl || "/placeholder.svg"}
+        alt={course.title}
         fill
         className="object-cover"
       />
     </div>
 
-    <p className="text-gray-600">{description}</p>
+    <p className="text-gray-600">{course.description}</p>
     <Button onClick={handleCreateLecture}>Add New Lecture</Button>
   </div>
 
