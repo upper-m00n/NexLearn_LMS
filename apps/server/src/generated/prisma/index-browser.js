@@ -140,6 +140,13 @@ exports.Prisma.CourseScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.EnrollmentScalarFieldEnum = {
+  id: 'id',
+  studentId: 'studentId',
+  courseId: 'courseId',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.LectureScalarFieldEnum = {
   id: 'id',
   title: 'title',
@@ -183,6 +190,7 @@ exports.Role = exports.$Enums.Role = {
 exports.Prisma.ModelName = {
   User: 'User',
   Course: 'Course',
+  Enrollment: 'Enrollment',
   Lecture: 'Lecture',
   Note: 'Note'
 };
