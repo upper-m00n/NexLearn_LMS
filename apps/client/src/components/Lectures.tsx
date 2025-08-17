@@ -49,13 +49,15 @@ export default function Lectures({lectures}:LectureProps){
                 <p className="text-gray-700 flex-1">{lecture.description}</p>
 
                 <div className="flex gap-2">
-                  <Button
-                    variant="outline"
-                    className="bg-black text-white"
-                    onClick={()=>handleView(lecture.id)}
-                  >
-                    View Lecture
-                  </Button>
+                  {user?.role=='TRAINER' &&(
+                    <Button
+                      variant="outline"
+                      className="bg-black text-white"
+                      onClick={()=>handleView(lecture.id)}
+                    >
+                      View Lecture
+                    </Button>
+                  )}
 
                   {user?.role=='TRAINER' && (
                     <AlertDialog>

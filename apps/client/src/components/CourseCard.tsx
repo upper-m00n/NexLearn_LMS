@@ -65,7 +65,7 @@ export function CourseCard({course}:CourseCardProps) {
   }
   
   return (
-    <Card className="w-full max-w-sm">
+    <Card className="w-full max-w-sm bg-gray-200 border-4 shadow-2xl shadow-gray-400">
       <CardHeader>
         <CardTitle>{course.title}</CardTitle>
         <CardDescription>
@@ -97,7 +97,7 @@ export function CourseCard({course}:CourseCardProps) {
         <img src={course.thumbnail} alt="" className="w-full rounded"/>
       </CardContent>
       <CardFooter className="flex-col gap-2">
-        <Button variant="outline" className="w-full" onClick={()=> handleView(course)}>
+        <Button variant="outline" className="w-full bg-black text-white" onClick={()=> handleView(course)}>
           View Course
         </Button>
         {course.rating ? (<p>Rating :{course.rating}</p>):(<p>No ratings yet.</p>)}
