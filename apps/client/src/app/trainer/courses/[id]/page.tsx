@@ -11,6 +11,7 @@ import { Separator } from "@/components/ui/separator"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { Course } from "@/types/course";
+import Lectures from "@/components/Lectures";
 
 type Lecture={
   id: string;
@@ -30,12 +31,13 @@ const course=()=>{
   const [course,setCourse]= useState<Course>({
     title:"",
     description:"",
-    price:""
+    price:"",
+    rating:"",
+    createdAt:""
   });
   const [lectures, setLectures]= useState<Lecture[]>([]);
   const [loadingLectures,setLoadingLectures]= useState(false);
   const [message,setMessage]= useState("");
-  const [deleteMessage, setDeleteMessage]= useState("");
 
   const [thumbnailUrl, setThumbnailUrl] = useState('')
 
@@ -82,26 +84,7 @@ const course=()=>{
     fetchLectures();
   },[])
 
-  const handleDeleteLecture= async(lectureId : string)=>{
-    try {
-      const res=await axios.delete(`http://localhost:4000/api/lecture/delete/${lectureId}`,{
-        params:{lectureId}
-      })
-      setDeleteMessage(res.data.message);
-      toast.success(deleteMessage || "Lecture deleted successfully.")
-
-      setLectures((prev)=> prev.filter((lecture)=> lecture.id !== lectureId))
-      
-    } catch (error) {
-      toast.error(deleteMessage);
-      console.log("Error while deleting lectures.",error)
-    }
-  }
-
-  const handleView=(lectureId: string)=>{
-    router.push(`/trainer/courses/lecture/${lectureId}`)
-  }
-
+  
   return(
     <div className="w-full max-w-4xl mx-auto bg-white p-6 rounded-lg shadow space-y-8">
     
@@ -130,49 +113,9 @@ const course=()=>{
     {loadingLectures ? (
       <p>Loading...</p>
     ) : lectures.length > 0 ? (
-      <Accordion type="single" collapsible className="w-full">
-        {lectures.map((lecture, index) => (
-          <AccordionItem value={lecture.id} key={lecture.id}>
-            <AccordionTrigger>{lecture.title}</AccordionTrigger>
-            <AccordionContent>
-              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 py-2">
-                <p className="text-gray-700 flex-1">{lecture.description}</p>
-
-                <div className="flex gap-2">
-                  <Button
-                    variant="outline"
-                    className="bg-black text-white"
-                    onClick={()=>handleView(lecture.id)}
-                  >
-                    View Lecture
-                  </Button>
-
-                  <AlertDialog>
-                    <AlertDialogTrigger asChild>
-                      <Button variant="outline">Delete</Button>
-                    </AlertDialogTrigger>
-                    <AlertDialogContent>
-                      <AlertDialogHeader>
-                        <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                        <AlertDialogDescription>
-                          This action cannot be undone. This will permanently delete the selected
-                          lecture and remove its data from our servers.
-                        </AlertDialogDescription>
-                      </AlertDialogHeader>
-                      <AlertDialogFooter>
-                        <AlertDialogCancel>Cancel</AlertDialogCancel>
-                        <AlertDialogAction onClick={() => handleDeleteLecture(lecture.id)}>
-                          Continue
-                        </AlertDialogAction>
-                      </AlertDialogFooter>
-                    </AlertDialogContent>
-                  </AlertDialog>
-                </div>
-              </div>
-            </AccordionContent>
-          </AccordionItem>
-        ))}
-      </Accordion>
+      
+      // lectures list
+      <Lectures lectures={lectures}/>
     ) : (
       <p className="text-gray-600">{message || "No lectures have been added yet."}</p>
     )}

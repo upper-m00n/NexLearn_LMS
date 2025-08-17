@@ -52,6 +52,22 @@ export const getCourses = async(req:Request, res:Response)=>{
   }
 }
 
+export const getAllCourses = async(req:Request, res:Response)=>{
+  
+  try {
+    const courses= await prisma.course.findMany();
+
+    if(!courses){
+      return res.status(404).json({error:"Trainer not found,"})
+    }
+
+    res.status(200).json(courses);
+  } catch (error) {
+    console.log("Error while fetching course",error);
+    res.status(500).json({message:"Internal server error"})
+  }
+}
+
 // get single course
 export const getCourse = async(req:Request, res:Response)=>{
   const courseId= req.params.courseId as string;

@@ -14,6 +14,7 @@ import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import { toast } from "sonner"
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "./ui/alert-dialog"
+import { useAuth } from "@/context/AuthContext"
 
 
 
@@ -23,10 +24,13 @@ type CourseCardProps ={
     title:string;
     description:string;
     thumbnail:string;
+    price:string;
+    rating:string
   }
 }
 
 export function CourseCard({course}:CourseCardProps) {
+  const {user,token}=useAuth();
   const router= useRouter();
   const[message,setMessage]=useState('');
 
@@ -52,7 +56,12 @@ export function CourseCard({course}:CourseCardProps) {
   }
 
   const handleView=(course:CourseCardProps["course"])=>{
-    router.push(`/trainer/courses/${course.id}`)
+    if(user?.role == 'TRAINER'){
+      router.push(`/trainer/courses/${course.id}`)
+    }
+    else{
+      router.push(`/student/course/${course.id}`)
+    }
   }
   
   return (
@@ -62,7 +71,7 @@ export function CourseCard({course}:CourseCardProps) {
         <CardDescription>
           {course.description}
         </CardDescription>
-        <CardAction>
+        {user?.role=='TRAINER' && <CardAction>
            <AlertDialog>
             <AlertDialogTrigger asChild>
               <Button variant="outline">Delete</Button>
@@ -82,7 +91,7 @@ export function CourseCard({course}:CourseCardProps) {
             </AlertDialogContent>
           </AlertDialog>
           <Button variant="outline" onClick={()=> handleUpdate(course)}>Update</Button>
-        </CardAction>
+        </CardAction>} 
       </CardHeader>
       <CardContent>
         <img src={course.thumbnail} alt="" className="w-full rounded"/>
@@ -91,6 +100,8 @@ export function CourseCard({course}:CourseCardProps) {
         <Button variant="outline" className="w-full" onClick={()=> handleView(course)}>
           View Course
         </Button>
+        {course.rating ? (<p>Rating :{course.rating}</p>):(<p>No ratings yet.</p>)}
+        <p>Rs. {course.price}</p>
       </CardFooter>
     </Card>
   )

@@ -3,4 +3,6 @@ export interface Course{
     description: string;
     price:  string;
     thumbnail?: string;
+    rating: string;
+    createdAt:  string;
 }
