@@ -5,4 +5,5 @@ export interface Course{
     thumbnail?: string;
     rating: string;
     createdAt:  string;
+    id: string
 }

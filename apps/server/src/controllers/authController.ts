@@ -28,7 +28,7 @@ export const register= async (req:Request, res:Response) =>{
             }
         })
 
-        const token= generateToken(newUser);
+        const token= generateToken({id:newUser.id, role:newUser.role});
         res.status(201).json({user:{id:newUser.id, email:newUser.email, role:newUser.role}, token, message:"User registered successfully"})
 
     } catch (error) {
@@ -55,7 +55,7 @@ export const login = async(req:Request, res:Response)=>{
         if(!isMatch){
             return res.status(400).json({message:"Invalid credentials."})
         }
-        const token = generateToken(user);
+        const token = generateToken({id:user.id, role:user.role});
 
         res.status(200).json({user:{id:user.id, email:user.email, role:user.role}, token, message:"sign in successfull"})
     } catch (error) {

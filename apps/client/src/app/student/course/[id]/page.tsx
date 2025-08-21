@@ -9,8 +9,10 @@ import { Button } from "@/components/ui/button";
 import { FaRegHeart } from "react-icons/fa";
 import { Lecture } from "@/types/Lecture";
 import Lectures from "@/components/Lectures";
+import { useAuth } from "@/context/AuthContext";
 
 export default function Course() {
+  const {user,token}= useAuth();
   const params = useParams();
   const courseId = params.id;
 
@@ -19,7 +21,8 @@ export default function Course() {
     description: "",
     price: "",
     rating: "",
-    createdAt: ""
+    createdAt: "",
+    id:""
   });
   const [thumbnail, setThumbnailUrl] = useState('');
   const [lectures, setLectures] = useState<Lecture[]>([]);
@@ -57,6 +60,22 @@ export default function Course() {
     fetchLectures();
   }, []);
 
+  const handleAddToCart= async()=>{
+    try {
+      console.log("user",user)
+      const courseId=course.id;
+      const studentId=user?.id as string
+
+      const res= await axios.post(`${BASE_URL}/api/cart/add`,{courseId,studentId});
+
+      toast.success("Item added to cart successfully.")
+
+    } catch (error) {
+      console.log('error while adding to cart',error);
+      toast.error("Failed to add item to cart.");
+    }
+  }
+
   return (
     <div className="font-sans min-h-screen bg-gray-50">
       {/* Course Header */}
@@ -81,7 +100,7 @@ export default function Course() {
               className="rounded-lg object-cover w-full h-48"
             />
             <h2 className="text-2xl font-semibold text-black">Subscribe for ₹{course.price}</h2>
-            <Button className="w-full bg-black hover:bg-purple-700 text-white rounded-lg">
+            <Button className="w-full bg-black hover:bg-purple-700 text-white rounded-lg" onClick={handleAddToCart}>
               Add to cart
             </Button>
             <div className="flex items-center justify-between gap-2">

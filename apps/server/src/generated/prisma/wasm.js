@@ -147,6 +147,45 @@ exports.Prisma.EnrollmentScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.CartScalarFieldEnum = {
+  id: 'id',
+  studentId: 'studentId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.CartItemScalarFieldEnum = {
+  id: 'id',
+  cartId: 'cartId',
+  courseId: 'courseId',
+  quantity: 'quantity',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.OrderScalarFieldEnum = {
+  id: 'id',
+  studentId: 'studentId',
+  status: 'status',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.OrderItemScalarFieldEnum = {
+  id: 'id',
+  orderId: 'orderId',
+  courseId: 'courseId',
+  price: 'price',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.PaymentScalarFieldEnum = {
+  id: 'id',
+  orderId: 'orderId',
+  amount: 'amount',
+  status: 'status',
+  provider: 'provider',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.LectureScalarFieldEnum = {
   id: 'id',
   title: 'title',
@@ -187,10 +226,27 @@ exports.Role = exports.$Enums.Role = {
   VISITOR: 'VISITOR'
 };
 
+exports.OrderStatus = exports.$Enums.OrderStatus = {
+  PENDING: 'PENDING',
+  COMPLETED: 'COMPLETED',
+  CANCELLED: 'CANCELLED'
+};
+
+exports.PaymentStatus = exports.$Enums.PaymentStatus = {
+  PENDING: 'PENDING',
+  SUCCESS: 'SUCCESS',
+  FAILED: 'FAILED'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   Course: 'Course',
   Enrollment: 'Enrollment',
+  Cart: 'Cart',
+  CartItem: 'CartItem',
+  Order: 'Order',
+  OrderItem: 'OrderItem',
+  Payment: 'Payment',
   Lecture: 'Lecture',
   Note: 'Note'
 };
