@@ -23,6 +23,7 @@ export default function Login(){
     const onSubmit = async (data:z.infer<typeof loginSchema>) =>{
         try {
             const res = await axios.post('http://localhost:4000/api/auth/login',data);
+            //console.log("user",res);
             localStorage.setItem("token",res.data.token)
             localStorage.setItem('user',JSON.stringify(res.data.user));
 
@@ -31,7 +32,13 @@ export default function Login(){
             
             console.log(res);
             toast(res.data.message)
-            router.push('/trainer')
+            
+            if(res.data.user.role == 'TRAINER'){
+                router.push('/trainer')
+            }
+            else{
+                router.push('/')
+            }
         } catch (error) {
             console.log("error in signup",error);
             toast("error registering user....")

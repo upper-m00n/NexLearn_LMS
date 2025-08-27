@@ -29,7 +29,7 @@ export const register= async (req:Request, res:Response) =>{
         })
 
         const token= generateToken({id:newUser.id, role:newUser.role});
-        res.status(201).json({user:{id:newUser.id, email:newUser.email, role:newUser.role}, token, message:"User registered successfully"})
+        res.status(201).json({user:{id:newUser.id, email:newUser.email, role:newUser.role, username:newUser.username}, token, message:"User registered successfully"})
 
     } catch (error) {
         console.log("Error registering new user",error);
@@ -43,8 +43,17 @@ export const login = async(req:Request, res:Response)=>{
         const {email,password}= req.body;
 
         const user = await prisma.user.findUnique({
-            where:{email}
+            where:{email},
+            select:{
+                id: true,
+                email: true,
+                password: true,
+                role: true,
+                username: true,
+                profilePic:true,
+            }
         })
+        console.log("User logged in successfully", user);
 
         if(!user){
             return res.status(401).json({message:"User with this email does not exists."})
@@ -56,8 +65,8 @@ export const login = async(req:Request, res:Response)=>{
             return res.status(400).json({message:"Invalid credentials."})
         }
         const token = generateToken({id:user.id, role:user.role});
-
-        res.status(200).json({user:{id:user.id, email:user.email, role:user.role}, token, message:"sign in successfull"})
+       
+        res.status(200).json({user, token, message:"sign in successfull"})
     } catch (error) {
         console.log("Error logging user",error);
         res.status(500).json({error:"Internal server error"})

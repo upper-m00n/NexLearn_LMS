@@ -8,6 +8,8 @@ import courseRoutes from './routes/courseRoutes'
 import imagekitRoutes from './routes/imagekitRoutes'
 import lectureRoutes from './routes/lectureRoutes'
 import cartRoutes from './routes/cartRoutes'
+import userRoutes from './routes/userRoutes'
+import paymentRoutes from './routes/paymentRoutes'
 
 dotenv.config();
 
@@ -25,6 +27,8 @@ app.use('/api/course',courseRoutes);
 app.use('/api/imagekit',imagekitRoutes);
 app.use('/api/lecture',lectureRoutes);
 app.use('/api/cart',cartRoutes);
+app.use('/api/user',userRoutes)
+app.use('/api/payment',paymentRoutes)
 
 
 app.get('/', (_req,res)=>{

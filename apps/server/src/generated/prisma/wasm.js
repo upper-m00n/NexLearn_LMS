@@ -126,7 +126,12 @@ exports.Prisma.UserScalarFieldEnum = {
   email: 'email',
   password: 'password',
   role: 'role',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  age: 'age',
+  mobile: 'mobile',
+  profilePic: 'profilePic',
+  bibliography: 'bibliography',
+  gender: 'gender'
 };
 
 exports.Prisma.CourseScalarFieldEnum = {
@@ -134,6 +139,7 @@ exports.Prisma.CourseScalarFieldEnum = {
   title: 'title',
   description: 'description',
   thumbnail: 'thumbnail',
+  category: 'category',
   price: 'price',
   rating: 'rating',
   trainerId: 'trainerId',
@@ -180,6 +186,7 @@ exports.Prisma.OrderItemScalarFieldEnum = {
 exports.Prisma.PaymentScalarFieldEnum = {
   id: 'id',
   orderId: 'orderId',
+  razorpayOrderId: 'razorpayOrderId',
   amount: 'amount',
   status: 'status',
   provider: 'provider',
@@ -224,6 +231,22 @@ exports.Role = exports.$Enums.Role = {
   STUDENT: 'STUDENT',
   TRAINER: 'TRAINER',
   VISITOR: 'VISITOR'
+};
+
+exports.Category = exports.$Enums.Category = {
+  ITSoftware: 'ITSoftware',
+  Business: 'Business',
+  Development: 'Development',
+  FinanceAccounting: 'FinanceAccounting',
+  OfficeProductivity: 'OfficeProductivity',
+  PersonalDevelopment: 'PersonalDevelopment',
+  Design: 'Design',
+  Marketing: 'Marketing',
+  Lifestyle: 'Lifestyle',
+  PhotographyVideo: 'PhotographyVideo',
+  HealthFitness: 'HealthFitness',
+  Music: 'Music',
+  TeachingAcademics: 'TeachingAcademics'
 };
 
 exports.OrderStatus = exports.$Enums.OrderStatus = {

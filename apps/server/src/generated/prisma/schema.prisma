@@ -15,12 +15,17 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(uuid())
-  username  String   @unique
-  email     String   @unique
-  password  String
-  role      Role     @default(STUDENT)
-  createdAt DateTime @default(now())
+  id           String   @id @default(uuid())
+  username     String   @unique
+  email        String   @unique
+  password     String
+  role         Role     @default(STUDENT)
+  createdAt    DateTime @default(now())
+  age          String?
+  mobile       String?
+  profilePic   String?
+  bibliography String?
+  gender       String?
 
   courses     Course[]     @relation("TrainerCourses")
   enrollments Enrollment[] @relation("StudentEnrollments")
@@ -41,6 +46,7 @@ model Course {
   title       String
   description String
   thumbnail   String
+  category    Category     @default(Development)
   price       Float?
   rating      Float?
   trainerId   String
@@ -52,6 +58,22 @@ model Course {
 
   cartItems  CartItem[]
   orderItems OrderItem[]
+}
+
+enum Category {
+  ITSoftware
+  Business
+  Development
+  FinanceAccounting
+  OfficeProductivity
+  PersonalDevelopment
+  Design
+  Marketing
+  Lifestyle
+  PhotographyVideo
+  HealthFitness
+  Music
+  TeachingAcademics
 }
 
 model Enrollment {
@@ -76,11 +98,13 @@ model Cart {
 model CartItem {
   id        String   @id @default(uuid())
   cart      Cart     @relation(fields: [cartId], references: [id])
-  cartId    String   @unique
+  cartId    String
   course    Course   @relation(fields: [courseId], references: [id])
-  courseId  String   @unique
+  courseId  String
   quantity  Int      @default(1)
   createdAt DateTime @default(now())
+
+  @@unique([cartId, courseId], name: "cartId_courseId")
 }
 
 model Order {
@@ -104,13 +128,14 @@ model OrderItem {
 }
 
 model Payment {
-  id        String        @id @default(uuid())
-  order     Order         @relation(fields: [orderId], references: [id])
-  orderId   String        @unique
-  amount    Float
-  status    PaymentStatus @default(PENDING)
-  provider  String?
-  createdAt DateTime      @default(now())
+  id              String        @id @default(uuid())
+  order           Order         @relation(fields: [orderId], references: [id])
+  orderId         String        @unique
+  razorpayOrderId String?       @unique
+  amount          Float
+  status          PaymentStatus @default(PENDING)
+  provider        String?
+  createdAt       DateTime      @default(now())
 }
 
 enum PaymentStatus {

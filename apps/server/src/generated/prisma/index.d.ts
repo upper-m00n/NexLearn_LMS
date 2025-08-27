@@ -79,6 +79,25 @@ export namespace $Enums {
 export type Role = (typeof Role)[keyof typeof Role]
 
 
+export const Category: {
+  ITSoftware: 'ITSoftware',
+  Business: 'Business',
+  Development: 'Development',
+  FinanceAccounting: 'FinanceAccounting',
+  OfficeProductivity: 'OfficeProductivity',
+  PersonalDevelopment: 'PersonalDevelopment',
+  Design: 'Design',
+  Marketing: 'Marketing',
+  Lifestyle: 'Lifestyle',
+  PhotographyVideo: 'PhotographyVideo',
+  HealthFitness: 'HealthFitness',
+  Music: 'Music',
+  TeachingAcademics: 'TeachingAcademics'
+};
+
+export type Category = (typeof Category)[keyof typeof Category]
+
+
 export const PaymentStatus: {
   PENDING: 'PENDING',
   SUCCESS: 'SUCCESS',
@@ -101,6 +120,10 @@ export type OrderStatus = (typeof OrderStatus)[keyof typeof OrderStatus]
 export type Role = $Enums.Role
 
 export const Role: typeof $Enums.Role
+
+export type Category = $Enums.Category
+
+export const Category: typeof $Enums.Category
 
 export type PaymentStatus = $Enums.PaymentStatus
 
@@ -1937,6 +1960,11 @@ export namespace Prisma {
     password: string | null
     role: $Enums.Role | null
     createdAt: Date | null
+    age: string | null
+    mobile: string | null
+    profilePic: string | null
+    bibliography: string | null
+    gender: string | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -1946,6 +1974,11 @@ export namespace Prisma {
     password: string | null
     role: $Enums.Role | null
     createdAt: Date | null
+    age: string | null
+    mobile: string | null
+    profilePic: string | null
+    bibliography: string | null
+    gender: string | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -1955,6 +1988,11 @@ export namespace Prisma {
     password: number
     role: number
     createdAt: number
+    age: number
+    mobile: number
+    profilePic: number
+    bibliography: number
+    gender: number
     _all: number
   }
 
@@ -1966,6 +2004,11 @@ export namespace Prisma {
     password?: true
     role?: true
     createdAt?: true
+    age?: true
+    mobile?: true
+    profilePic?: true
+    bibliography?: true
+    gender?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -1975,6 +2018,11 @@ export namespace Prisma {
     password?: true
     role?: true
     createdAt?: true
+    age?: true
+    mobile?: true
+    profilePic?: true
+    bibliography?: true
+    gender?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -1984,6 +2032,11 @@ export namespace Prisma {
     password?: true
     role?: true
     createdAt?: true
+    age?: true
+    mobile?: true
+    profilePic?: true
+    bibliography?: true
+    gender?: true
     _all?: true
   }
 
@@ -2066,6 +2119,11 @@ export namespace Prisma {
     password: string
     role: $Enums.Role
     createdAt: Date
+    age: string | null
+    mobile: string | null
+    profilePic: string | null
+    bibliography: string | null
+    gender: string | null
     _count: UserCountAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
@@ -2092,6 +2150,11 @@ export namespace Prisma {
     password?: boolean
     role?: boolean
     createdAt?: boolean
+    age?: boolean
+    mobile?: boolean
+    profilePic?: boolean
+    bibliography?: boolean
+    gender?: boolean
     courses?: boolean | User$coursesArgs<ExtArgs>
     enrollments?: boolean | User$enrollmentsArgs<ExtArgs>
     carts?: boolean | User$cartsArgs<ExtArgs>
@@ -2106,6 +2169,11 @@ export namespace Prisma {
     password?: boolean
     role?: boolean
     createdAt?: boolean
+    age?: boolean
+    mobile?: boolean
+    profilePic?: boolean
+    bibliography?: boolean
+    gender?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -2115,6 +2183,11 @@ export namespace Prisma {
     password?: boolean
     role?: boolean
     createdAt?: boolean
+    age?: boolean
+    mobile?: boolean
+    profilePic?: boolean
+    bibliography?: boolean
+    gender?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
@@ -2124,9 +2197,14 @@ export namespace Prisma {
     password?: boolean
     role?: boolean
     createdAt?: boolean
+    age?: boolean
+    mobile?: boolean
+    profilePic?: boolean
+    bibliography?: boolean
+    gender?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "username" | "email" | "password" | "role" | "createdAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "username" | "email" | "password" | "role" | "createdAt" | "age" | "mobile" | "profilePic" | "bibliography" | "gender", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     courses?: boolean | User$coursesArgs<ExtArgs>
     enrollments?: boolean | User$enrollmentsArgs<ExtArgs>
@@ -2152,6 +2230,11 @@ export namespace Prisma {
       password: string
       role: $Enums.Role
       createdAt: Date
+      age: string | null
+      mobile: string | null
+      profilePic: string | null
+      bibliography: string | null
+      gender: string | null
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -2585,6 +2668,11 @@ export namespace Prisma {
     readonly password: FieldRef<"User", 'String'>
     readonly role: FieldRef<"User", 'Role'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
+    readonly age: FieldRef<"User", 'String'>
+    readonly mobile: FieldRef<"User", 'String'>
+    readonly profilePic: FieldRef<"User", 'String'>
+    readonly bibliography: FieldRef<"User", 'String'>
+    readonly gender: FieldRef<"User", 'String'>
   }
     
 
@@ -3114,6 +3202,7 @@ export namespace Prisma {
     title: string | null
     description: string | null
     thumbnail: string | null
+    category: $Enums.Category | null
     price: number | null
     rating: number | null
     trainerId: string | null
@@ -3125,6 +3214,7 @@ export namespace Prisma {
     title: string | null
     description: string | null
     thumbnail: string | null
+    category: $Enums.Category | null
     price: number | null
     rating: number | null
     trainerId: string | null
@@ -3136,6 +3226,7 @@ export namespace Prisma {
     title: number
     description: number
     thumbnail: number
+    category: number
     price: number
     rating: number
     trainerId: number
@@ -3159,6 +3250,7 @@ export namespace Prisma {
     title?: true
     description?: true
     thumbnail?: true
+    category?: true
     price?: true
     rating?: true
     trainerId?: true
@@ -3170,6 +3262,7 @@ export namespace Prisma {
     title?: true
     description?: true
     thumbnail?: true
+    category?: true
     price?: true
     rating?: true
     trainerId?: true
@@ -3181,6 +3274,7 @@ export namespace Prisma {
     title?: true
     description?: true
     thumbnail?: true
+    category?: true
     price?: true
     rating?: true
     trainerId?: true
@@ -3279,6 +3373,7 @@ export namespace Prisma {
     title: string
     description: string
     thumbnail: string
+    category: $Enums.Category
     price: number | null
     rating: number | null
     trainerId: string
@@ -3309,6 +3404,7 @@ export namespace Prisma {
     title?: boolean
     description?: boolean
     thumbnail?: boolean
+    category?: boolean
     price?: boolean
     rating?: boolean
     trainerId?: boolean
@@ -3327,6 +3423,7 @@ export namespace Prisma {
     title?: boolean
     description?: boolean
     thumbnail?: boolean
+    category?: boolean
     price?: boolean
     rating?: boolean
     trainerId?: boolean
@@ -3339,6 +3436,7 @@ export namespace Prisma {
     title?: boolean
     description?: boolean
     thumbnail?: boolean
+    category?: boolean
     price?: boolean
     rating?: boolean
     trainerId?: boolean
@@ -3351,13 +3449,14 @@ export namespace Prisma {
     title?: boolean
     description?: boolean
     thumbnail?: boolean
+    category?: boolean
     price?: boolean
     rating?: boolean
     trainerId?: boolean
     createdAt?: boolean
   }
 
-  export type CourseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "thumbnail" | "price" | "rating" | "trainerId" | "createdAt", ExtArgs["result"]["course"]>
+  export type CourseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "thumbnail" | "category" | "price" | "rating" | "trainerId" | "createdAt", ExtArgs["result"]["course"]>
   export type CourseInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     trainer?: boolean | UserDefaultArgs<ExtArgs>
     lectures?: boolean | Course$lecturesArgs<ExtArgs>
@@ -3389,6 +3488,7 @@ export namespace Prisma {
       title: string
       description: string
       thumbnail: string
+      category: $Enums.Category
       price: number | null
       rating: number | null
       trainerId: string
@@ -3826,6 +3926,7 @@ export namespace Prisma {
     readonly title: FieldRef<"Course", 'String'>
     readonly description: FieldRef<"Course", 'String'>
     readonly thumbnail: FieldRef<"Course", 'String'>
+    readonly category: FieldRef<"Course", 'Category'>
     readonly price: FieldRef<"Course", 'Float'>
     readonly rating: FieldRef<"Course", 'Float'>
     readonly trainerId: FieldRef<"Course", 'String'>
@@ -9813,6 +9914,7 @@ export namespace Prisma {
   export type PaymentMinAggregateOutputType = {
     id: string | null
     orderId: string | null
+    razorpayOrderId: string | null
     amount: number | null
     status: $Enums.PaymentStatus | null
     provider: string | null
@@ -9822,6 +9924,7 @@ export namespace Prisma {
   export type PaymentMaxAggregateOutputType = {
     id: string | null
     orderId: string | null
+    razorpayOrderId: string | null
     amount: number | null
     status: $Enums.PaymentStatus | null
     provider: string | null
@@ -9831,6 +9934,7 @@ export namespace Prisma {
   export type PaymentCountAggregateOutputType = {
     id: number
     orderId: number
+    razorpayOrderId: number
     amount: number
     status: number
     provider: number
@@ -9850,6 +9954,7 @@ export namespace Prisma {
   export type PaymentMinAggregateInputType = {
     id?: true
     orderId?: true
+    razorpayOrderId?: true
     amount?: true
     status?: true
     provider?: true
@@ -9859,6 +9964,7 @@ export namespace Prisma {
   export type PaymentMaxAggregateInputType = {
     id?: true
     orderId?: true
+    razorpayOrderId?: true
     amount?: true
     status?: true
     provider?: true
@@ -9868,6 +9974,7 @@ export namespace Prisma {
   export type PaymentCountAggregateInputType = {
     id?: true
     orderId?: true
+    razorpayOrderId?: true
     amount?: true
     status?: true
     provider?: true
@@ -9964,6 +10071,7 @@ export namespace Prisma {
   export type PaymentGroupByOutputType = {
     id: string
     orderId: string
+    razorpayOrderId: string | null
     amount: number
     status: $Enums.PaymentStatus
     provider: string | null
@@ -9992,6 +10100,7 @@ export namespace Prisma {
   export type PaymentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     orderId?: boolean
+    razorpayOrderId?: boolean
     amount?: boolean
     status?: boolean
     provider?: boolean
@@ -10002,6 +10111,7 @@ export namespace Prisma {
   export type PaymentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     orderId?: boolean
+    razorpayOrderId?: boolean
     amount?: boolean
     status?: boolean
     provider?: boolean
@@ -10012,6 +10122,7 @@ export namespace Prisma {
   export type PaymentSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     orderId?: boolean
+    razorpayOrderId?: boolean
     amount?: boolean
     status?: boolean
     provider?: boolean
@@ -10022,13 +10133,14 @@ export namespace Prisma {
   export type PaymentSelectScalar = {
     id?: boolean
     orderId?: boolean
+    razorpayOrderId?: boolean
     amount?: boolean
     status?: boolean
     provider?: boolean
     createdAt?: boolean
   }
 
-  export type PaymentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "orderId" | "amount" | "status" | "provider" | "createdAt", ExtArgs["result"]["payment"]>
+  export type PaymentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "orderId" | "razorpayOrderId" | "amount" | "status" | "provider" | "createdAt", ExtArgs["result"]["payment"]>
   export type PaymentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     order?: boolean | OrderDefaultArgs<ExtArgs>
   }
@@ -10047,6 +10159,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       orderId: string
+      razorpayOrderId: string | null
       amount: number
       status: $Enums.PaymentStatus
       provider: string | null
@@ -10477,6 +10590,7 @@ export namespace Prisma {
   interface PaymentFieldRefs {
     readonly id: FieldRef<"Payment", 'String'>
     readonly orderId: FieldRef<"Payment", 'String'>
+    readonly razorpayOrderId: FieldRef<"Payment", 'String'>
     readonly amount: FieldRef<"Payment", 'Float'>
     readonly status: FieldRef<"Payment", 'PaymentStatus'>
     readonly provider: FieldRef<"Payment", 'String'>
@@ -13107,7 +13221,12 @@ export namespace Prisma {
     email: 'email',
     password: 'password',
     role: 'role',
-    createdAt: 'createdAt'
+    createdAt: 'createdAt',
+    age: 'age',
+    mobile: 'mobile',
+    profilePic: 'profilePic',
+    bibliography: 'bibliography',
+    gender: 'gender'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -13118,6 +13237,7 @@ export namespace Prisma {
     title: 'title',
     description: 'description',
     thumbnail: 'thumbnail',
+    category: 'category',
     price: 'price',
     rating: 'rating',
     trainerId: 'trainerId',
@@ -13182,6 +13302,7 @@ export namespace Prisma {
   export const PaymentScalarFieldEnum: {
     id: 'id',
     orderId: 'orderId',
+    razorpayOrderId: 'razorpayOrderId',
     amount: 'amount',
     status: 'status',
     provider: 'provider',
@@ -13287,6 +13408,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Category'
+   */
+  export type EnumCategoryFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Category'>
+    
+
+
+  /**
+   * Reference to a field of type 'Category[]'
+   */
+  export type ListEnumCategoryFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Category[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -13355,6 +13490,11 @@ export namespace Prisma {
     password?: StringFilter<"User"> | string
     role?: EnumRoleFilter<"User"> | $Enums.Role
     createdAt?: DateTimeFilter<"User"> | Date | string
+    age?: StringNullableFilter<"User"> | string | null
+    mobile?: StringNullableFilter<"User"> | string | null
+    profilePic?: StringNullableFilter<"User"> | string | null
+    bibliography?: StringNullableFilter<"User"> | string | null
+    gender?: StringNullableFilter<"User"> | string | null
     courses?: CourseListRelationFilter
     enrollments?: EnrollmentListRelationFilter
     carts?: CartListRelationFilter
@@ -13368,6 +13508,11 @@ export namespace Prisma {
     password?: SortOrder
     role?: SortOrder
     createdAt?: SortOrder
+    age?: SortOrderInput | SortOrder
+    mobile?: SortOrderInput | SortOrder
+    profilePic?: SortOrderInput | SortOrder
+    bibliography?: SortOrderInput | SortOrder
+    gender?: SortOrderInput | SortOrder
     courses?: CourseOrderByRelationAggregateInput
     enrollments?: EnrollmentOrderByRelationAggregateInput
     carts?: CartOrderByRelationAggregateInput
@@ -13384,6 +13529,11 @@ export namespace Prisma {
     password?: StringFilter<"User"> | string
     role?: EnumRoleFilter<"User"> | $Enums.Role
     createdAt?: DateTimeFilter<"User"> | Date | string
+    age?: StringNullableFilter<"User"> | string | null
+    mobile?: StringNullableFilter<"User"> | string | null
+    profilePic?: StringNullableFilter<"User"> | string | null
+    bibliography?: StringNullableFilter<"User"> | string | null
+    gender?: StringNullableFilter<"User"> | string | null
     courses?: CourseListRelationFilter
     enrollments?: EnrollmentListRelationFilter
     carts?: CartListRelationFilter
@@ -13397,6 +13547,11 @@ export namespace Prisma {
     password?: SortOrder
     role?: SortOrder
     createdAt?: SortOrder
+    age?: SortOrderInput | SortOrder
+    mobile?: SortOrderInput | SortOrder
+    profilePic?: SortOrderInput | SortOrder
+    bibliography?: SortOrderInput | SortOrder
+    gender?: SortOrderInput | SortOrder
     _count?: UserCountOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
     _min?: UserMinOrderByAggregateInput
@@ -13412,6 +13567,11 @@ export namespace Prisma {
     password?: StringWithAggregatesFilter<"User"> | string
     role?: EnumRoleWithAggregatesFilter<"User"> | $Enums.Role
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
+    age?: StringNullableWithAggregatesFilter<"User"> | string | null
+    mobile?: StringNullableWithAggregatesFilter<"User"> | string | null
+    profilePic?: StringNullableWithAggregatesFilter<"User"> | string | null
+    bibliography?: StringNullableWithAggregatesFilter<"User"> | string | null
+    gender?: StringNullableWithAggregatesFilter<"User"> | string | null
   }
 
   export type CourseWhereInput = {
@@ -13422,6 +13582,7 @@ export namespace Prisma {
     title?: StringFilter<"Course"> | string
     description?: StringFilter<"Course"> | string
     thumbnail?: StringFilter<"Course"> | string
+    category?: EnumCategoryFilter<"Course"> | $Enums.Category
     price?: FloatNullableFilter<"Course"> | number | null
     rating?: FloatNullableFilter<"Course"> | number | null
     trainerId?: StringFilter<"Course"> | string
@@ -13439,6 +13600,7 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrder
     thumbnail?: SortOrder
+    category?: SortOrder
     price?: SortOrderInput | SortOrder
     rating?: SortOrderInput | SortOrder
     trainerId?: SortOrder
@@ -13459,6 +13621,7 @@ export namespace Prisma {
     title?: StringFilter<"Course"> | string
     description?: StringFilter<"Course"> | string
     thumbnail?: StringFilter<"Course"> | string
+    category?: EnumCategoryFilter<"Course"> | $Enums.Category
     price?: FloatNullableFilter<"Course"> | number | null
     rating?: FloatNullableFilter<"Course"> | number | null
     trainerId?: StringFilter<"Course"> | string
@@ -13476,6 +13639,7 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrder
     thumbnail?: SortOrder
+    category?: SortOrder
     price?: SortOrderInput | SortOrder
     rating?: SortOrderInput | SortOrder
     trainerId?: SortOrder
@@ -13495,6 +13659,7 @@ export namespace Prisma {
     title?: StringWithAggregatesFilter<"Course"> | string
     description?: StringWithAggregatesFilter<"Course"> | string
     thumbnail?: StringWithAggregatesFilter<"Course"> | string
+    category?: EnumCategoryWithAggregatesFilter<"Course"> | $Enums.Category
     price?: FloatNullableWithAggregatesFilter<"Course"> | number | null
     rating?: FloatNullableWithAggregatesFilter<"Course"> | number | null
     trainerId?: StringWithAggregatesFilter<"Course"> | string
@@ -13790,6 +13955,7 @@ export namespace Prisma {
     NOT?: PaymentWhereInput | PaymentWhereInput[]
     id?: StringFilter<"Payment"> | string
     orderId?: StringFilter<"Payment"> | string
+    razorpayOrderId?: StringNullableFilter<"Payment"> | string | null
     amount?: FloatFilter<"Payment"> | number
     status?: EnumPaymentStatusFilter<"Payment"> | $Enums.PaymentStatus
     provider?: StringNullableFilter<"Payment"> | string | null
@@ -13800,6 +13966,7 @@ export namespace Prisma {
   export type PaymentOrderByWithRelationInput = {
     id?: SortOrder
     orderId?: SortOrder
+    razorpayOrderId?: SortOrderInput | SortOrder
     amount?: SortOrder
     status?: SortOrder
     provider?: SortOrderInput | SortOrder
@@ -13810,6 +13977,7 @@ export namespace Prisma {
   export type PaymentWhereUniqueInput = Prisma.AtLeast<{
     id?: string
     orderId?: string
+    razorpayOrderId?: string
     AND?: PaymentWhereInput | PaymentWhereInput[]
     OR?: PaymentWhereInput[]
     NOT?: PaymentWhereInput | PaymentWhereInput[]
@@ -13818,11 +13986,12 @@ export namespace Prisma {
     provider?: StringNullableFilter<"Payment"> | string | null
     createdAt?: DateTimeFilter<"Payment"> | Date | string
     order?: XOR<OrderScalarRelationFilter, OrderWhereInput>
-  }, "id" | "orderId">
+  }, "id" | "orderId" | "razorpayOrderId">
 
   export type PaymentOrderByWithAggregationInput = {
     id?: SortOrder
     orderId?: SortOrder
+    razorpayOrderId?: SortOrderInput | SortOrder
     amount?: SortOrder
     status?: SortOrder
     provider?: SortOrderInput | SortOrder
@@ -13840,6 +14009,7 @@ export namespace Prisma {
     NOT?: PaymentScalarWhereWithAggregatesInput | PaymentScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Payment"> | string
     orderId?: StringWithAggregatesFilter<"Payment"> | string
+    razorpayOrderId?: StringNullableWithAggregatesFilter<"Payment"> | string | null
     amount?: FloatWithAggregatesFilter<"Payment"> | number
     status?: EnumPaymentStatusWithAggregatesFilter<"Payment"> | $Enums.PaymentStatus
     provider?: StringNullableWithAggregatesFilter<"Payment"> | string | null
@@ -13979,6 +14149,11 @@ export namespace Prisma {
     password: string
     role?: $Enums.Role
     createdAt?: Date | string
+    age?: string | null
+    mobile?: string | null
+    profilePic?: string | null
+    bibliography?: string | null
+    gender?: string | null
     courses?: CourseCreateNestedManyWithoutTrainerInput
     enrollments?: EnrollmentCreateNestedManyWithoutStudentInput
     carts?: CartCreateNestedManyWithoutStudentInput
@@ -13992,6 +14167,11 @@ export namespace Prisma {
     password: string
     role?: $Enums.Role
     createdAt?: Date | string
+    age?: string | null
+    mobile?: string | null
+    profilePic?: string | null
+    bibliography?: string | null
+    gender?: string | null
     courses?: CourseUncheckedCreateNestedManyWithoutTrainerInput
     enrollments?: EnrollmentUncheckedCreateNestedManyWithoutStudentInput
     carts?: CartUncheckedCreateNestedManyWithoutStudentInput
@@ -14005,6 +14185,11 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    age?: NullableStringFieldUpdateOperationsInput | string | null
+    mobile?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePic?: NullableStringFieldUpdateOperationsInput | string | null
+    bibliography?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
     courses?: CourseUpdateManyWithoutTrainerNestedInput
     enrollments?: EnrollmentUpdateManyWithoutStudentNestedInput
     carts?: CartUpdateManyWithoutStudentNestedInput
@@ -14018,6 +14203,11 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    age?: NullableStringFieldUpdateOperationsInput | string | null
+    mobile?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePic?: NullableStringFieldUpdateOperationsInput | string | null
+    bibliography?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
     courses?: CourseUncheckedUpdateManyWithoutTrainerNestedInput
     enrollments?: EnrollmentUncheckedUpdateManyWithoutStudentNestedInput
     carts?: CartUncheckedUpdateManyWithoutStudentNestedInput
@@ -14031,6 +14221,11 @@ export namespace Prisma {
     password: string
     role?: $Enums.Role
     createdAt?: Date | string
+    age?: string | null
+    mobile?: string | null
+    profilePic?: string | null
+    bibliography?: string | null
+    gender?: string | null
   }
 
   export type UserUpdateManyMutationInput = {
@@ -14040,6 +14235,11 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    age?: NullableStringFieldUpdateOperationsInput | string | null
+    mobile?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePic?: NullableStringFieldUpdateOperationsInput | string | null
+    bibliography?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -14049,6 +14249,11 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    age?: NullableStringFieldUpdateOperationsInput | string | null
+    mobile?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePic?: NullableStringFieldUpdateOperationsInput | string | null
+    bibliography?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type CourseCreateInput = {
@@ -14056,6 +14261,7 @@ export namespace Prisma {
     title: string
     description: string
     thumbnail: string
+    category?: $Enums.Category
     price?: number | null
     rating?: number | null
     createdAt?: Date | string
@@ -14072,6 +14278,7 @@ export namespace Prisma {
     title: string
     description: string
     thumbnail: string
+    category?: $Enums.Category
     price?: number | null
     rating?: number | null
     trainerId: string
@@ -14088,6 +14295,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     thumbnail?: StringFieldUpdateOperationsInput | string
+    category?: EnumCategoryFieldUpdateOperationsInput | $Enums.Category
     price?: NullableFloatFieldUpdateOperationsInput | number | null
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -14104,6 +14312,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     thumbnail?: StringFieldUpdateOperationsInput | string
+    category?: EnumCategoryFieldUpdateOperationsInput | $Enums.Category
     price?: NullableFloatFieldUpdateOperationsInput | number | null
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
     trainerId?: StringFieldUpdateOperationsInput | string
@@ -14120,6 +14329,7 @@ export namespace Prisma {
     title: string
     description: string
     thumbnail: string
+    category?: $Enums.Category
     price?: number | null
     rating?: number | null
     trainerId: string
@@ -14131,6 +14341,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     thumbnail?: StringFieldUpdateOperationsInput | string
+    category?: EnumCategoryFieldUpdateOperationsInput | $Enums.Category
     price?: NullableFloatFieldUpdateOperationsInput | number | null
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -14141,6 +14352,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     thumbnail?: StringFieldUpdateOperationsInput | string
+    category?: EnumCategoryFieldUpdateOperationsInput | $Enums.Category
     price?: NullableFloatFieldUpdateOperationsInput | number | null
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
     trainerId?: StringFieldUpdateOperationsInput | string
@@ -14412,6 +14624,7 @@ export namespace Prisma {
 
   export type PaymentCreateInput = {
     id?: string
+    razorpayOrderId?: string | null
     amount: number
     status?: $Enums.PaymentStatus
     provider?: string | null
@@ -14422,6 +14635,7 @@ export namespace Prisma {
   export type PaymentUncheckedCreateInput = {
     id?: string
     orderId: string
+    razorpayOrderId?: string | null
     amount: number
     status?: $Enums.PaymentStatus
     provider?: string | null
@@ -14430,6 +14644,7 @@ export namespace Prisma {
 
   export type PaymentUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    razorpayOrderId?: NullableStringFieldUpdateOperationsInput | string | null
     amount?: FloatFieldUpdateOperationsInput | number
     status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
     provider?: NullableStringFieldUpdateOperationsInput | string | null
@@ -14440,6 +14655,7 @@ export namespace Prisma {
   export type PaymentUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     orderId?: StringFieldUpdateOperationsInput | string
+    razorpayOrderId?: NullableStringFieldUpdateOperationsInput | string | null
     amount?: FloatFieldUpdateOperationsInput | number
     status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
     provider?: NullableStringFieldUpdateOperationsInput | string | null
@@ -14449,6 +14665,7 @@ export namespace Prisma {
   export type PaymentCreateManyInput = {
     id?: string
     orderId: string
+    razorpayOrderId?: string | null
     amount: number
     status?: $Enums.PaymentStatus
     provider?: string | null
@@ -14457,6 +14674,7 @@ export namespace Prisma {
 
   export type PaymentUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    razorpayOrderId?: NullableStringFieldUpdateOperationsInput | string | null
     amount?: FloatFieldUpdateOperationsInput | number
     status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
     provider?: NullableStringFieldUpdateOperationsInput | string | null
@@ -14466,6 +14684,7 @@ export namespace Prisma {
   export type PaymentUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     orderId?: StringFieldUpdateOperationsInput | string
+    razorpayOrderId?: NullableStringFieldUpdateOperationsInput | string | null
     amount?: FloatFieldUpdateOperationsInput | number
     status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
     provider?: NullableStringFieldUpdateOperationsInput | string | null
@@ -14632,6 +14851,21 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
+  export type StringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
   export type CourseListRelationFilter = {
     every?: CourseWhereInput
     some?: CourseWhereInput
@@ -14654,6 +14888,11 @@ export namespace Prisma {
     every?: OrderWhereInput
     some?: OrderWhereInput
     none?: OrderWhereInput
+  }
+
+  export type SortOrderInput = {
+    sort: SortOrder
+    nulls?: NullsOrder
   }
 
   export type CourseOrderByRelationAggregateInput = {
@@ -14679,6 +14918,11 @@ export namespace Prisma {
     password?: SortOrder
     role?: SortOrder
     createdAt?: SortOrder
+    age?: SortOrder
+    mobile?: SortOrder
+    profilePic?: SortOrder
+    bibliography?: SortOrder
+    gender?: SortOrder
   }
 
   export type UserMaxOrderByAggregateInput = {
@@ -14688,6 +14932,11 @@ export namespace Prisma {
     password?: SortOrder
     role?: SortOrder
     createdAt?: SortOrder
+    age?: SortOrder
+    mobile?: SortOrder
+    profilePic?: SortOrder
+    bibliography?: SortOrder
+    gender?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -14697,6 +14946,11 @@ export namespace Prisma {
     password?: SortOrder
     role?: SortOrder
     createdAt?: SortOrder
+    age?: SortOrder
+    mobile?: SortOrder
+    profilePic?: SortOrder
+    bibliography?: SortOrder
+    gender?: SortOrder
   }
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
@@ -14741,6 +14995,31 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type EnumCategoryFilter<$PrismaModel = never> = {
+    equals?: $Enums.Category | EnumCategoryFieldRefInput<$PrismaModel>
+    in?: $Enums.Category[] | ListEnumCategoryFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Category[] | ListEnumCategoryFieldRefInput<$PrismaModel>
+    not?: NestedEnumCategoryFilter<$PrismaModel> | $Enums.Category
+  }
+
   export type FloatNullableFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel> | null
     in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
@@ -14781,11 +15060,6 @@ export namespace Prisma {
     none?: OrderItemWhereInput
   }
 
-  export type SortOrderInput = {
-    sort: SortOrder
-    nulls?: NullsOrder
-  }
-
   export type LectureOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -14807,6 +15081,7 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrder
     thumbnail?: SortOrder
+    category?: SortOrder
     price?: SortOrder
     rating?: SortOrder
     trainerId?: SortOrder
@@ -14823,6 +15098,7 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrder
     thumbnail?: SortOrder
+    category?: SortOrder
     price?: SortOrder
     rating?: SortOrder
     trainerId?: SortOrder
@@ -14834,6 +15110,7 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrder
     thumbnail?: SortOrder
+    category?: SortOrder
     price?: SortOrder
     rating?: SortOrder
     trainerId?: SortOrder
@@ -14843,6 +15120,16 @@ export namespace Prisma {
   export type CourseSumOrderByAggregateInput = {
     price?: SortOrder
     rating?: SortOrder
+  }
+
+  export type EnumCategoryWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Category | EnumCategoryFieldRefInput<$PrismaModel>
+    in?: $Enums.Category[] | ListEnumCategoryFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Category[] | ListEnumCategoryFieldRefInput<$PrismaModel>
+    not?: NestedEnumCategoryWithAggregatesFilter<$PrismaModel> | $Enums.Category
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumCategoryFilter<$PrismaModel>
+    _max?: NestedEnumCategoryFilter<$PrismaModel>
   }
 
   export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -15091,24 +15378,10 @@ export namespace Prisma {
     not?: NestedEnumPaymentStatusFilter<$PrismaModel> | $Enums.PaymentStatus
   }
 
-  export type StringNullableFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    mode?: QueryMode
-    not?: NestedStringNullableFilter<$PrismaModel> | string | null
-  }
-
   export type PaymentCountOrderByAggregateInput = {
     id?: SortOrder
     orderId?: SortOrder
+    razorpayOrderId?: SortOrder
     amount?: SortOrder
     status?: SortOrder
     provider?: SortOrder
@@ -15122,6 +15395,7 @@ export namespace Prisma {
   export type PaymentMaxOrderByAggregateInput = {
     id?: SortOrder
     orderId?: SortOrder
+    razorpayOrderId?: SortOrder
     amount?: SortOrder
     status?: SortOrder
     provider?: SortOrder
@@ -15131,6 +15405,7 @@ export namespace Prisma {
   export type PaymentMinOrderByAggregateInput = {
     id?: SortOrder
     orderId?: SortOrder
+    razorpayOrderId?: SortOrder
     amount?: SortOrder
     status?: SortOrder
     provider?: SortOrder
@@ -15149,24 +15424,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumPaymentStatusFilter<$PrismaModel>
     _max?: NestedEnumPaymentStatusFilter<$PrismaModel>
-  }
-
-  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    mode?: QueryMode
-    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedStringNullableFilter<$PrismaModel>
-    _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
   export type NoteNullableScalarRelationFilter = {
@@ -15299,6 +15556,10 @@ export namespace Prisma {
 
   export type DateTimeFieldUpdateOperationsInput = {
     set?: Date | string
+  }
+
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null
   }
 
   export type CourseUpdateManyWithoutTrainerNestedInput = {
@@ -15487,6 +15748,10 @@ export namespace Prisma {
     connectOrCreate?: OrderItemCreateOrConnectWithoutCourseInput | OrderItemCreateOrConnectWithoutCourseInput[]
     createMany?: OrderItemCreateManyCourseInputEnvelope
     connect?: OrderItemWhereUniqueInput | OrderItemWhereUniqueInput[]
+  }
+
+  export type EnumCategoryFieldUpdateOperationsInput = {
+    set?: $Enums.Category
   }
 
   export type NullableFloatFieldUpdateOperationsInput = {
@@ -15903,10 +16168,6 @@ export namespace Prisma {
     set?: $Enums.PaymentStatus
   }
 
-  export type NullableStringFieldUpdateOperationsInput = {
-    set?: string | null
-  }
-
   export type OrderUpdateOneRequiredWithoutPaymentNestedInput = {
     create?: XOR<OrderCreateWithoutPaymentInput, OrderUncheckedCreateWithoutPaymentInput>
     connectOrCreate?: OrderCreateOrConnectWithoutPaymentInput
@@ -16023,6 +16284,20 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
+  export type NestedStringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
   export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -16075,6 +16350,41 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedEnumCategoryFilter<$PrismaModel = never> = {
+    equals?: $Enums.Category | EnumCategoryFieldRefInput<$PrismaModel>
+    in?: $Enums.Category[] | ListEnumCategoryFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Category[] | ListEnumCategoryFieldRefInput<$PrismaModel>
+    not?: NestedEnumCategoryFilter<$PrismaModel> | $Enums.Category
+  }
+
   export type NestedFloatNullableFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel> | null
     in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
@@ -16084,6 +16394,16 @@ export namespace Prisma {
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedEnumCategoryWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Category | EnumCategoryFieldRefInput<$PrismaModel>
+    in?: $Enums.Category[] | ListEnumCategoryFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Category[] | ListEnumCategoryFieldRefInput<$PrismaModel>
+    not?: NestedEnumCategoryWithAggregatesFilter<$PrismaModel> | $Enums.Category
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumCategoryFilter<$PrismaModel>
+    _max?: NestedEnumCategoryFilter<$PrismaModel>
   }
 
   export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -16100,17 +16420,6 @@ export namespace Prisma {
     _sum?: NestedFloatNullableFilter<$PrismaModel>
     _min?: NestedFloatNullableFilter<$PrismaModel>
     _max?: NestedFloatNullableFilter<$PrismaModel>
-  }
-
-  export type NestedIntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
@@ -16180,20 +16489,6 @@ export namespace Prisma {
     not?: NestedEnumPaymentStatusFilter<$PrismaModel> | $Enums.PaymentStatus
   }
 
-  export type NestedStringNullableFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedStringNullableFilter<$PrismaModel> | string | null
-  }
-
   export type NestedEnumPaymentStatusWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.PaymentStatus | EnumPaymentStatusFieldRefInput<$PrismaModel>
     in?: $Enums.PaymentStatus[] | ListEnumPaymentStatusFieldRefInput<$PrismaModel>
@@ -16204,28 +16499,12 @@ export namespace Prisma {
     _max?: NestedEnumPaymentStatusFilter<$PrismaModel>
   }
 
-  export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedStringNullableFilter<$PrismaModel>
-    _max?: NestedStringNullableFilter<$PrismaModel>
-  }
-
   export type CourseCreateWithoutTrainerInput = {
     id?: string
     title: string
     description: string
     thumbnail: string
+    category?: $Enums.Category
     price?: number | null
     rating?: number | null
     createdAt?: Date | string
@@ -16241,6 +16520,7 @@ export namespace Prisma {
     title: string
     description: string
     thumbnail: string
+    category?: $Enums.Category
     price?: number | null
     rating?: number | null
     createdAt?: Date | string
@@ -16357,6 +16637,7 @@ export namespace Prisma {
     title?: StringFilter<"Course"> | string
     description?: StringFilter<"Course"> | string
     thumbnail?: StringFilter<"Course"> | string
+    category?: EnumCategoryFilter<"Course"> | $Enums.Category
     price?: FloatNullableFilter<"Course"> | number | null
     rating?: FloatNullableFilter<"Course"> | number | null
     trainerId?: StringFilter<"Course"> | string
@@ -16448,6 +16729,11 @@ export namespace Prisma {
     password: string
     role?: $Enums.Role
     createdAt?: Date | string
+    age?: string | null
+    mobile?: string | null
+    profilePic?: string | null
+    bibliography?: string | null
+    gender?: string | null
     enrollments?: EnrollmentCreateNestedManyWithoutStudentInput
     carts?: CartCreateNestedManyWithoutStudentInput
     OrderStatus?: OrderCreateNestedManyWithoutStudentInput
@@ -16460,6 +16746,11 @@ export namespace Prisma {
     password: string
     role?: $Enums.Role
     createdAt?: Date | string
+    age?: string | null
+    mobile?: string | null
+    profilePic?: string | null
+    bibliography?: string | null
+    gender?: string | null
     enrollments?: EnrollmentUncheckedCreateNestedManyWithoutStudentInput
     carts?: CartUncheckedCreateNestedManyWithoutStudentInput
     OrderStatus?: OrderUncheckedCreateNestedManyWithoutStudentInput
@@ -16612,6 +16903,11 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    age?: NullableStringFieldUpdateOperationsInput | string | null
+    mobile?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePic?: NullableStringFieldUpdateOperationsInput | string | null
+    bibliography?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
     enrollments?: EnrollmentUpdateManyWithoutStudentNestedInput
     carts?: CartUpdateManyWithoutStudentNestedInput
     OrderStatus?: OrderUpdateManyWithoutStudentNestedInput
@@ -16624,6 +16920,11 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    age?: NullableStringFieldUpdateOperationsInput | string | null
+    mobile?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePic?: NullableStringFieldUpdateOperationsInput | string | null
+    bibliography?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
     enrollments?: EnrollmentUncheckedUpdateManyWithoutStudentNestedInput
     carts?: CartUncheckedUpdateManyWithoutStudentNestedInput
     OrderStatus?: OrderUncheckedUpdateManyWithoutStudentNestedInput
@@ -16762,6 +17063,11 @@ export namespace Prisma {
     password: string
     role?: $Enums.Role
     createdAt?: Date | string
+    age?: string | null
+    mobile?: string | null
+    profilePic?: string | null
+    bibliography?: string | null
+    gender?: string | null
     courses?: CourseCreateNestedManyWithoutTrainerInput
     carts?: CartCreateNestedManyWithoutStudentInput
     OrderStatus?: OrderCreateNestedManyWithoutStudentInput
@@ -16774,6 +17080,11 @@ export namespace Prisma {
     password: string
     role?: $Enums.Role
     createdAt?: Date | string
+    age?: string | null
+    mobile?: string | null
+    profilePic?: string | null
+    bibliography?: string | null
+    gender?: string | null
     courses?: CourseUncheckedCreateNestedManyWithoutTrainerInput
     carts?: CartUncheckedCreateNestedManyWithoutStudentInput
     OrderStatus?: OrderUncheckedCreateNestedManyWithoutStudentInput
@@ -16789,6 +17100,7 @@ export namespace Prisma {
     title: string
     description: string
     thumbnail: string
+    category?: $Enums.Category
     price?: number | null
     rating?: number | null
     createdAt?: Date | string
@@ -16804,6 +17116,7 @@ export namespace Prisma {
     title: string
     description: string
     thumbnail: string
+    category?: $Enums.Category
     price?: number | null
     rating?: number | null
     trainerId: string
@@ -16837,6 +17150,11 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    age?: NullableStringFieldUpdateOperationsInput | string | null
+    mobile?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePic?: NullableStringFieldUpdateOperationsInput | string | null
+    bibliography?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
     courses?: CourseUpdateManyWithoutTrainerNestedInput
     carts?: CartUpdateManyWithoutStudentNestedInput
     OrderStatus?: OrderUpdateManyWithoutStudentNestedInput
@@ -16849,6 +17167,11 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    age?: NullableStringFieldUpdateOperationsInput | string | null
+    mobile?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePic?: NullableStringFieldUpdateOperationsInput | string | null
+    bibliography?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
     courses?: CourseUncheckedUpdateManyWithoutTrainerNestedInput
     carts?: CartUncheckedUpdateManyWithoutStudentNestedInput
     OrderStatus?: OrderUncheckedUpdateManyWithoutStudentNestedInput
@@ -16870,6 +17193,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     thumbnail?: StringFieldUpdateOperationsInput | string
+    category?: EnumCategoryFieldUpdateOperationsInput | $Enums.Category
     price?: NullableFloatFieldUpdateOperationsInput | number | null
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -16885,6 +17209,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     thumbnail?: StringFieldUpdateOperationsInput | string
+    category?: EnumCategoryFieldUpdateOperationsInput | $Enums.Category
     price?: NullableFloatFieldUpdateOperationsInput | number | null
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
     trainerId?: StringFieldUpdateOperationsInput | string
@@ -16902,6 +17227,11 @@ export namespace Prisma {
     password: string
     role?: $Enums.Role
     createdAt?: Date | string
+    age?: string | null
+    mobile?: string | null
+    profilePic?: string | null
+    bibliography?: string | null
+    gender?: string | null
     courses?: CourseCreateNestedManyWithoutTrainerInput
     enrollments?: EnrollmentCreateNestedManyWithoutStudentInput
     OrderStatus?: OrderCreateNestedManyWithoutStudentInput
@@ -16914,6 +17244,11 @@ export namespace Prisma {
     password: string
     role?: $Enums.Role
     createdAt?: Date | string
+    age?: string | null
+    mobile?: string | null
+    profilePic?: string | null
+    bibliography?: string | null
+    gender?: string | null
     courses?: CourseUncheckedCreateNestedManyWithoutTrainerInput
     enrollments?: EnrollmentUncheckedCreateNestedManyWithoutStudentInput
     OrderStatus?: OrderUncheckedCreateNestedManyWithoutStudentInput
@@ -16966,6 +17301,11 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    age?: NullableStringFieldUpdateOperationsInput | string | null
+    mobile?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePic?: NullableStringFieldUpdateOperationsInput | string | null
+    bibliography?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
     courses?: CourseUpdateManyWithoutTrainerNestedInput
     enrollments?: EnrollmentUpdateManyWithoutStudentNestedInput
     OrderStatus?: OrderUpdateManyWithoutStudentNestedInput
@@ -16978,6 +17318,11 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    age?: NullableStringFieldUpdateOperationsInput | string | null
+    mobile?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePic?: NullableStringFieldUpdateOperationsInput | string | null
+    bibliography?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
     courses?: CourseUncheckedUpdateManyWithoutTrainerNestedInput
     enrollments?: EnrollmentUncheckedUpdateManyWithoutStudentNestedInput
     OrderStatus?: OrderUncheckedUpdateManyWithoutStudentNestedInput
@@ -17023,6 +17368,7 @@ export namespace Prisma {
     title: string
     description: string
     thumbnail: string
+    category?: $Enums.Category
     price?: number | null
     rating?: number | null
     createdAt?: Date | string
@@ -17038,6 +17384,7 @@ export namespace Prisma {
     title: string
     description: string
     thumbnail: string
+    category?: $Enums.Category
     price?: number | null
     rating?: number | null
     trainerId: string
@@ -17094,6 +17441,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     thumbnail?: StringFieldUpdateOperationsInput | string
+    category?: EnumCategoryFieldUpdateOperationsInput | $Enums.Category
     price?: NullableFloatFieldUpdateOperationsInput | number | null
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -17109,6 +17457,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     thumbnail?: StringFieldUpdateOperationsInput | string
+    category?: EnumCategoryFieldUpdateOperationsInput | $Enums.Category
     price?: NullableFloatFieldUpdateOperationsInput | number | null
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
     trainerId?: StringFieldUpdateOperationsInput | string
@@ -17126,6 +17475,11 @@ export namespace Prisma {
     password: string
     role?: $Enums.Role
     createdAt?: Date | string
+    age?: string | null
+    mobile?: string | null
+    profilePic?: string | null
+    bibliography?: string | null
+    gender?: string | null
     courses?: CourseCreateNestedManyWithoutTrainerInput
     enrollments?: EnrollmentCreateNestedManyWithoutStudentInput
     carts?: CartCreateNestedManyWithoutStudentInput
@@ -17138,6 +17492,11 @@ export namespace Prisma {
     password: string
     role?: $Enums.Role
     createdAt?: Date | string
+    age?: string | null
+    mobile?: string | null
+    profilePic?: string | null
+    bibliography?: string | null
+    gender?: string | null
     courses?: CourseUncheckedCreateNestedManyWithoutTrainerInput
     enrollments?: EnrollmentUncheckedCreateNestedManyWithoutStudentInput
     carts?: CartUncheckedCreateNestedManyWithoutStudentInput
@@ -17174,6 +17533,7 @@ export namespace Prisma {
 
   export type PaymentCreateWithoutOrderInput = {
     id?: string
+    razorpayOrderId?: string | null
     amount: number
     status?: $Enums.PaymentStatus
     provider?: string | null
@@ -17182,6 +17542,7 @@ export namespace Prisma {
 
   export type PaymentUncheckedCreateWithoutOrderInput = {
     id?: string
+    razorpayOrderId?: string | null
     amount: number
     status?: $Enums.PaymentStatus
     provider?: string | null
@@ -17211,6 +17572,11 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    age?: NullableStringFieldUpdateOperationsInput | string | null
+    mobile?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePic?: NullableStringFieldUpdateOperationsInput | string | null
+    bibliography?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
     courses?: CourseUpdateManyWithoutTrainerNestedInput
     enrollments?: EnrollmentUpdateManyWithoutStudentNestedInput
     carts?: CartUpdateManyWithoutStudentNestedInput
@@ -17223,6 +17589,11 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    age?: NullableStringFieldUpdateOperationsInput | string | null
+    mobile?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePic?: NullableStringFieldUpdateOperationsInput | string | null
+    bibliography?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
     courses?: CourseUncheckedUpdateManyWithoutTrainerNestedInput
     enrollments?: EnrollmentUncheckedUpdateManyWithoutStudentNestedInput
     carts?: CartUncheckedUpdateManyWithoutStudentNestedInput
@@ -17257,6 +17628,7 @@ export namespace Prisma {
 
   export type PaymentUpdateWithoutOrderInput = {
     id?: StringFieldUpdateOperationsInput | string
+    razorpayOrderId?: NullableStringFieldUpdateOperationsInput | string | null
     amount?: FloatFieldUpdateOperationsInput | number
     status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
     provider?: NullableStringFieldUpdateOperationsInput | string | null
@@ -17265,6 +17637,7 @@ export namespace Prisma {
 
   export type PaymentUncheckedUpdateWithoutOrderInput = {
     id?: StringFieldUpdateOperationsInput | string
+    razorpayOrderId?: NullableStringFieldUpdateOperationsInput | string | null
     amount?: FloatFieldUpdateOperationsInput | number
     status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
     provider?: NullableStringFieldUpdateOperationsInput | string | null
@@ -17297,6 +17670,7 @@ export namespace Prisma {
     title: string
     description: string
     thumbnail: string
+    category?: $Enums.Category
     price?: number | null
     rating?: number | null
     createdAt?: Date | string
@@ -17312,6 +17686,7 @@ export namespace Prisma {
     title: string
     description: string
     thumbnail: string
+    category?: $Enums.Category
     price?: number | null
     rating?: number | null
     trainerId: string
@@ -17370,6 +17745,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     thumbnail?: StringFieldUpdateOperationsInput | string
+    category?: EnumCategoryFieldUpdateOperationsInput | $Enums.Category
     price?: NullableFloatFieldUpdateOperationsInput | number | null
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -17385,6 +17761,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     thumbnail?: StringFieldUpdateOperationsInput | string
+    category?: EnumCategoryFieldUpdateOperationsInput | $Enums.Category
     price?: NullableFloatFieldUpdateOperationsInput | number | null
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
     trainerId?: StringFieldUpdateOperationsInput | string
@@ -17469,6 +17846,7 @@ export namespace Prisma {
     title: string
     description: string
     thumbnail: string
+    category?: $Enums.Category
     price?: number | null
     rating?: number | null
     createdAt?: Date | string
@@ -17484,6 +17862,7 @@ export namespace Prisma {
     title: string
     description: string
     thumbnail: string
+    category?: $Enums.Category
     price?: number | null
     rating?: number | null
     trainerId: string
@@ -17542,6 +17921,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     thumbnail?: StringFieldUpdateOperationsInput | string
+    category?: EnumCategoryFieldUpdateOperationsInput | $Enums.Category
     price?: NullableFloatFieldUpdateOperationsInput | number | null
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -17557,6 +17937,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     thumbnail?: StringFieldUpdateOperationsInput | string
+    category?: EnumCategoryFieldUpdateOperationsInput | $Enums.Category
     price?: NullableFloatFieldUpdateOperationsInput | number | null
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
     trainerId?: StringFieldUpdateOperationsInput | string
@@ -17572,6 +17953,7 @@ export namespace Prisma {
     title: string
     description: string
     thumbnail: string
+    category?: $Enums.Category
     price?: number | null
     rating?: number | null
     createdAt?: Date | string
@@ -17587,6 +17969,7 @@ export namespace Prisma {
     title: string
     description: string
     thumbnail: string
+    category?: $Enums.Category
     price?: number | null
     rating?: number | null
     trainerId: string
@@ -17641,6 +18024,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     thumbnail?: StringFieldUpdateOperationsInput | string
+    category?: EnumCategoryFieldUpdateOperationsInput | $Enums.Category
     price?: NullableFloatFieldUpdateOperationsInput | number | null
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -17656,6 +18040,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     thumbnail?: StringFieldUpdateOperationsInput | string
+    category?: EnumCategoryFieldUpdateOperationsInput | $Enums.Category
     price?: NullableFloatFieldUpdateOperationsInput | number | null
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
     trainerId?: StringFieldUpdateOperationsInput | string
@@ -17700,6 +18085,7 @@ export namespace Prisma {
     title: string
     description: string
     thumbnail: string
+    category?: $Enums.Category
     price?: number | null
     rating?: number | null
     createdAt?: Date | string
@@ -17728,6 +18114,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     thumbnail?: StringFieldUpdateOperationsInput | string
+    category?: EnumCategoryFieldUpdateOperationsInput | $Enums.Category
     price?: NullableFloatFieldUpdateOperationsInput | number | null
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -17743,6 +18130,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     thumbnail?: StringFieldUpdateOperationsInput | string
+    category?: EnumCategoryFieldUpdateOperationsInput | $Enums.Category
     price?: NullableFloatFieldUpdateOperationsInput | number | null
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -17758,6 +18146,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     thumbnail?: StringFieldUpdateOperationsInput | string
+    category?: EnumCategoryFieldUpdateOperationsInput | $Enums.Category
     price?: NullableFloatFieldUpdateOperationsInput | number | null
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string

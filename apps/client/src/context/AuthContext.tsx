@@ -6,6 +6,7 @@ interface User{
     id:String;
     username:String;
     email:String;
+    profilePic:String;
     role: 'STUDENT' | 'TRAINER' | 'ADMIN'
 }
 

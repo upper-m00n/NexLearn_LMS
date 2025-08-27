@@ -5,7 +5,7 @@ export const addToCart= async(req:Request, res:Response)=>{
     try {
         const studentId= req.body.studentId as string;
         const {courseId}= req.body;
-        console.log(req.user?.id)
+        //console.log(req.user?.id)
         
         let cart= await prisma.cart.findFirst({where:{studentId}});
 
@@ -40,8 +40,8 @@ export const addToCart= async(req:Request, res:Response)=>{
 
 export const removeCartItem= async(req:Request,res:Response)=>{
     try {
-        const studentId= req.user?.id;
-        const {courseId} =req.params 
+        const studentId= req.query.studentId as string;
+        const courseId =req.params.courseId;
 
         const cart= await prisma.cart.findUnique({where:{studentId}})
         if(!cart){
@@ -65,12 +65,20 @@ export const removeCartItem= async(req:Request,res:Response)=>{
     }
 }
 
+// view cart
 export const viewCart= async(req:Request,res:Response)=>{
     try {
-        const studentId= req.user?.id
+        const studentId= req.params?.studentId;
         
-        const cart= await prisma.cart.findMany({
+        const cart= await prisma.cart.findUnique({
             where:{studentId},
+            include:{
+                items:{
+                    include:{
+                        course:true
+                    }
+                }
+            }
         })
 
         if(!cart){

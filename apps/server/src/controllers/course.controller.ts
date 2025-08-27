@@ -4,7 +4,7 @@ import prisma from "../prisma/client";
 //course creation
 export const createCourse = async(req:Request, res:Response)=>{
     try {
-        const {title, description, thumbnail, price}= req.body;
+        const {title, description, thumbnail, price,category}= req.body;
         const userId= req.user?.id;
 
         if(!userId){
@@ -17,7 +17,8 @@ export const createCourse = async(req:Request, res:Response)=>{
                 description,
                 thumbnail,
                 trainerId:userId,
-                price
+                price,
+                category
             }
         })
 
@@ -97,7 +98,7 @@ export const updateCourse = async(req:Request, res:Response)=>{
   const trainerId= req.query.trainerId as string;
   const courseId = req.query.courseId as string;
 
-  const {title, description, thumbnail,price}=req.body;
+  const {title, description, thumbnail,price, category}=req.body;
 
   if(!trainerId){
     return res.status(401).json({error:"Unauthorized. No user id found."});
@@ -113,7 +114,8 @@ export const updateCourse = async(req:Request, res:Response)=>{
         title,
         description,
         thumbnail,
-        price
+        price,
+        category
       }
     })
 

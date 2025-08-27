@@ -25,7 +25,8 @@ type CourseCardProps ={
     description:string;
     thumbnail:string;
     price:string;
-    rating:string
+    rating:string;
+    category:string
   }
 }
 
@@ -69,7 +70,7 @@ export function CourseCard({course}:CourseCardProps) {
       <CardHeader>
         <CardTitle>{course.title}</CardTitle>
         <CardDescription>
-          {course.description}
+          {course.category}
         </CardDescription>
         {user?.role=='TRAINER' && <CardAction>
            <AlertDialog>
