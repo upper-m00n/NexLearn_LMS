@@ -21,8 +21,6 @@ type Lecture={
 }
 
 const course=()=>{
-  
-  const {user,token,loading}= useAuth();
   const params = useParams();
 
   const courseId= params.id;

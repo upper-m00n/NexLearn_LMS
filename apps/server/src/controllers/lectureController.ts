@@ -134,7 +134,7 @@ export const getLecture= async(req:Request,res:Response)=>{
         const lec= await prisma.lecture.findUnique({
             where:{id:lectureId as string}
         })
-
+        //console.log("Lecture",lec);
         const noteId= lec?.noteId;
 
         const note= await prisma.note.findUnique({
