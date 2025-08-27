@@ -54,7 +54,7 @@ const Navbar = () => {
               <Link href="/student/cart" className="hover:text-gray-300 transition-colors text-2xl">
                 <FiShoppingCart/>
               </Link>
-              <Link href="/my-courses" className="hover:text-gray-300 transition-colors">
+              <Link href="/student/my-courses" className="hover:text-gray-300 transition-colors">
                 My Courses
               </Link>
 
