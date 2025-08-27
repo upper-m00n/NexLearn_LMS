@@ -2,10 +2,14 @@ import { Request,Response } from "express";
 import { razorpay } from "../utils/razorpay";
 import prisma from "../prisma/client";
 import crypto from "crypto";
+import { Item } from "../types/item";
 
 export const processPayment= async (req:Request,res:Response)=>{
     try {
         const {studentId, cartItems,totalAmount}=req.body;
+        const cartId=cartItems[0]?.cartId;
+
+        //console.log("CartId",cartId);
 
         const razorpayOrder= await razorpay.orders.create({
             amount:totalAmount * 100,
@@ -34,12 +38,14 @@ export const processPayment= async (req:Request,res:Response)=>{
             include:{items:true,payment:true}
         });
 
+
         
         res.json({
             success:true,
             razorpayOrder,
             order
         })
+
     } catch (error) {
         console.error(error);
         res.status(500).json({ success: false, error: "Payment initiation failed" });
@@ -57,16 +63,47 @@ export const verifyPayment= async(req:Request,res:Response)=>{
         .digest("hex");
 
         if(expectedSign === razorpay_signature){
-            await prisma.payment.update({
+            const payment = await prisma.payment.update({
                 where:{
                     razorpayOrderId:razorpay_order_id
                 },
                 data:{
                     status:"SUCCESS",
                     
+                },
+                include:{
+                    order:{
+                        include:{
+                            items:true
+                        }
+                    }
                 }
             })
-            res.status(200).json({success:true,message:"Payment verified successfully!"})
+
+            const order=payment.order;
+            //enroll course
+            await prisma.enrollment.createMany({
+                data:order.items.map((item:Item)=>({
+                    studentId:order.studentId,
+                    courseId:item.courseId
+                })),
+                skipDuplicates:true
+            })
+
+            //empty cart
+            await prisma.cartItem.deleteMany({
+                where:{
+                    courseId:{
+                        in:order.items.map((item:Item)=> item.courseId)
+                    },
+                    cart:{
+                        studentId:order.studentId
+                    }
+                }
+            })
+
+
+            res.status(200).json({success:true,message:"Payment verified and course enrolled successfully!"})
         }
         else{
             res.status(400).json({success:false,message:"Invalid signature"})
