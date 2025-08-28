@@ -10,7 +10,7 @@ import lectureRoutes from './routes/lectureRoutes'
 import cartRoutes from './routes/cartRoutes'
 import userRoutes from './routes/userRoutes'
 import paymentRoutes from './routes/paymentRoutes'
-import enrolledCoursesRoutes from './routes/enrolledCoursesRoutes'
+import enrollmentRoutes from './routes/enrolledCoursesRoutes'
 
 dotenv.config();
 
@@ -20,6 +20,7 @@ app.use(cors({
     origin: 'http://localhost:3000', // or whatever your frontend origin is
     credentials: true
 }));
+
 app.use(express.json());
 
 // use routes
@@ -30,8 +31,7 @@ app.use('/api/lecture',lectureRoutes);
 app.use('/api/cart',cartRoutes);
 app.use('/api/user',userRoutes);
 app.use('/api/payment',paymentRoutes);
-app.use('/api/enrolled-courses',enrolledCoursesRoutes);
-
+app.use('/api/enrolled-courses',enrollmentRoutes)
 
 app.get('/', (_req,res)=>{
     res.send("Api is workinng");

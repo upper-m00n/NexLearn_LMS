@@ -1,8 +1,15 @@
-import express from 'express'
-import { fetchEnrolledCourses } from '../controllers/enrolledCourseController';
+import express from "express";
+import {
+  fetchEnrolledCourses,
+  totalStudentsEnrolledPerCourse,
+  totalStudentsEnrolledUnderATrainer,
+} from "../controllers/enrolledCourseController";
 
-const router=express.Router();
+const router = express.Router();
 
-router.get('/',fetchEnrolledCourses);
+
+router.get("/totalEnrolledStudents", totalStudentsEnrolledUnderATrainer);
+router.get("/totalEnrolledStudentsPerCourse", totalStudentsEnrolledPerCourse);
+router.get("/:studentId", fetchEnrolledCourses);
 
 export default router;
