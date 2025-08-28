@@ -9,12 +9,16 @@ import { useEffect, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 import axios from "axios";
 import { toast } from "sonner";
+import { BASE_URL } from "@/axios/axios";
 
 // Dummy data - replace with fetched data or props
 export default function TrainerDashboard() {
   const router = useRouter();
-  const [courses,setCourses]= useState([]);
   const {user,token,loading}= useAuth();
+
+  const [courses,setCourses]= useState([]);
+  const [totalStudents,setTotalStudents]=useState('');
+  const [totalStudentsPerCouurse,setTotalStudentsPerCourse]=useState('');
 
   useEffect(()=>{
     if(loading) return;
@@ -45,11 +49,46 @@ export default function TrainerDashboard() {
         }
     }
 
+    const fetchTotalStudentsEnrolled=async()=>{
+      try {
+        const trainerId=user?.id;
+        
+        const res= await axios.get(`${BASE_URL}/api/enrolled-courses/totalEnrolledStudents`,{
+          params:{trainerId}
+        })
+        //console.log("totalstudents",res.data);
+        setTotalStudents(res.data.students);
+
+      } catch (error) {
+        console.log("Error while fetching total students",error);
+        toast.error("couldn't get total number of students enrolled.");
+      }
+    }
+
+    // const fetchTotalStudentsPerCourse=async()=>{
+    //   try {
+    //     const trainerId=user?.id;
+        
+    //     const res= await axios.get(`${BASE_URL}/api/enrolled-courses/totalEnrolledStudentsPerCourse`,{
+    //       params:{trainerId}
+    //     })
+    //     console.log("totalstudentsPerCourse",res.data);
+    //     setTotalStudentsPerCourse(res.data);
+
+    //   } catch (error) {
+    //     console.log("Error while fetching total students per course",error);
+    //     toast.error("couldn't get total number of students enrolled per course.");
+    //   }
+    // }
+
+
     fetchCourses();
+    fetchTotalStudentsEnrolled();
+    //fetchTotalStudentsPerCourse();
   },[user])
 
   return (
-    <main className="p-6 space-y-8">
+    <main className="p-10 space-y-8">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-semibold">Trainer Dashboard</h1>
         <Button onClick={() => router.push("/trainer/courses/create")}>
@@ -74,7 +113,7 @@ export default function TrainerDashboard() {
             <CardTitle>Enrolled Students</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-2xl font-bold">342</p>
+            <p className="text-2xl font-bold">{totalStudents.length}</p>
           </CardContent>
         </Card>
 

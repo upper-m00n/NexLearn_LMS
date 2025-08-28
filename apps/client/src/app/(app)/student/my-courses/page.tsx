@@ -14,23 +14,30 @@ const MyCourses = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchEnrolledCourses = async () => {
-      try {
-        const studentId = user?.id;
-        const res = await axios.get(`${BASE_URL}/api/enrolled-courses/`, {
-          params: { studentId },
-        });
-        setEnrolled(res.data.enrolledCourses);
-        toast.success("Your enrolled courses fetched successfully");
-      } catch (error) {
-        console.log("Error while fetching enrolled courses", error);
+  const fetchEnrolledCourses = async () => {
+    try {
+      const studentId = user?.id;
+      console.log("studentId", studentId);
+      const res = await axios.get(`${BASE_URL}/api/enrolled-courses/${studentId}`);
+      console.log(res.data);
+      setEnrolled(res.data.enrolledCourses);
+      toast.success("Your enrolled courses fetched successfully");
+    } catch (error: any) {
+      console.log("Error while fetching enrolled courses", error);
+      
+      
+      if (error.response?.status === 404) {
+        setEnrolled([]);
+        toast.info("You haven't enrolled in any courses yet");
+      } else {
         toast.error("Couldn't fetch enrolled courses");
-      } finally {
-        setLoading(false);
       }
-    };
-    if (user) fetchEnrolledCourses();
-  }, [user]);
+    } finally {
+      setLoading(false);
+    }
+  };
+  if (user) fetchEnrolledCourses();
+}, [user]);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -59,9 +66,9 @@ const MyCourses = () => {
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {enrolled.map((course) => (
-              <EnrolledCoursesCard key={course.courseId} courseId={course.courseId} />
-            ))}
+            {enrolled.map((enrollment) => (
+              <EnrolledCoursesCard key={enrollment.courseId} course={enrollment.course} />
+            ))} 
           </div>
         )}
       </div>

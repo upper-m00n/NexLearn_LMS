@@ -70,7 +70,7 @@ const Navbar = () => {
                   <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={handleProfileView}>Profile</DropdownMenuItem>
                   {user.role === 'TRAINER' && (
-                    <DropdownMenuItem onClick={() => router.push('/trainer/dashboard')}>
+                    <DropdownMenuItem onClick={() => router.push('/trainer')}>
                       Trainer Dashboard
                     </DropdownMenuItem>
                   )}
