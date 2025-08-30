@@ -15,6 +15,7 @@ import { useEffect, useState } from "react"
 import { toast } from "sonner"
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "./ui/alert-dialog"
 import { useAuth } from "@/context/AuthContext"
+import RatingsStarsForUnEnrolled from "./RatingsStarsForUnEnrolled"
 
 
 
@@ -101,7 +102,7 @@ export function CourseCard({course}:CourseCardProps) {
         <Button variant="outline" className="w-full bg-black text-white" onClick={()=> handleView(course)}>
           View Course
         </Button>
-        {course.rating ? (<p>Rating :{course.rating}</p>):(<p>No ratings yet.</p>)}
+        {course.rating ? (<RatingsStarsForUnEnrolled totalRating={parseFloat(course.rating)}/>):(<p>No ratings yet.</p>)}
         <p>Rs. {course.price}</p>
       </CardFooter>
     </Card>

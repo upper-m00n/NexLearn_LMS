@@ -9,6 +9,7 @@ import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { Router } from "next/router";
 import { useRouter } from "next/navigation";
+import RatingsStarsForUnEnrolled from "@/components/RatingsStarsForUnEnrolled";
 
 export default function CartPage() {
   const { user } = useAuth();
@@ -88,6 +89,7 @@ export default function CartPage() {
                 <div className="flex-1 flex flex-col gap-2">
                   <h2 className="text-xl font-semibold">{item.course.title}</h2>
                   <p className="text-gray-700">Price: Rs {item.course.price}</p>
+                  <RatingsStarsForUnEnrolled totalRating={parseFloat(item.course.rating)}/>
                   <p className="text-gray-500">Quantity: {item.quantity}</p>
                 </div>
 

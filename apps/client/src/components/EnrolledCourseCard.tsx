@@ -13,6 +13,8 @@ import axios from "axios"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import { toast } from "sonner"
+import { StarRating } from "./RatingStars"
+
 
 type CardDemoProps = {
   course: Course;
@@ -41,9 +43,7 @@ export function EnrolledCoursesCard({ course }: CardDemoProps) {
         >
           View
         </Button>
-        <Button variant="outline" className="w-full">
-          Rate course
-        </Button>
+        <StarRating courseId={course.id as string}/>
       </CardFooter>
     </Card>
     )

@@ -11,6 +11,10 @@ export const createCourse = async(req:Request, res:Response)=>{
           return res.status(401).json({error:"Unauthorized. No user id found."})
         }
 
+        const user= await prisma.user.findUnique({
+            where:{id:userId}
+        })
+
         const newCourse= await prisma.course.create({
             data:{
                 title,
@@ -18,7 +22,8 @@ export const createCourse = async(req:Request, res:Response)=>{
                 thumbnail,
                 trainerId:userId,
                 price,
-                category
+                category,
+                instructor:user?.username || "Unknown"
             }
         })
 
@@ -151,5 +156,3 @@ export const deleteCourse = async(req:Request,res:Response)=>{
     res.status(500).json({message:"Internal server error"})
   }
 }
-
-

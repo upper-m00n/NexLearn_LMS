@@ -31,6 +31,7 @@ model User {
   enrollments Enrollment[] @relation("StudentEnrollments")
   carts       Cart[]
   OrderStatus Order[]
+  rating      Rating[]
 }
 
 enum Role {
@@ -42,13 +43,17 @@ enum Role {
 }
 
 model Course {
-  id          String       @id @default(uuid())
+  id          String   @id @default(uuid())
   title       String
   description String
   thumbnail   String
-  category    Category     @default(Development)
+  category    Category @default(Development)
   price       Float?
-  rating      Float?
+  instructor  String?
+
+  rating      Float?       @default(0)
+  ratingCount Int          @default(0)
+  ratings     Rating[]
   trainerId   String
   trainer     User         @relation("TrainerCourses", fields: [trainerId], references: [id])
   lectures    Lecture[]
@@ -58,6 +63,21 @@ model Course {
 
   cartItems  CartItem[]
   orderItems OrderItem[]
+}
+
+model Rating {
+  id    String @id @default(uuid())
+  value Float  @default(0)
+
+  course   Course @relation(fields: [courseId], references: [id])
+  courseId String
+
+  student   User   @relation(fields: [studentId], references: [id])
+  studentId String
+
+  createdAt DateTime @default(now())
+
+  @@unique([studentId, courseId])
 }
 
 enum Category {

@@ -10,6 +10,7 @@ import { FaRegHeart } from "react-icons/fa";
 import { Lecture } from "@/types/Lecture";
 import Lectures from "@/components/Lectures";
 import { useAuth } from "@/context/AuthContext";
+import RatingsStarsForUnEnrolled from "@/components/RatingsStarsForUnEnrolled";
 
 export default function Course() {
   const {user,token}= useAuth();
@@ -92,6 +93,7 @@ export default function Course() {
             <p>Category : {course.category}</p>
             <div>
                 <h2>Ratings:</h2>
+                <RatingsStarsForUnEnrolled totalRating={parseFloat(course.rating)}/>
             </div>
           </div>
 

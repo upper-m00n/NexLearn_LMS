@@ -141,8 +141,18 @@ exports.Prisma.CourseScalarFieldEnum = {
   thumbnail: 'thumbnail',
   category: 'category',
   price: 'price',
+  instructor: 'instructor',
   rating: 'rating',
+  ratingCount: 'ratingCount',
   trainerId: 'trainerId',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.RatingScalarFieldEnum = {
+  id: 'id',
+  value: 'value',
+  courseId: 'courseId',
+  studentId: 'studentId',
   createdAt: 'createdAt'
 };
 
@@ -264,6 +274,7 @@ exports.PaymentStatus = exports.$Enums.PaymentStatus = {
 exports.Prisma.ModelName = {
   User: 'User',
   Course: 'Course',
+  Rating: 'Rating',
   Enrollment: 'Enrollment',
   Cart: 'Cart',
   CartItem: 'CartItem',

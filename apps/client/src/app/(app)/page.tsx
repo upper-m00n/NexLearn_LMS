@@ -15,6 +15,30 @@ import { toast } from "sonner";
 import { CourseCard } from "@/components/CourseCard";
 import Link from "next/link";
 
+// Array for the new image carousel
+const featuredImages = [
+  {
+    src: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=2070&auto=format&fit=crop",
+    alt: "A person coding on a laptop",
+  },
+  {
+    src: "https://images.unsplash.com/photo-1531297484001-80022131f5a1?q=80&w=2020&auto=format&fit=crop",
+    alt: "Modern technology setup with a laptop and monitor",
+  },
+  {
+    src: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=2072&auto=format&fit=crop",
+    alt: "Multiple devices showing responsive web design",
+  },
+  {
+    src: "https://images.unsplash.com/photo-1550745165-9bc0b252726a?q=80&w=2070&auto=format&fit=crop",
+    alt: "A retro computer and gaming setup",
+  },
+  {
+    src: "https://images.unsplash.com/photo-1542831371-29b0f74f9713?q=80&w=2070&auto=format&fit=crop",
+    alt: "Close-up of code on a screen",
+  },
+];
+
 export default function Home() {
   const [courses, setCourses] = useState<any[]>([]);
 
@@ -23,7 +47,7 @@ export default function Home() {
       try {
         const res = await axios.get(`${BASE_URL}/api/course/`);
         setCourses(res.data);
-        toast.success("Courses fetched successfully");
+        // We don't need a toast message on every page load
       } catch (error) {
         console.log("error while fetching courses", error);
         toast.error("Couldn't fetch courses");
@@ -51,17 +75,26 @@ export default function Home() {
         </Link>
       </section>
 
-     \
+      {/* FEATURED SECTION (NOW WITH IMAGES) */}
       <section className="w-full max-w-5xl mx-auto mt-16 px-6">
         <h2 className="text-2xl font-semibold mb-6 text-center">
-          Featured Courses
+          Featured Topics
         </h2>
         <Carousel className="w-full">
           <CarouselContent>
-            {courses.slice(0, 5).map((course, index) => (
+            {featuredImages.map((image, index) => (
               <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
                 <div className="p-2">
-                  <CourseCard course={course} />
+                  <Card>
+                    <CardContent className="relative flex aspect-video items-center justify-center p-0">
+                      <Image
+                        src={image.src}
+                        alt={image.alt}
+                        fill
+                        className="object-cover rounded-lg"
+                      />
+                    </CardContent>
+                  </Card>
                 </div>
               </CarouselItem>
             ))}
@@ -70,8 +103,9 @@ export default function Home() {
           <CarouselNext />
         </Carousel>
       </section>
+      
 
-   
+      {/* POPULAR COURSES SECTION */}
       <section className="w-full max-w-6xl mx-auto mt-20 px-6">
         <h2 className="text-2xl font-semibold mb-6 text-center">
           Popular Courses

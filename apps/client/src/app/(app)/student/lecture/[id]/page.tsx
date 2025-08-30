@@ -62,7 +62,6 @@ const LecturePage = () => {
           <h1 className="text-4xl font-extrabold text-gray-800">
             {lecture.title}
           </h1>
-
           {/* Video Section */}
           <div className="w-full aspect-video rounded-xl overflow-hidden shadow-md">
             <video

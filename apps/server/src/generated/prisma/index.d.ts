@@ -24,6 +24,11 @@ export type User = $Result.DefaultSelection<Prisma.$UserPayload>
  */
 export type Course = $Result.DefaultSelection<Prisma.$CoursePayload>
 /**
+ * Model Rating
+ * 
+ */
+export type Rating = $Result.DefaultSelection<Prisma.$RatingPayload>
+/**
  * Model Enrollment
  * 
  */
@@ -277,6 +282,16 @@ export class PrismaClient<
     * ```
     */
   get course(): Prisma.CourseDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.rating`: Exposes CRUD operations for the **Rating** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Ratings
+    * const ratings = await prisma.rating.findMany()
+    * ```
+    */
+  get rating(): Prisma.RatingDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.enrollment`: Exposes CRUD operations for the **Enrollment** model.
@@ -799,6 +814,7 @@ export namespace Prisma {
   export const ModelName: {
     User: 'User',
     Course: 'Course',
+    Rating: 'Rating',
     Enrollment: 'Enrollment',
     Cart: 'Cart',
     CartItem: 'CartItem',
@@ -825,7 +841,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "course" | "enrollment" | "cart" | "cartItem" | "order" | "orderItem" | "payment" | "lecture" | "note"
+      modelProps: "user" | "course" | "rating" | "enrollment" | "cart" | "cartItem" | "order" | "orderItem" | "payment" | "lecture" | "note"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -974,6 +990,80 @@ export namespace Prisma {
           count: {
             args: Prisma.CourseCountArgs<ExtArgs>
             result: $Utils.Optional<CourseCountAggregateOutputType> | number
+          }
+        }
+      }
+      Rating: {
+        payload: Prisma.$RatingPayload<ExtArgs>
+        fields: Prisma.RatingFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.RatingFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RatingPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.RatingFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RatingPayload>
+          }
+          findFirst: {
+            args: Prisma.RatingFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RatingPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.RatingFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RatingPayload>
+          }
+          findMany: {
+            args: Prisma.RatingFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RatingPayload>[]
+          }
+          create: {
+            args: Prisma.RatingCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RatingPayload>
+          }
+          createMany: {
+            args: Prisma.RatingCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.RatingCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RatingPayload>[]
+          }
+          delete: {
+            args: Prisma.RatingDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RatingPayload>
+          }
+          update: {
+            args: Prisma.RatingUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RatingPayload>
+          }
+          deleteMany: {
+            args: Prisma.RatingDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.RatingUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.RatingUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RatingPayload>[]
+          }
+          upsert: {
+            args: Prisma.RatingUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RatingPayload>
+          }
+          aggregate: {
+            args: Prisma.RatingAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateRating>
+          }
+          groupBy: {
+            args: Prisma.RatingGroupByArgs<ExtArgs>
+            result: $Utils.Optional<RatingGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.RatingCountArgs<ExtArgs>
+            result: $Utils.Optional<RatingCountAggregateOutputType> | number
           }
         }
       }
@@ -1655,6 +1745,7 @@ export namespace Prisma {
   export type GlobalOmitConfig = {
     user?: UserOmit
     course?: CourseOmit
+    rating?: RatingOmit
     enrollment?: EnrollmentOmit
     cart?: CartOmit
     cartItem?: CartItemOmit
@@ -1761,6 +1852,7 @@ export namespace Prisma {
     enrollments: number
     carts: number
     OrderStatus: number
+    rating: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1768,6 +1860,7 @@ export namespace Prisma {
     enrollments?: boolean | UserCountOutputTypeCountEnrollmentsArgs
     carts?: boolean | UserCountOutputTypeCountCartsArgs
     OrderStatus?: boolean | UserCountOutputTypeCountOrderStatusArgs
+    rating?: boolean | UserCountOutputTypeCountRatingArgs
   }
 
   // Custom InputTypes
@@ -1809,12 +1902,20 @@ export namespace Prisma {
     where?: OrderWhereInput
   }
 
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountRatingArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RatingWhereInput
+  }
+
 
   /**
    * Count Type CourseCountOutputType
    */
 
   export type CourseCountOutputType = {
+    ratings: number
     lectures: number
     notes: number
     enrollments: number
@@ -1823,6 +1924,7 @@ export namespace Prisma {
   }
 
   export type CourseCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    ratings?: boolean | CourseCountOutputTypeCountRatingsArgs
     lectures?: boolean | CourseCountOutputTypeCountLecturesArgs
     notes?: boolean | CourseCountOutputTypeCountNotesArgs
     enrollments?: boolean | CourseCountOutputTypeCountEnrollmentsArgs
@@ -1839,6 +1941,13 @@ export namespace Prisma {
      * Select specific fields to fetch from the CourseCountOutputType
      */
     select?: CourseCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * CourseCountOutputType without action
+   */
+  export type CourseCountOutputTypeCountRatingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RatingWhereInput
   }
 
   /**
@@ -2159,6 +2268,7 @@ export namespace Prisma {
     enrollments?: boolean | User$enrollmentsArgs<ExtArgs>
     carts?: boolean | User$cartsArgs<ExtArgs>
     OrderStatus?: boolean | User$OrderStatusArgs<ExtArgs>
+    rating?: boolean | User$ratingArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -2210,6 +2320,7 @@ export namespace Prisma {
     enrollments?: boolean | User$enrollmentsArgs<ExtArgs>
     carts?: boolean | User$cartsArgs<ExtArgs>
     OrderStatus?: boolean | User$OrderStatusArgs<ExtArgs>
+    rating?: boolean | User$ratingArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -2222,6 +2333,7 @@ export namespace Prisma {
       enrollments: Prisma.$EnrollmentPayload<ExtArgs>[]
       carts: Prisma.$CartPayload<ExtArgs>[]
       OrderStatus: Prisma.$OrderPayload<ExtArgs>[]
+      rating: Prisma.$RatingPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -2633,6 +2745,7 @@ export namespace Prisma {
     enrollments<T extends User$enrollmentsArgs<ExtArgs> = {}>(args?: Subset<T, User$enrollmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EnrollmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     carts<T extends User$cartsArgs<ExtArgs> = {}>(args?: Subset<T, User$cartsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CartPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     OrderStatus<T extends User$OrderStatusArgs<ExtArgs> = {}>(args?: Subset<T, User$OrderStatusArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    rating<T extends User$ratingArgs<ExtArgs> = {}>(args?: Subset<T, User$ratingArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RatingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3157,6 +3270,30 @@ export namespace Prisma {
   }
 
   /**
+   * User.rating
+   */
+  export type User$ratingArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Rating
+     */
+    select?: RatingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Rating
+     */
+    omit?: RatingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RatingInclude<ExtArgs> | null
+    where?: RatingWhereInput
+    orderBy?: RatingOrderByWithRelationInput | RatingOrderByWithRelationInput[]
+    cursor?: RatingWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: RatingScalarFieldEnum | RatingScalarFieldEnum[]
+  }
+
+  /**
    * User without action
    */
   export type UserDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3190,11 +3327,13 @@ export namespace Prisma {
   export type CourseAvgAggregateOutputType = {
     price: number | null
     rating: number | null
+    ratingCount: number | null
   }
 
   export type CourseSumAggregateOutputType = {
     price: number | null
     rating: number | null
+    ratingCount: number | null
   }
 
   export type CourseMinAggregateOutputType = {
@@ -3204,7 +3343,9 @@ export namespace Prisma {
     thumbnail: string | null
     category: $Enums.Category | null
     price: number | null
+    instructor: string | null
     rating: number | null
+    ratingCount: number | null
     trainerId: string | null
     createdAt: Date | null
   }
@@ -3216,7 +3357,9 @@ export namespace Prisma {
     thumbnail: string | null
     category: $Enums.Category | null
     price: number | null
+    instructor: string | null
     rating: number | null
+    ratingCount: number | null
     trainerId: string | null
     createdAt: Date | null
   }
@@ -3228,7 +3371,9 @@ export namespace Prisma {
     thumbnail: number
     category: number
     price: number
+    instructor: number
     rating: number
+    ratingCount: number
     trainerId: number
     createdAt: number
     _all: number
@@ -3238,11 +3383,13 @@ export namespace Prisma {
   export type CourseAvgAggregateInputType = {
     price?: true
     rating?: true
+    ratingCount?: true
   }
 
   export type CourseSumAggregateInputType = {
     price?: true
     rating?: true
+    ratingCount?: true
   }
 
   export type CourseMinAggregateInputType = {
@@ -3252,7 +3399,9 @@ export namespace Prisma {
     thumbnail?: true
     category?: true
     price?: true
+    instructor?: true
     rating?: true
+    ratingCount?: true
     trainerId?: true
     createdAt?: true
   }
@@ -3264,7 +3413,9 @@ export namespace Prisma {
     thumbnail?: true
     category?: true
     price?: true
+    instructor?: true
     rating?: true
+    ratingCount?: true
     trainerId?: true
     createdAt?: true
   }
@@ -3276,7 +3427,9 @@ export namespace Prisma {
     thumbnail?: true
     category?: true
     price?: true
+    instructor?: true
     rating?: true
+    ratingCount?: true
     trainerId?: true
     createdAt?: true
     _all?: true
@@ -3375,7 +3528,9 @@ export namespace Prisma {
     thumbnail: string
     category: $Enums.Category
     price: number | null
+    instructor: string | null
     rating: number | null
+    ratingCount: number
     trainerId: string
     createdAt: Date
     _count: CourseCountAggregateOutputType | null
@@ -3406,9 +3561,12 @@ export namespace Prisma {
     thumbnail?: boolean
     category?: boolean
     price?: boolean
+    instructor?: boolean
     rating?: boolean
+    ratingCount?: boolean
     trainerId?: boolean
     createdAt?: boolean
+    ratings?: boolean | Course$ratingsArgs<ExtArgs>
     trainer?: boolean | UserDefaultArgs<ExtArgs>
     lectures?: boolean | Course$lecturesArgs<ExtArgs>
     notes?: boolean | Course$notesArgs<ExtArgs>
@@ -3425,7 +3583,9 @@ export namespace Prisma {
     thumbnail?: boolean
     category?: boolean
     price?: boolean
+    instructor?: boolean
     rating?: boolean
+    ratingCount?: boolean
     trainerId?: boolean
     createdAt?: boolean
     trainer?: boolean | UserDefaultArgs<ExtArgs>
@@ -3438,7 +3598,9 @@ export namespace Prisma {
     thumbnail?: boolean
     category?: boolean
     price?: boolean
+    instructor?: boolean
     rating?: boolean
+    ratingCount?: boolean
     trainerId?: boolean
     createdAt?: boolean
     trainer?: boolean | UserDefaultArgs<ExtArgs>
@@ -3451,13 +3613,16 @@ export namespace Prisma {
     thumbnail?: boolean
     category?: boolean
     price?: boolean
+    instructor?: boolean
     rating?: boolean
+    ratingCount?: boolean
     trainerId?: boolean
     createdAt?: boolean
   }
 
-  export type CourseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "thumbnail" | "category" | "price" | "rating" | "trainerId" | "createdAt", ExtArgs["result"]["course"]>
+  export type CourseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "thumbnail" | "category" | "price" | "instructor" | "rating" | "ratingCount" | "trainerId" | "createdAt", ExtArgs["result"]["course"]>
   export type CourseInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    ratings?: boolean | Course$ratingsArgs<ExtArgs>
     trainer?: boolean | UserDefaultArgs<ExtArgs>
     lectures?: boolean | Course$lecturesArgs<ExtArgs>
     notes?: boolean | Course$notesArgs<ExtArgs>
@@ -3476,6 +3641,7 @@ export namespace Prisma {
   export type $CoursePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Course"
     objects: {
+      ratings: Prisma.$RatingPayload<ExtArgs>[]
       trainer: Prisma.$UserPayload<ExtArgs>
       lectures: Prisma.$LecturePayload<ExtArgs>[]
       notes: Prisma.$NotePayload<ExtArgs>[]
@@ -3490,7 +3656,9 @@ export namespace Prisma {
       thumbnail: string
       category: $Enums.Category
       price: number | null
+      instructor: string | null
       rating: number | null
+      ratingCount: number
       trainerId: string
       createdAt: Date
     }, ExtArgs["result"]["course"]>
@@ -3887,6 +4055,7 @@ export namespace Prisma {
    */
   export interface Prisma__CourseClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    ratings<T extends Course$ratingsArgs<ExtArgs> = {}>(args?: Subset<T, Course$ratingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RatingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     trainer<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     lectures<T extends Course$lecturesArgs<ExtArgs> = {}>(args?: Subset<T, Course$lecturesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LecturePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     notes<T extends Course$notesArgs<ExtArgs> = {}>(args?: Subset<T, Course$notesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -3928,7 +4097,9 @@ export namespace Prisma {
     readonly thumbnail: FieldRef<"Course", 'String'>
     readonly category: FieldRef<"Course", 'Category'>
     readonly price: FieldRef<"Course", 'Float'>
+    readonly instructor: FieldRef<"Course", 'String'>
     readonly rating: FieldRef<"Course", 'Float'>
+    readonly ratingCount: FieldRef<"Course", 'Int'>
     readonly trainerId: FieldRef<"Course", 'String'>
     readonly createdAt: FieldRef<"Course", 'DateTime'>
   }
@@ -4327,6 +4498,30 @@ export namespace Prisma {
   }
 
   /**
+   * Course.ratings
+   */
+  export type Course$ratingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Rating
+     */
+    select?: RatingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Rating
+     */
+    omit?: RatingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RatingInclude<ExtArgs> | null
+    where?: RatingWhereInput
+    orderBy?: RatingOrderByWithRelationInput | RatingOrderByWithRelationInput[]
+    cursor?: RatingWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: RatingScalarFieldEnum | RatingScalarFieldEnum[]
+  }
+
+  /**
    * Course.lectures
    */
   export type Course$lecturesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4462,6 +4657,1106 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: CourseInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Rating
+   */
+
+  export type AggregateRating = {
+    _count: RatingCountAggregateOutputType | null
+    _avg: RatingAvgAggregateOutputType | null
+    _sum: RatingSumAggregateOutputType | null
+    _min: RatingMinAggregateOutputType | null
+    _max: RatingMaxAggregateOutputType | null
+  }
+
+  export type RatingAvgAggregateOutputType = {
+    value: number | null
+  }
+
+  export type RatingSumAggregateOutputType = {
+    value: number | null
+  }
+
+  export type RatingMinAggregateOutputType = {
+    id: string | null
+    value: number | null
+    courseId: string | null
+    studentId: string | null
+    createdAt: Date | null
+  }
+
+  export type RatingMaxAggregateOutputType = {
+    id: string | null
+    value: number | null
+    courseId: string | null
+    studentId: string | null
+    createdAt: Date | null
+  }
+
+  export type RatingCountAggregateOutputType = {
+    id: number
+    value: number
+    courseId: number
+    studentId: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type RatingAvgAggregateInputType = {
+    value?: true
+  }
+
+  export type RatingSumAggregateInputType = {
+    value?: true
+  }
+
+  export type RatingMinAggregateInputType = {
+    id?: true
+    value?: true
+    courseId?: true
+    studentId?: true
+    createdAt?: true
+  }
+
+  export type RatingMaxAggregateInputType = {
+    id?: true
+    value?: true
+    courseId?: true
+    studentId?: true
+    createdAt?: true
+  }
+
+  export type RatingCountAggregateInputType = {
+    id?: true
+    value?: true
+    courseId?: true
+    studentId?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type RatingAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Rating to aggregate.
+     */
+    where?: RatingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Ratings to fetch.
+     */
+    orderBy?: RatingOrderByWithRelationInput | RatingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: RatingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Ratings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Ratings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Ratings
+    **/
+    _count?: true | RatingCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: RatingAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: RatingSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: RatingMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: RatingMaxAggregateInputType
+  }
+
+  export type GetRatingAggregateType<T extends RatingAggregateArgs> = {
+        [P in keyof T & keyof AggregateRating]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateRating[P]>
+      : GetScalarType<T[P], AggregateRating[P]>
+  }
+
+
+
+
+  export type RatingGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RatingWhereInput
+    orderBy?: RatingOrderByWithAggregationInput | RatingOrderByWithAggregationInput[]
+    by: RatingScalarFieldEnum[] | RatingScalarFieldEnum
+    having?: RatingScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: RatingCountAggregateInputType | true
+    _avg?: RatingAvgAggregateInputType
+    _sum?: RatingSumAggregateInputType
+    _min?: RatingMinAggregateInputType
+    _max?: RatingMaxAggregateInputType
+  }
+
+  export type RatingGroupByOutputType = {
+    id: string
+    value: number
+    courseId: string
+    studentId: string
+    createdAt: Date
+    _count: RatingCountAggregateOutputType | null
+    _avg: RatingAvgAggregateOutputType | null
+    _sum: RatingSumAggregateOutputType | null
+    _min: RatingMinAggregateOutputType | null
+    _max: RatingMaxAggregateOutputType | null
+  }
+
+  type GetRatingGroupByPayload<T extends RatingGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<RatingGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof RatingGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], RatingGroupByOutputType[P]>
+            : GetScalarType<T[P], RatingGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type RatingSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    value?: boolean
+    courseId?: boolean
+    studentId?: boolean
+    createdAt?: boolean
+    course?: boolean | CourseDefaultArgs<ExtArgs>
+    student?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["rating"]>
+
+  export type RatingSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    value?: boolean
+    courseId?: boolean
+    studentId?: boolean
+    createdAt?: boolean
+    course?: boolean | CourseDefaultArgs<ExtArgs>
+    student?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["rating"]>
+
+  export type RatingSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    value?: boolean
+    courseId?: boolean
+    studentId?: boolean
+    createdAt?: boolean
+    course?: boolean | CourseDefaultArgs<ExtArgs>
+    student?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["rating"]>
+
+  export type RatingSelectScalar = {
+    id?: boolean
+    value?: boolean
+    courseId?: boolean
+    studentId?: boolean
+    createdAt?: boolean
+  }
+
+  export type RatingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "value" | "courseId" | "studentId" | "createdAt", ExtArgs["result"]["rating"]>
+  export type RatingInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    course?: boolean | CourseDefaultArgs<ExtArgs>
+    student?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type RatingIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    course?: boolean | CourseDefaultArgs<ExtArgs>
+    student?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type RatingIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    course?: boolean | CourseDefaultArgs<ExtArgs>
+    student?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $RatingPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Rating"
+    objects: {
+      course: Prisma.$CoursePayload<ExtArgs>
+      student: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      value: number
+      courseId: string
+      studentId: string
+      createdAt: Date
+    }, ExtArgs["result"]["rating"]>
+    composites: {}
+  }
+
+  type RatingGetPayload<S extends boolean | null | undefined | RatingDefaultArgs> = $Result.GetResult<Prisma.$RatingPayload, S>
+
+  type RatingCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<RatingFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: RatingCountAggregateInputType | true
+    }
+
+  export interface RatingDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Rating'], meta: { name: 'Rating' } }
+    /**
+     * Find zero or one Rating that matches the filter.
+     * @param {RatingFindUniqueArgs} args - Arguments to find a Rating
+     * @example
+     * // Get one Rating
+     * const rating = await prisma.rating.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends RatingFindUniqueArgs>(args: SelectSubset<T, RatingFindUniqueArgs<ExtArgs>>): Prisma__RatingClient<$Result.GetResult<Prisma.$RatingPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Rating that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {RatingFindUniqueOrThrowArgs} args - Arguments to find a Rating
+     * @example
+     * // Get one Rating
+     * const rating = await prisma.rating.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends RatingFindUniqueOrThrowArgs>(args: SelectSubset<T, RatingFindUniqueOrThrowArgs<ExtArgs>>): Prisma__RatingClient<$Result.GetResult<Prisma.$RatingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Rating that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RatingFindFirstArgs} args - Arguments to find a Rating
+     * @example
+     * // Get one Rating
+     * const rating = await prisma.rating.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends RatingFindFirstArgs>(args?: SelectSubset<T, RatingFindFirstArgs<ExtArgs>>): Prisma__RatingClient<$Result.GetResult<Prisma.$RatingPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Rating that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RatingFindFirstOrThrowArgs} args - Arguments to find a Rating
+     * @example
+     * // Get one Rating
+     * const rating = await prisma.rating.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends RatingFindFirstOrThrowArgs>(args?: SelectSubset<T, RatingFindFirstOrThrowArgs<ExtArgs>>): Prisma__RatingClient<$Result.GetResult<Prisma.$RatingPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Ratings that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RatingFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Ratings
+     * const ratings = await prisma.rating.findMany()
+     * 
+     * // Get first 10 Ratings
+     * const ratings = await prisma.rating.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const ratingWithIdOnly = await prisma.rating.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends RatingFindManyArgs>(args?: SelectSubset<T, RatingFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RatingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Rating.
+     * @param {RatingCreateArgs} args - Arguments to create a Rating.
+     * @example
+     * // Create one Rating
+     * const Rating = await prisma.rating.create({
+     *   data: {
+     *     // ... data to create a Rating
+     *   }
+     * })
+     * 
+     */
+    create<T extends RatingCreateArgs>(args: SelectSubset<T, RatingCreateArgs<ExtArgs>>): Prisma__RatingClient<$Result.GetResult<Prisma.$RatingPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Ratings.
+     * @param {RatingCreateManyArgs} args - Arguments to create many Ratings.
+     * @example
+     * // Create many Ratings
+     * const rating = await prisma.rating.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends RatingCreateManyArgs>(args?: SelectSubset<T, RatingCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Ratings and returns the data saved in the database.
+     * @param {RatingCreateManyAndReturnArgs} args - Arguments to create many Ratings.
+     * @example
+     * // Create many Ratings
+     * const rating = await prisma.rating.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Ratings and only return the `id`
+     * const ratingWithIdOnly = await prisma.rating.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends RatingCreateManyAndReturnArgs>(args?: SelectSubset<T, RatingCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RatingPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Rating.
+     * @param {RatingDeleteArgs} args - Arguments to delete one Rating.
+     * @example
+     * // Delete one Rating
+     * const Rating = await prisma.rating.delete({
+     *   where: {
+     *     // ... filter to delete one Rating
+     *   }
+     * })
+     * 
+     */
+    delete<T extends RatingDeleteArgs>(args: SelectSubset<T, RatingDeleteArgs<ExtArgs>>): Prisma__RatingClient<$Result.GetResult<Prisma.$RatingPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Rating.
+     * @param {RatingUpdateArgs} args - Arguments to update one Rating.
+     * @example
+     * // Update one Rating
+     * const rating = await prisma.rating.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends RatingUpdateArgs>(args: SelectSubset<T, RatingUpdateArgs<ExtArgs>>): Prisma__RatingClient<$Result.GetResult<Prisma.$RatingPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Ratings.
+     * @param {RatingDeleteManyArgs} args - Arguments to filter Ratings to delete.
+     * @example
+     * // Delete a few Ratings
+     * const { count } = await prisma.rating.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends RatingDeleteManyArgs>(args?: SelectSubset<T, RatingDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Ratings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RatingUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Ratings
+     * const rating = await prisma.rating.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends RatingUpdateManyArgs>(args: SelectSubset<T, RatingUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Ratings and returns the data updated in the database.
+     * @param {RatingUpdateManyAndReturnArgs} args - Arguments to update many Ratings.
+     * @example
+     * // Update many Ratings
+     * const rating = await prisma.rating.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Ratings and only return the `id`
+     * const ratingWithIdOnly = await prisma.rating.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends RatingUpdateManyAndReturnArgs>(args: SelectSubset<T, RatingUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RatingPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Rating.
+     * @param {RatingUpsertArgs} args - Arguments to update or create a Rating.
+     * @example
+     * // Update or create a Rating
+     * const rating = await prisma.rating.upsert({
+     *   create: {
+     *     // ... data to create a Rating
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Rating we want to update
+     *   }
+     * })
+     */
+    upsert<T extends RatingUpsertArgs>(args: SelectSubset<T, RatingUpsertArgs<ExtArgs>>): Prisma__RatingClient<$Result.GetResult<Prisma.$RatingPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Ratings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RatingCountArgs} args - Arguments to filter Ratings to count.
+     * @example
+     * // Count the number of Ratings
+     * const count = await prisma.rating.count({
+     *   where: {
+     *     // ... the filter for the Ratings we want to count
+     *   }
+     * })
+    **/
+    count<T extends RatingCountArgs>(
+      args?: Subset<T, RatingCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], RatingCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Rating.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RatingAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends RatingAggregateArgs>(args: Subset<T, RatingAggregateArgs>): Prisma.PrismaPromise<GetRatingAggregateType<T>>
+
+    /**
+     * Group by Rating.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RatingGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends RatingGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: RatingGroupByArgs['orderBy'] }
+        : { orderBy?: RatingGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, RatingGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetRatingGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Rating model
+   */
+  readonly fields: RatingFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Rating.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__RatingClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    course<T extends CourseDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CourseDefaultArgs<ExtArgs>>): Prisma__CourseClient<$Result.GetResult<Prisma.$CoursePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    student<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Rating model
+   */
+  interface RatingFieldRefs {
+    readonly id: FieldRef<"Rating", 'String'>
+    readonly value: FieldRef<"Rating", 'Float'>
+    readonly courseId: FieldRef<"Rating", 'String'>
+    readonly studentId: FieldRef<"Rating", 'String'>
+    readonly createdAt: FieldRef<"Rating", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Rating findUnique
+   */
+  export type RatingFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Rating
+     */
+    select?: RatingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Rating
+     */
+    omit?: RatingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RatingInclude<ExtArgs> | null
+    /**
+     * Filter, which Rating to fetch.
+     */
+    where: RatingWhereUniqueInput
+  }
+
+  /**
+   * Rating findUniqueOrThrow
+   */
+  export type RatingFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Rating
+     */
+    select?: RatingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Rating
+     */
+    omit?: RatingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RatingInclude<ExtArgs> | null
+    /**
+     * Filter, which Rating to fetch.
+     */
+    where: RatingWhereUniqueInput
+  }
+
+  /**
+   * Rating findFirst
+   */
+  export type RatingFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Rating
+     */
+    select?: RatingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Rating
+     */
+    omit?: RatingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RatingInclude<ExtArgs> | null
+    /**
+     * Filter, which Rating to fetch.
+     */
+    where?: RatingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Ratings to fetch.
+     */
+    orderBy?: RatingOrderByWithRelationInput | RatingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Ratings.
+     */
+    cursor?: RatingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Ratings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Ratings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Ratings.
+     */
+    distinct?: RatingScalarFieldEnum | RatingScalarFieldEnum[]
+  }
+
+  /**
+   * Rating findFirstOrThrow
+   */
+  export type RatingFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Rating
+     */
+    select?: RatingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Rating
+     */
+    omit?: RatingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RatingInclude<ExtArgs> | null
+    /**
+     * Filter, which Rating to fetch.
+     */
+    where?: RatingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Ratings to fetch.
+     */
+    orderBy?: RatingOrderByWithRelationInput | RatingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Ratings.
+     */
+    cursor?: RatingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Ratings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Ratings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Ratings.
+     */
+    distinct?: RatingScalarFieldEnum | RatingScalarFieldEnum[]
+  }
+
+  /**
+   * Rating findMany
+   */
+  export type RatingFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Rating
+     */
+    select?: RatingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Rating
+     */
+    omit?: RatingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RatingInclude<ExtArgs> | null
+    /**
+     * Filter, which Ratings to fetch.
+     */
+    where?: RatingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Ratings to fetch.
+     */
+    orderBy?: RatingOrderByWithRelationInput | RatingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Ratings.
+     */
+    cursor?: RatingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Ratings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Ratings.
+     */
+    skip?: number
+    distinct?: RatingScalarFieldEnum | RatingScalarFieldEnum[]
+  }
+
+  /**
+   * Rating create
+   */
+  export type RatingCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Rating
+     */
+    select?: RatingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Rating
+     */
+    omit?: RatingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RatingInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Rating.
+     */
+    data: XOR<RatingCreateInput, RatingUncheckedCreateInput>
+  }
+
+  /**
+   * Rating createMany
+   */
+  export type RatingCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Ratings.
+     */
+    data: RatingCreateManyInput | RatingCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Rating createManyAndReturn
+   */
+  export type RatingCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Rating
+     */
+    select?: RatingSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Rating
+     */
+    omit?: RatingOmit<ExtArgs> | null
+    /**
+     * The data used to create many Ratings.
+     */
+    data: RatingCreateManyInput | RatingCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RatingIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Rating update
+   */
+  export type RatingUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Rating
+     */
+    select?: RatingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Rating
+     */
+    omit?: RatingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RatingInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Rating.
+     */
+    data: XOR<RatingUpdateInput, RatingUncheckedUpdateInput>
+    /**
+     * Choose, which Rating to update.
+     */
+    where: RatingWhereUniqueInput
+  }
+
+  /**
+   * Rating updateMany
+   */
+  export type RatingUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Ratings.
+     */
+    data: XOR<RatingUpdateManyMutationInput, RatingUncheckedUpdateManyInput>
+    /**
+     * Filter which Ratings to update
+     */
+    where?: RatingWhereInput
+    /**
+     * Limit how many Ratings to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Rating updateManyAndReturn
+   */
+  export type RatingUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Rating
+     */
+    select?: RatingSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Rating
+     */
+    omit?: RatingOmit<ExtArgs> | null
+    /**
+     * The data used to update Ratings.
+     */
+    data: XOR<RatingUpdateManyMutationInput, RatingUncheckedUpdateManyInput>
+    /**
+     * Filter which Ratings to update
+     */
+    where?: RatingWhereInput
+    /**
+     * Limit how many Ratings to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RatingIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Rating upsert
+   */
+  export type RatingUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Rating
+     */
+    select?: RatingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Rating
+     */
+    omit?: RatingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RatingInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Rating to update in case it exists.
+     */
+    where: RatingWhereUniqueInput
+    /**
+     * In case the Rating found by the `where` argument doesn't exist, create a new Rating with this data.
+     */
+    create: XOR<RatingCreateInput, RatingUncheckedCreateInput>
+    /**
+     * In case the Rating was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<RatingUpdateInput, RatingUncheckedUpdateInput>
+  }
+
+  /**
+   * Rating delete
+   */
+  export type RatingDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Rating
+     */
+    select?: RatingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Rating
+     */
+    omit?: RatingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RatingInclude<ExtArgs> | null
+    /**
+     * Filter which Rating to delete.
+     */
+    where: RatingWhereUniqueInput
+  }
+
+  /**
+   * Rating deleteMany
+   */
+  export type RatingDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Ratings to delete
+     */
+    where?: RatingWhereInput
+    /**
+     * Limit how many Ratings to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Rating without action
+   */
+  export type RatingDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Rating
+     */
+    select?: RatingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Rating
+     */
+    omit?: RatingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RatingInclude<ExtArgs> | null
   }
 
 
@@ -13239,12 +14534,25 @@ export namespace Prisma {
     thumbnail: 'thumbnail',
     category: 'category',
     price: 'price',
+    instructor: 'instructor',
     rating: 'rating',
+    ratingCount: 'ratingCount',
     trainerId: 'trainerId',
     createdAt: 'createdAt'
   };
 
   export type CourseScalarFieldEnum = (typeof CourseScalarFieldEnum)[keyof typeof CourseScalarFieldEnum]
+
+
+  export const RatingScalarFieldEnum: {
+    id: 'id',
+    value: 'value',
+    courseId: 'courseId',
+    studentId: 'studentId',
+    createdAt: 'createdAt'
+  };
+
+  export type RatingScalarFieldEnum = (typeof RatingScalarFieldEnum)[keyof typeof RatingScalarFieldEnum]
 
 
   export const EnrollmentScalarFieldEnum: {
@@ -13499,6 +14807,7 @@ export namespace Prisma {
     enrollments?: EnrollmentListRelationFilter
     carts?: CartListRelationFilter
     OrderStatus?: OrderListRelationFilter
+    rating?: RatingListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -13517,6 +14826,7 @@ export namespace Prisma {
     enrollments?: EnrollmentOrderByRelationAggregateInput
     carts?: CartOrderByRelationAggregateInput
     OrderStatus?: OrderOrderByRelationAggregateInput
+    rating?: RatingOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -13538,6 +14848,7 @@ export namespace Prisma {
     enrollments?: EnrollmentListRelationFilter
     carts?: CartListRelationFilter
     OrderStatus?: OrderListRelationFilter
+    rating?: RatingListRelationFilter
   }, "id" | "username" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -13584,9 +14895,12 @@ export namespace Prisma {
     thumbnail?: StringFilter<"Course"> | string
     category?: EnumCategoryFilter<"Course"> | $Enums.Category
     price?: FloatNullableFilter<"Course"> | number | null
+    instructor?: StringNullableFilter<"Course"> | string | null
     rating?: FloatNullableFilter<"Course"> | number | null
+    ratingCount?: IntFilter<"Course"> | number
     trainerId?: StringFilter<"Course"> | string
     createdAt?: DateTimeFilter<"Course"> | Date | string
+    ratings?: RatingListRelationFilter
     trainer?: XOR<UserScalarRelationFilter, UserWhereInput>
     lectures?: LectureListRelationFilter
     notes?: NoteListRelationFilter
@@ -13602,9 +14916,12 @@ export namespace Prisma {
     thumbnail?: SortOrder
     category?: SortOrder
     price?: SortOrderInput | SortOrder
+    instructor?: SortOrderInput | SortOrder
     rating?: SortOrderInput | SortOrder
+    ratingCount?: SortOrder
     trainerId?: SortOrder
     createdAt?: SortOrder
+    ratings?: RatingOrderByRelationAggregateInput
     trainer?: UserOrderByWithRelationInput
     lectures?: LectureOrderByRelationAggregateInput
     notes?: NoteOrderByRelationAggregateInput
@@ -13623,9 +14940,12 @@ export namespace Prisma {
     thumbnail?: StringFilter<"Course"> | string
     category?: EnumCategoryFilter<"Course"> | $Enums.Category
     price?: FloatNullableFilter<"Course"> | number | null
+    instructor?: StringNullableFilter<"Course"> | string | null
     rating?: FloatNullableFilter<"Course"> | number | null
+    ratingCount?: IntFilter<"Course"> | number
     trainerId?: StringFilter<"Course"> | string
     createdAt?: DateTimeFilter<"Course"> | Date | string
+    ratings?: RatingListRelationFilter
     trainer?: XOR<UserScalarRelationFilter, UserWhereInput>
     lectures?: LectureListRelationFilter
     notes?: NoteListRelationFilter
@@ -13641,7 +14961,9 @@ export namespace Prisma {
     thumbnail?: SortOrder
     category?: SortOrder
     price?: SortOrderInput | SortOrder
+    instructor?: SortOrderInput | SortOrder
     rating?: SortOrderInput | SortOrder
+    ratingCount?: SortOrder
     trainerId?: SortOrder
     createdAt?: SortOrder
     _count?: CourseCountOrderByAggregateInput
@@ -13661,9 +14983,72 @@ export namespace Prisma {
     thumbnail?: StringWithAggregatesFilter<"Course"> | string
     category?: EnumCategoryWithAggregatesFilter<"Course"> | $Enums.Category
     price?: FloatNullableWithAggregatesFilter<"Course"> | number | null
+    instructor?: StringNullableWithAggregatesFilter<"Course"> | string | null
     rating?: FloatNullableWithAggregatesFilter<"Course"> | number | null
+    ratingCount?: IntWithAggregatesFilter<"Course"> | number
     trainerId?: StringWithAggregatesFilter<"Course"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Course"> | Date | string
+  }
+
+  export type RatingWhereInput = {
+    AND?: RatingWhereInput | RatingWhereInput[]
+    OR?: RatingWhereInput[]
+    NOT?: RatingWhereInput | RatingWhereInput[]
+    id?: StringFilter<"Rating"> | string
+    value?: FloatFilter<"Rating"> | number
+    courseId?: StringFilter<"Rating"> | string
+    studentId?: StringFilter<"Rating"> | string
+    createdAt?: DateTimeFilter<"Rating"> | Date | string
+    course?: XOR<CourseScalarRelationFilter, CourseWhereInput>
+    student?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type RatingOrderByWithRelationInput = {
+    id?: SortOrder
+    value?: SortOrder
+    courseId?: SortOrder
+    studentId?: SortOrder
+    createdAt?: SortOrder
+    course?: CourseOrderByWithRelationInput
+    student?: UserOrderByWithRelationInput
+  }
+
+  export type RatingWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    studentId_courseId?: RatingStudentIdCourseIdCompoundUniqueInput
+    AND?: RatingWhereInput | RatingWhereInput[]
+    OR?: RatingWhereInput[]
+    NOT?: RatingWhereInput | RatingWhereInput[]
+    value?: FloatFilter<"Rating"> | number
+    courseId?: StringFilter<"Rating"> | string
+    studentId?: StringFilter<"Rating"> | string
+    createdAt?: DateTimeFilter<"Rating"> | Date | string
+    course?: XOR<CourseScalarRelationFilter, CourseWhereInput>
+    student?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id" | "studentId_courseId">
+
+  export type RatingOrderByWithAggregationInput = {
+    id?: SortOrder
+    value?: SortOrder
+    courseId?: SortOrder
+    studentId?: SortOrder
+    createdAt?: SortOrder
+    _count?: RatingCountOrderByAggregateInput
+    _avg?: RatingAvgOrderByAggregateInput
+    _max?: RatingMaxOrderByAggregateInput
+    _min?: RatingMinOrderByAggregateInput
+    _sum?: RatingSumOrderByAggregateInput
+  }
+
+  export type RatingScalarWhereWithAggregatesInput = {
+    AND?: RatingScalarWhereWithAggregatesInput | RatingScalarWhereWithAggregatesInput[]
+    OR?: RatingScalarWhereWithAggregatesInput[]
+    NOT?: RatingScalarWhereWithAggregatesInput | RatingScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Rating"> | string
+    value?: FloatWithAggregatesFilter<"Rating"> | number
+    courseId?: StringWithAggregatesFilter<"Rating"> | string
+    studentId?: StringWithAggregatesFilter<"Rating"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Rating"> | Date | string
   }
 
   export type EnrollmentWhereInput = {
@@ -14158,6 +15543,7 @@ export namespace Prisma {
     enrollments?: EnrollmentCreateNestedManyWithoutStudentInput
     carts?: CartCreateNestedManyWithoutStudentInput
     OrderStatus?: OrderCreateNestedManyWithoutStudentInput
+    rating?: RatingCreateNestedManyWithoutStudentInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -14176,6 +15562,7 @@ export namespace Prisma {
     enrollments?: EnrollmentUncheckedCreateNestedManyWithoutStudentInput
     carts?: CartUncheckedCreateNestedManyWithoutStudentInput
     OrderStatus?: OrderUncheckedCreateNestedManyWithoutStudentInput
+    rating?: RatingUncheckedCreateNestedManyWithoutStudentInput
   }
 
   export type UserUpdateInput = {
@@ -14194,6 +15581,7 @@ export namespace Prisma {
     enrollments?: EnrollmentUpdateManyWithoutStudentNestedInput
     carts?: CartUpdateManyWithoutStudentNestedInput
     OrderStatus?: OrderUpdateManyWithoutStudentNestedInput
+    rating?: RatingUpdateManyWithoutStudentNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -14212,6 +15600,7 @@ export namespace Prisma {
     enrollments?: EnrollmentUncheckedUpdateManyWithoutStudentNestedInput
     carts?: CartUncheckedUpdateManyWithoutStudentNestedInput
     OrderStatus?: OrderUncheckedUpdateManyWithoutStudentNestedInput
+    rating?: RatingUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -14263,8 +15652,11 @@ export namespace Prisma {
     thumbnail: string
     category?: $Enums.Category
     price?: number | null
+    instructor?: string | null
     rating?: number | null
+    ratingCount?: number
     createdAt?: Date | string
+    ratings?: RatingCreateNestedManyWithoutCourseInput
     trainer: UserCreateNestedOneWithoutCoursesInput
     lectures?: LectureCreateNestedManyWithoutCourseInput
     notes?: NoteCreateNestedManyWithoutCourseInput
@@ -14280,9 +15672,12 @@ export namespace Prisma {
     thumbnail: string
     category?: $Enums.Category
     price?: number | null
+    instructor?: string | null
     rating?: number | null
+    ratingCount?: number
     trainerId: string
     createdAt?: Date | string
+    ratings?: RatingUncheckedCreateNestedManyWithoutCourseInput
     lectures?: LectureUncheckedCreateNestedManyWithoutCourseInput
     notes?: NoteUncheckedCreateNestedManyWithoutCourseInput
     enrollments?: EnrollmentUncheckedCreateNestedManyWithoutCourseInput
@@ -14297,8 +15692,11 @@ export namespace Prisma {
     thumbnail?: StringFieldUpdateOperationsInput | string
     category?: EnumCategoryFieldUpdateOperationsInput | $Enums.Category
     price?: NullableFloatFieldUpdateOperationsInput | number | null
+    instructor?: NullableStringFieldUpdateOperationsInput | string | null
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
+    ratingCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ratings?: RatingUpdateManyWithoutCourseNestedInput
     trainer?: UserUpdateOneRequiredWithoutCoursesNestedInput
     lectures?: LectureUpdateManyWithoutCourseNestedInput
     notes?: NoteUpdateManyWithoutCourseNestedInput
@@ -14314,9 +15712,12 @@ export namespace Prisma {
     thumbnail?: StringFieldUpdateOperationsInput | string
     category?: EnumCategoryFieldUpdateOperationsInput | $Enums.Category
     price?: NullableFloatFieldUpdateOperationsInput | number | null
+    instructor?: NullableStringFieldUpdateOperationsInput | string | null
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
+    ratingCount?: IntFieldUpdateOperationsInput | number
     trainerId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ratings?: RatingUncheckedUpdateManyWithoutCourseNestedInput
     lectures?: LectureUncheckedUpdateManyWithoutCourseNestedInput
     notes?: NoteUncheckedUpdateManyWithoutCourseNestedInput
     enrollments?: EnrollmentUncheckedUpdateManyWithoutCourseNestedInput
@@ -14331,7 +15732,9 @@ export namespace Prisma {
     thumbnail: string
     category?: $Enums.Category
     price?: number | null
+    instructor?: string | null
     rating?: number | null
+    ratingCount?: number
     trainerId: string
     createdAt?: Date | string
   }
@@ -14343,7 +15746,9 @@ export namespace Prisma {
     thumbnail?: StringFieldUpdateOperationsInput | string
     category?: EnumCategoryFieldUpdateOperationsInput | $Enums.Category
     price?: NullableFloatFieldUpdateOperationsInput | number | null
+    instructor?: NullableStringFieldUpdateOperationsInput | string | null
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
+    ratingCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -14354,8 +15759,64 @@ export namespace Prisma {
     thumbnail?: StringFieldUpdateOperationsInput | string
     category?: EnumCategoryFieldUpdateOperationsInput | $Enums.Category
     price?: NullableFloatFieldUpdateOperationsInput | number | null
+    instructor?: NullableStringFieldUpdateOperationsInput | string | null
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
+    ratingCount?: IntFieldUpdateOperationsInput | number
     trainerId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RatingCreateInput = {
+    id?: string
+    value?: number
+    createdAt?: Date | string
+    course: CourseCreateNestedOneWithoutRatingsInput
+    student: UserCreateNestedOneWithoutRatingInput
+  }
+
+  export type RatingUncheckedCreateInput = {
+    id?: string
+    value?: number
+    courseId: string
+    studentId: string
+    createdAt?: Date | string
+  }
+
+  export type RatingUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    value?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    course?: CourseUpdateOneRequiredWithoutRatingsNestedInput
+    student?: UserUpdateOneRequiredWithoutRatingNestedInput
+  }
+
+  export type RatingUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    value?: FloatFieldUpdateOperationsInput | number
+    courseId?: StringFieldUpdateOperationsInput | string
+    studentId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RatingCreateManyInput = {
+    id?: string
+    value?: number
+    courseId: string
+    studentId: string
+    createdAt?: Date | string
+  }
+
+  export type RatingUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    value?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RatingUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    value?: FloatFieldUpdateOperationsInput | number
+    courseId?: StringFieldUpdateOperationsInput | string
+    studentId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -14890,6 +16351,12 @@ export namespace Prisma {
     none?: OrderWhereInput
   }
 
+  export type RatingListRelationFilter = {
+    every?: RatingWhereInput
+    some?: RatingWhereInput
+    none?: RatingWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -14908,6 +16375,10 @@ export namespace Prisma {
   }
 
   export type OrderOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type RatingOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -15031,6 +16502,17 @@ export namespace Prisma {
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
+  export type IntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
   export type UserScalarRelationFilter = {
     is?: UserWhereInput
     isNot?: UserWhereInput
@@ -15083,7 +16565,9 @@ export namespace Prisma {
     thumbnail?: SortOrder
     category?: SortOrder
     price?: SortOrder
+    instructor?: SortOrder
     rating?: SortOrder
+    ratingCount?: SortOrder
     trainerId?: SortOrder
     createdAt?: SortOrder
   }
@@ -15091,6 +16575,7 @@ export namespace Prisma {
   export type CourseAvgOrderByAggregateInput = {
     price?: SortOrder
     rating?: SortOrder
+    ratingCount?: SortOrder
   }
 
   export type CourseMaxOrderByAggregateInput = {
@@ -15100,7 +16585,9 @@ export namespace Prisma {
     thumbnail?: SortOrder
     category?: SortOrder
     price?: SortOrder
+    instructor?: SortOrder
     rating?: SortOrder
+    ratingCount?: SortOrder
     trainerId?: SortOrder
     createdAt?: SortOrder
   }
@@ -15112,7 +16599,9 @@ export namespace Prisma {
     thumbnail?: SortOrder
     category?: SortOrder
     price?: SortOrder
+    instructor?: SortOrder
     rating?: SortOrder
+    ratingCount?: SortOrder
     trainerId?: SortOrder
     createdAt?: SortOrder
   }
@@ -15120,6 +16609,7 @@ export namespace Prisma {
   export type CourseSumOrderByAggregateInput = {
     price?: SortOrder
     rating?: SortOrder
+    ratingCount?: SortOrder
   }
 
   export type EnumCategoryWithAggregatesFilter<$PrismaModel = never> = {
@@ -15148,9 +16638,89 @@ export namespace Prisma {
     _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type FloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
   export type CourseScalarRelationFilter = {
     is?: CourseWhereInput
     isNot?: CourseWhereInput
+  }
+
+  export type RatingStudentIdCourseIdCompoundUniqueInput = {
+    studentId: string
+    courseId: string
+  }
+
+  export type RatingCountOrderByAggregateInput = {
+    id?: SortOrder
+    value?: SortOrder
+    courseId?: SortOrder
+    studentId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type RatingAvgOrderByAggregateInput = {
+    value?: SortOrder
+  }
+
+  export type RatingMaxOrderByAggregateInput = {
+    id?: SortOrder
+    value?: SortOrder
+    courseId?: SortOrder
+    studentId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type RatingMinOrderByAggregateInput = {
+    id?: SortOrder
+    value?: SortOrder
+    courseId?: SortOrder
+    studentId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type RatingSumOrderByAggregateInput = {
+    value?: SortOrder
+  }
+
+  export type FloatWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedFloatFilter<$PrismaModel>
+    _min?: NestedFloatFilter<$PrismaModel>
+    _max?: NestedFloatFilter<$PrismaModel>
   }
 
   export type EnrollmentCountOrderByAggregateInput = {
@@ -15195,17 +16765,6 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
-  export type IntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
-  }
-
   export type CartScalarRelationFilter = {
     is?: CartWhereInput
     isNot?: CartWhereInput
@@ -15246,22 +16805,6 @@ export namespace Prisma {
 
   export type CartItemSumOrderByAggregateInput = {
     quantity?: SortOrder
-  }
-
-  export type IntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type EnumOrderStatusFilter<$PrismaModel = never> = {
@@ -15307,17 +16850,6 @@ export namespace Prisma {
     _max?: NestedEnumOrderStatusFilter<$PrismaModel>
   }
 
-  export type FloatFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatFilter<$PrismaModel> | number
-  }
-
   export type OrderScalarRelationFilter = {
     is?: OrderWhereInput
     isNot?: OrderWhereInput
@@ -15353,22 +16885,6 @@ export namespace Prisma {
 
   export type OrderItemSumOrderByAggregateInput = {
     price?: SortOrder
-  }
-
-  export type FloatWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedFloatFilter<$PrismaModel>
-    _min?: NestedFloatFilter<$PrismaModel>
-    _max?: NestedFloatFilter<$PrismaModel>
   }
 
   export type EnumPaymentStatusFilter<$PrismaModel = never> = {
@@ -15518,6 +17034,13 @@ export namespace Prisma {
     connect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
   }
 
+  export type RatingCreateNestedManyWithoutStudentInput = {
+    create?: XOR<RatingCreateWithoutStudentInput, RatingUncheckedCreateWithoutStudentInput> | RatingCreateWithoutStudentInput[] | RatingUncheckedCreateWithoutStudentInput[]
+    connectOrCreate?: RatingCreateOrConnectWithoutStudentInput | RatingCreateOrConnectWithoutStudentInput[]
+    createMany?: RatingCreateManyStudentInputEnvelope
+    connect?: RatingWhereUniqueInput | RatingWhereUniqueInput[]
+  }
+
   export type CourseUncheckedCreateNestedManyWithoutTrainerInput = {
     create?: XOR<CourseCreateWithoutTrainerInput, CourseUncheckedCreateWithoutTrainerInput> | CourseCreateWithoutTrainerInput[] | CourseUncheckedCreateWithoutTrainerInput[]
     connectOrCreate?: CourseCreateOrConnectWithoutTrainerInput | CourseCreateOrConnectWithoutTrainerInput[]
@@ -15544,6 +17067,13 @@ export namespace Prisma {
     connectOrCreate?: OrderCreateOrConnectWithoutStudentInput | OrderCreateOrConnectWithoutStudentInput[]
     createMany?: OrderCreateManyStudentInputEnvelope
     connect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+  }
+
+  export type RatingUncheckedCreateNestedManyWithoutStudentInput = {
+    create?: XOR<RatingCreateWithoutStudentInput, RatingUncheckedCreateWithoutStudentInput> | RatingCreateWithoutStudentInput[] | RatingUncheckedCreateWithoutStudentInput[]
+    connectOrCreate?: RatingCreateOrConnectWithoutStudentInput | RatingCreateOrConnectWithoutStudentInput[]
+    createMany?: RatingCreateManyStudentInputEnvelope
+    connect?: RatingWhereUniqueInput | RatingWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -15618,6 +17148,20 @@ export namespace Prisma {
     deleteMany?: OrderScalarWhereInput | OrderScalarWhereInput[]
   }
 
+  export type RatingUpdateManyWithoutStudentNestedInput = {
+    create?: XOR<RatingCreateWithoutStudentInput, RatingUncheckedCreateWithoutStudentInput> | RatingCreateWithoutStudentInput[] | RatingUncheckedCreateWithoutStudentInput[]
+    connectOrCreate?: RatingCreateOrConnectWithoutStudentInput | RatingCreateOrConnectWithoutStudentInput[]
+    upsert?: RatingUpsertWithWhereUniqueWithoutStudentInput | RatingUpsertWithWhereUniqueWithoutStudentInput[]
+    createMany?: RatingCreateManyStudentInputEnvelope
+    set?: RatingWhereUniqueInput | RatingWhereUniqueInput[]
+    disconnect?: RatingWhereUniqueInput | RatingWhereUniqueInput[]
+    delete?: RatingWhereUniqueInput | RatingWhereUniqueInput[]
+    connect?: RatingWhereUniqueInput | RatingWhereUniqueInput[]
+    update?: RatingUpdateWithWhereUniqueWithoutStudentInput | RatingUpdateWithWhereUniqueWithoutStudentInput[]
+    updateMany?: RatingUpdateManyWithWhereWithoutStudentInput | RatingUpdateManyWithWhereWithoutStudentInput[]
+    deleteMany?: RatingScalarWhereInput | RatingScalarWhereInput[]
+  }
+
   export type CourseUncheckedUpdateManyWithoutTrainerNestedInput = {
     create?: XOR<CourseCreateWithoutTrainerInput, CourseUncheckedCreateWithoutTrainerInput> | CourseCreateWithoutTrainerInput[] | CourseUncheckedCreateWithoutTrainerInput[]
     connectOrCreate?: CourseCreateOrConnectWithoutTrainerInput | CourseCreateOrConnectWithoutTrainerInput[]
@@ -15674,6 +17218,27 @@ export namespace Prisma {
     deleteMany?: OrderScalarWhereInput | OrderScalarWhereInput[]
   }
 
+  export type RatingUncheckedUpdateManyWithoutStudentNestedInput = {
+    create?: XOR<RatingCreateWithoutStudentInput, RatingUncheckedCreateWithoutStudentInput> | RatingCreateWithoutStudentInput[] | RatingUncheckedCreateWithoutStudentInput[]
+    connectOrCreate?: RatingCreateOrConnectWithoutStudentInput | RatingCreateOrConnectWithoutStudentInput[]
+    upsert?: RatingUpsertWithWhereUniqueWithoutStudentInput | RatingUpsertWithWhereUniqueWithoutStudentInput[]
+    createMany?: RatingCreateManyStudentInputEnvelope
+    set?: RatingWhereUniqueInput | RatingWhereUniqueInput[]
+    disconnect?: RatingWhereUniqueInput | RatingWhereUniqueInput[]
+    delete?: RatingWhereUniqueInput | RatingWhereUniqueInput[]
+    connect?: RatingWhereUniqueInput | RatingWhereUniqueInput[]
+    update?: RatingUpdateWithWhereUniqueWithoutStudentInput | RatingUpdateWithWhereUniqueWithoutStudentInput[]
+    updateMany?: RatingUpdateManyWithWhereWithoutStudentInput | RatingUpdateManyWithWhereWithoutStudentInput[]
+    deleteMany?: RatingScalarWhereInput | RatingScalarWhereInput[]
+  }
+
+  export type RatingCreateNestedManyWithoutCourseInput = {
+    create?: XOR<RatingCreateWithoutCourseInput, RatingUncheckedCreateWithoutCourseInput> | RatingCreateWithoutCourseInput[] | RatingUncheckedCreateWithoutCourseInput[]
+    connectOrCreate?: RatingCreateOrConnectWithoutCourseInput | RatingCreateOrConnectWithoutCourseInput[]
+    createMany?: RatingCreateManyCourseInputEnvelope
+    connect?: RatingWhereUniqueInput | RatingWhereUniqueInput[]
+  }
+
   export type UserCreateNestedOneWithoutCoursesInput = {
     create?: XOR<UserCreateWithoutCoursesInput, UserUncheckedCreateWithoutCoursesInput>
     connectOrCreate?: UserCreateOrConnectWithoutCoursesInput
@@ -15713,6 +17278,13 @@ export namespace Prisma {
     connectOrCreate?: OrderItemCreateOrConnectWithoutCourseInput | OrderItemCreateOrConnectWithoutCourseInput[]
     createMany?: OrderItemCreateManyCourseInputEnvelope
     connect?: OrderItemWhereUniqueInput | OrderItemWhereUniqueInput[]
+  }
+
+  export type RatingUncheckedCreateNestedManyWithoutCourseInput = {
+    create?: XOR<RatingCreateWithoutCourseInput, RatingUncheckedCreateWithoutCourseInput> | RatingCreateWithoutCourseInput[] | RatingUncheckedCreateWithoutCourseInput[]
+    connectOrCreate?: RatingCreateOrConnectWithoutCourseInput | RatingCreateOrConnectWithoutCourseInput[]
+    createMany?: RatingCreateManyCourseInputEnvelope
+    connect?: RatingWhereUniqueInput | RatingWhereUniqueInput[]
   }
 
   export type LectureUncheckedCreateNestedManyWithoutCourseInput = {
@@ -15760,6 +17332,28 @@ export namespace Prisma {
     decrement?: number
     multiply?: number
     divide?: number
+  }
+
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type RatingUpdateManyWithoutCourseNestedInput = {
+    create?: XOR<RatingCreateWithoutCourseInput, RatingUncheckedCreateWithoutCourseInput> | RatingCreateWithoutCourseInput[] | RatingUncheckedCreateWithoutCourseInput[]
+    connectOrCreate?: RatingCreateOrConnectWithoutCourseInput | RatingCreateOrConnectWithoutCourseInput[]
+    upsert?: RatingUpsertWithWhereUniqueWithoutCourseInput | RatingUpsertWithWhereUniqueWithoutCourseInput[]
+    createMany?: RatingCreateManyCourseInputEnvelope
+    set?: RatingWhereUniqueInput | RatingWhereUniqueInput[]
+    disconnect?: RatingWhereUniqueInput | RatingWhereUniqueInput[]
+    delete?: RatingWhereUniqueInput | RatingWhereUniqueInput[]
+    connect?: RatingWhereUniqueInput | RatingWhereUniqueInput[]
+    update?: RatingUpdateWithWhereUniqueWithoutCourseInput | RatingUpdateWithWhereUniqueWithoutCourseInput[]
+    updateMany?: RatingUpdateManyWithWhereWithoutCourseInput | RatingUpdateManyWithWhereWithoutCourseInput[]
+    deleteMany?: RatingScalarWhereInput | RatingScalarWhereInput[]
   }
 
   export type UserUpdateOneRequiredWithoutCoursesNestedInput = {
@@ -15840,6 +17434,20 @@ export namespace Prisma {
     deleteMany?: OrderItemScalarWhereInput | OrderItemScalarWhereInput[]
   }
 
+  export type RatingUncheckedUpdateManyWithoutCourseNestedInput = {
+    create?: XOR<RatingCreateWithoutCourseInput, RatingUncheckedCreateWithoutCourseInput> | RatingCreateWithoutCourseInput[] | RatingUncheckedCreateWithoutCourseInput[]
+    connectOrCreate?: RatingCreateOrConnectWithoutCourseInput | RatingCreateOrConnectWithoutCourseInput[]
+    upsert?: RatingUpsertWithWhereUniqueWithoutCourseInput | RatingUpsertWithWhereUniqueWithoutCourseInput[]
+    createMany?: RatingCreateManyCourseInputEnvelope
+    set?: RatingWhereUniqueInput | RatingWhereUniqueInput[]
+    disconnect?: RatingWhereUniqueInput | RatingWhereUniqueInput[]
+    delete?: RatingWhereUniqueInput | RatingWhereUniqueInput[]
+    connect?: RatingWhereUniqueInput | RatingWhereUniqueInput[]
+    update?: RatingUpdateWithWhereUniqueWithoutCourseInput | RatingUpdateWithWhereUniqueWithoutCourseInput[]
+    updateMany?: RatingUpdateManyWithWhereWithoutCourseInput | RatingUpdateManyWithWhereWithoutCourseInput[]
+    deleteMany?: RatingScalarWhereInput | RatingScalarWhereInput[]
+  }
+
   export type LectureUncheckedUpdateManyWithoutCourseNestedInput = {
     create?: XOR<LectureCreateWithoutCourseInput, LectureUncheckedCreateWithoutCourseInput> | LectureCreateWithoutCourseInput[] | LectureUncheckedCreateWithoutCourseInput[]
     connectOrCreate?: LectureCreateOrConnectWithoutCourseInput | LectureCreateOrConnectWithoutCourseInput[]
@@ -15908,6 +17516,42 @@ export namespace Prisma {
     update?: OrderItemUpdateWithWhereUniqueWithoutCourseInput | OrderItemUpdateWithWhereUniqueWithoutCourseInput[]
     updateMany?: OrderItemUpdateManyWithWhereWithoutCourseInput | OrderItemUpdateManyWithWhereWithoutCourseInput[]
     deleteMany?: OrderItemScalarWhereInput | OrderItemScalarWhereInput[]
+  }
+
+  export type CourseCreateNestedOneWithoutRatingsInput = {
+    create?: XOR<CourseCreateWithoutRatingsInput, CourseUncheckedCreateWithoutRatingsInput>
+    connectOrCreate?: CourseCreateOrConnectWithoutRatingsInput
+    connect?: CourseWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutRatingInput = {
+    create?: XOR<UserCreateWithoutRatingInput, UserUncheckedCreateWithoutRatingInput>
+    connectOrCreate?: UserCreateOrConnectWithoutRatingInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type FloatFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type CourseUpdateOneRequiredWithoutRatingsNestedInput = {
+    create?: XOR<CourseCreateWithoutRatingsInput, CourseUncheckedCreateWithoutRatingsInput>
+    connectOrCreate?: CourseCreateOrConnectWithoutRatingsInput
+    upsert?: CourseUpsertWithoutRatingsInput
+    connect?: CourseWhereUniqueInput
+    update?: XOR<XOR<CourseUpdateToOneWithWhereWithoutRatingsInput, CourseUpdateWithoutRatingsInput>, CourseUncheckedUpdateWithoutRatingsInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutRatingNestedInput = {
+    create?: XOR<UserCreateWithoutRatingInput, UserUncheckedCreateWithoutRatingInput>
+    connectOrCreate?: UserCreateOrConnectWithoutRatingInput
+    upsert?: UserUpsertWithoutRatingInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutRatingInput, UserUpdateWithoutRatingInput>, UserUncheckedUpdateWithoutRatingInput>
   }
 
   export type UserCreateNestedOneWithoutEnrollmentsInput = {
@@ -16004,14 +17648,6 @@ export namespace Prisma {
     create?: XOR<CourseCreateWithoutCartItemsInput, CourseUncheckedCreateWithoutCartItemsInput>
     connectOrCreate?: CourseCreateOrConnectWithoutCartItemsInput
     connect?: CourseWhereUniqueInput
-  }
-
-  export type IntFieldUpdateOperationsInput = {
-    set?: number
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
   }
 
   export type CartUpdateOneRequiredWithoutItemsNestedInput = {
@@ -16132,14 +17768,6 @@ export namespace Prisma {
     create?: XOR<CourseCreateWithoutOrderItemsInput, CourseUncheckedCreateWithoutOrderItemsInput>
     connectOrCreate?: CourseCreateOrConnectWithoutOrderItemsInput
     connect?: CourseWhereUniqueInput
-  }
-
-  export type FloatFieldUpdateOperationsInput = {
-    set?: number
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
   }
 
   export type OrderUpdateOneRequiredWithoutItemsNestedInput = {
@@ -16449,6 +18077,22 @@ export namespace Prisma {
     not?: NestedFloatFilter<$PrismaModel> | number
   }
 
+  export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedFloatFilter<$PrismaModel>
+    _min?: NestedFloatFilter<$PrismaModel>
+    _max?: NestedFloatFilter<$PrismaModel>
+  }
+
   export type NestedEnumOrderStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.OrderStatus | EnumOrderStatusFieldRefInput<$PrismaModel>
     in?: $Enums.OrderStatus[] | ListEnumOrderStatusFieldRefInput<$PrismaModel>
@@ -16464,22 +18108,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumOrderStatusFilter<$PrismaModel>
     _max?: NestedEnumOrderStatusFilter<$PrismaModel>
-  }
-
-  export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedFloatFilter<$PrismaModel>
-    _min?: NestedFloatFilter<$PrismaModel>
-    _max?: NestedFloatFilter<$PrismaModel>
   }
 
   export type NestedEnumPaymentStatusFilter<$PrismaModel = never> = {
@@ -16506,8 +18134,11 @@ export namespace Prisma {
     thumbnail: string
     category?: $Enums.Category
     price?: number | null
+    instructor?: string | null
     rating?: number | null
+    ratingCount?: number
     createdAt?: Date | string
+    ratings?: RatingCreateNestedManyWithoutCourseInput
     lectures?: LectureCreateNestedManyWithoutCourseInput
     notes?: NoteCreateNestedManyWithoutCourseInput
     enrollments?: EnrollmentCreateNestedManyWithoutCourseInput
@@ -16522,8 +18153,11 @@ export namespace Prisma {
     thumbnail: string
     category?: $Enums.Category
     price?: number | null
+    instructor?: string | null
     rating?: number | null
+    ratingCount?: number
     createdAt?: Date | string
+    ratings?: RatingUncheckedCreateNestedManyWithoutCourseInput
     lectures?: LectureUncheckedCreateNestedManyWithoutCourseInput
     notes?: NoteUncheckedCreateNestedManyWithoutCourseInput
     enrollments?: EnrollmentUncheckedCreateNestedManyWithoutCourseInput
@@ -16613,6 +18247,30 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type RatingCreateWithoutStudentInput = {
+    id?: string
+    value?: number
+    createdAt?: Date | string
+    course: CourseCreateNestedOneWithoutRatingsInput
+  }
+
+  export type RatingUncheckedCreateWithoutStudentInput = {
+    id?: string
+    value?: number
+    courseId: string
+    createdAt?: Date | string
+  }
+
+  export type RatingCreateOrConnectWithoutStudentInput = {
+    where: RatingWhereUniqueInput
+    create: XOR<RatingCreateWithoutStudentInput, RatingUncheckedCreateWithoutStudentInput>
+  }
+
+  export type RatingCreateManyStudentInputEnvelope = {
+    data: RatingCreateManyStudentInput | RatingCreateManyStudentInput[]
+    skipDuplicates?: boolean
+  }
+
   export type CourseUpsertWithWhereUniqueWithoutTrainerInput = {
     where: CourseWhereUniqueInput
     update: XOR<CourseUpdateWithoutTrainerInput, CourseUncheckedUpdateWithoutTrainerInput>
@@ -16639,7 +18297,9 @@ export namespace Prisma {
     thumbnail?: StringFilter<"Course"> | string
     category?: EnumCategoryFilter<"Course"> | $Enums.Category
     price?: FloatNullableFilter<"Course"> | number | null
+    instructor?: StringNullableFilter<"Course"> | string | null
     rating?: FloatNullableFilter<"Course"> | number | null
+    ratingCount?: IntFilter<"Course"> | number
     trainerId?: StringFilter<"Course"> | string
     createdAt?: DateTimeFilter<"Course"> | Date | string
   }
@@ -16722,6 +18382,57 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Order"> | Date | string
   }
 
+  export type RatingUpsertWithWhereUniqueWithoutStudentInput = {
+    where: RatingWhereUniqueInput
+    update: XOR<RatingUpdateWithoutStudentInput, RatingUncheckedUpdateWithoutStudentInput>
+    create: XOR<RatingCreateWithoutStudentInput, RatingUncheckedCreateWithoutStudentInput>
+  }
+
+  export type RatingUpdateWithWhereUniqueWithoutStudentInput = {
+    where: RatingWhereUniqueInput
+    data: XOR<RatingUpdateWithoutStudentInput, RatingUncheckedUpdateWithoutStudentInput>
+  }
+
+  export type RatingUpdateManyWithWhereWithoutStudentInput = {
+    where: RatingScalarWhereInput
+    data: XOR<RatingUpdateManyMutationInput, RatingUncheckedUpdateManyWithoutStudentInput>
+  }
+
+  export type RatingScalarWhereInput = {
+    AND?: RatingScalarWhereInput | RatingScalarWhereInput[]
+    OR?: RatingScalarWhereInput[]
+    NOT?: RatingScalarWhereInput | RatingScalarWhereInput[]
+    id?: StringFilter<"Rating"> | string
+    value?: FloatFilter<"Rating"> | number
+    courseId?: StringFilter<"Rating"> | string
+    studentId?: StringFilter<"Rating"> | string
+    createdAt?: DateTimeFilter<"Rating"> | Date | string
+  }
+
+  export type RatingCreateWithoutCourseInput = {
+    id?: string
+    value?: number
+    createdAt?: Date | string
+    student: UserCreateNestedOneWithoutRatingInput
+  }
+
+  export type RatingUncheckedCreateWithoutCourseInput = {
+    id?: string
+    value?: number
+    studentId: string
+    createdAt?: Date | string
+  }
+
+  export type RatingCreateOrConnectWithoutCourseInput = {
+    where: RatingWhereUniqueInput
+    create: XOR<RatingCreateWithoutCourseInput, RatingUncheckedCreateWithoutCourseInput>
+  }
+
+  export type RatingCreateManyCourseInputEnvelope = {
+    data: RatingCreateManyCourseInput | RatingCreateManyCourseInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UserCreateWithoutCoursesInput = {
     id?: string
     username: string
@@ -16737,6 +18448,7 @@ export namespace Prisma {
     enrollments?: EnrollmentCreateNestedManyWithoutStudentInput
     carts?: CartCreateNestedManyWithoutStudentInput
     OrderStatus?: OrderCreateNestedManyWithoutStudentInput
+    rating?: RatingCreateNestedManyWithoutStudentInput
   }
 
   export type UserUncheckedCreateWithoutCoursesInput = {
@@ -16754,6 +18466,7 @@ export namespace Prisma {
     enrollments?: EnrollmentUncheckedCreateNestedManyWithoutStudentInput
     carts?: CartUncheckedCreateNestedManyWithoutStudentInput
     OrderStatus?: OrderUncheckedCreateNestedManyWithoutStudentInput
+    rating?: RatingUncheckedCreateNestedManyWithoutStudentInput
   }
 
   export type UserCreateOrConnectWithoutCoursesInput = {
@@ -16885,6 +18598,22 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type RatingUpsertWithWhereUniqueWithoutCourseInput = {
+    where: RatingWhereUniqueInput
+    update: XOR<RatingUpdateWithoutCourseInput, RatingUncheckedUpdateWithoutCourseInput>
+    create: XOR<RatingCreateWithoutCourseInput, RatingUncheckedCreateWithoutCourseInput>
+  }
+
+  export type RatingUpdateWithWhereUniqueWithoutCourseInput = {
+    where: RatingWhereUniqueInput
+    data: XOR<RatingUpdateWithoutCourseInput, RatingUncheckedUpdateWithoutCourseInput>
+  }
+
+  export type RatingUpdateManyWithWhereWithoutCourseInput = {
+    where: RatingScalarWhereInput
+    data: XOR<RatingUpdateManyMutationInput, RatingUncheckedUpdateManyWithoutCourseInput>
+  }
+
   export type UserUpsertWithoutCoursesInput = {
     update: XOR<UserUpdateWithoutCoursesInput, UserUncheckedUpdateWithoutCoursesInput>
     create: XOR<UserCreateWithoutCoursesInput, UserUncheckedCreateWithoutCoursesInput>
@@ -16911,6 +18640,7 @@ export namespace Prisma {
     enrollments?: EnrollmentUpdateManyWithoutStudentNestedInput
     carts?: CartUpdateManyWithoutStudentNestedInput
     OrderStatus?: OrderUpdateManyWithoutStudentNestedInput
+    rating?: RatingUpdateManyWithoutStudentNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCoursesInput = {
@@ -16928,6 +18658,7 @@ export namespace Prisma {
     enrollments?: EnrollmentUncheckedUpdateManyWithoutStudentNestedInput
     carts?: CartUncheckedUpdateManyWithoutStudentNestedInput
     OrderStatus?: OrderUncheckedUpdateManyWithoutStudentNestedInput
+    rating?: RatingUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type LectureUpsertWithWhereUniqueWithoutCourseInput = {
@@ -17056,6 +18787,186 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"OrderItem"> | Date | string
   }
 
+  export type CourseCreateWithoutRatingsInput = {
+    id?: string
+    title: string
+    description: string
+    thumbnail: string
+    category?: $Enums.Category
+    price?: number | null
+    instructor?: string | null
+    rating?: number | null
+    ratingCount?: number
+    createdAt?: Date | string
+    trainer: UserCreateNestedOneWithoutCoursesInput
+    lectures?: LectureCreateNestedManyWithoutCourseInput
+    notes?: NoteCreateNestedManyWithoutCourseInput
+    enrollments?: EnrollmentCreateNestedManyWithoutCourseInput
+    cartItems?: CartItemCreateNestedManyWithoutCourseInput
+    orderItems?: OrderItemCreateNestedManyWithoutCourseInput
+  }
+
+  export type CourseUncheckedCreateWithoutRatingsInput = {
+    id?: string
+    title: string
+    description: string
+    thumbnail: string
+    category?: $Enums.Category
+    price?: number | null
+    instructor?: string | null
+    rating?: number | null
+    ratingCount?: number
+    trainerId: string
+    createdAt?: Date | string
+    lectures?: LectureUncheckedCreateNestedManyWithoutCourseInput
+    notes?: NoteUncheckedCreateNestedManyWithoutCourseInput
+    enrollments?: EnrollmentUncheckedCreateNestedManyWithoutCourseInput
+    cartItems?: CartItemUncheckedCreateNestedManyWithoutCourseInput
+    orderItems?: OrderItemUncheckedCreateNestedManyWithoutCourseInput
+  }
+
+  export type CourseCreateOrConnectWithoutRatingsInput = {
+    where: CourseWhereUniqueInput
+    create: XOR<CourseCreateWithoutRatingsInput, CourseUncheckedCreateWithoutRatingsInput>
+  }
+
+  export type UserCreateWithoutRatingInput = {
+    id?: string
+    username: string
+    email: string
+    password: string
+    role?: $Enums.Role
+    createdAt?: Date | string
+    age?: string | null
+    mobile?: string | null
+    profilePic?: string | null
+    bibliography?: string | null
+    gender?: string | null
+    courses?: CourseCreateNestedManyWithoutTrainerInput
+    enrollments?: EnrollmentCreateNestedManyWithoutStudentInput
+    carts?: CartCreateNestedManyWithoutStudentInput
+    OrderStatus?: OrderCreateNestedManyWithoutStudentInput
+  }
+
+  export type UserUncheckedCreateWithoutRatingInput = {
+    id?: string
+    username: string
+    email: string
+    password: string
+    role?: $Enums.Role
+    createdAt?: Date | string
+    age?: string | null
+    mobile?: string | null
+    profilePic?: string | null
+    bibliography?: string | null
+    gender?: string | null
+    courses?: CourseUncheckedCreateNestedManyWithoutTrainerInput
+    enrollments?: EnrollmentUncheckedCreateNestedManyWithoutStudentInput
+    carts?: CartUncheckedCreateNestedManyWithoutStudentInput
+    OrderStatus?: OrderUncheckedCreateNestedManyWithoutStudentInput
+  }
+
+  export type UserCreateOrConnectWithoutRatingInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutRatingInput, UserUncheckedCreateWithoutRatingInput>
+  }
+
+  export type CourseUpsertWithoutRatingsInput = {
+    update: XOR<CourseUpdateWithoutRatingsInput, CourseUncheckedUpdateWithoutRatingsInput>
+    create: XOR<CourseCreateWithoutRatingsInput, CourseUncheckedCreateWithoutRatingsInput>
+    where?: CourseWhereInput
+  }
+
+  export type CourseUpdateToOneWithWhereWithoutRatingsInput = {
+    where?: CourseWhereInput
+    data: XOR<CourseUpdateWithoutRatingsInput, CourseUncheckedUpdateWithoutRatingsInput>
+  }
+
+  export type CourseUpdateWithoutRatingsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    thumbnail?: StringFieldUpdateOperationsInput | string
+    category?: EnumCategoryFieldUpdateOperationsInput | $Enums.Category
+    price?: NullableFloatFieldUpdateOperationsInput | number | null
+    instructor?: NullableStringFieldUpdateOperationsInput | string | null
+    rating?: NullableFloatFieldUpdateOperationsInput | number | null
+    ratingCount?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    trainer?: UserUpdateOneRequiredWithoutCoursesNestedInput
+    lectures?: LectureUpdateManyWithoutCourseNestedInput
+    notes?: NoteUpdateManyWithoutCourseNestedInput
+    enrollments?: EnrollmentUpdateManyWithoutCourseNestedInput
+    cartItems?: CartItemUpdateManyWithoutCourseNestedInput
+    orderItems?: OrderItemUpdateManyWithoutCourseNestedInput
+  }
+
+  export type CourseUncheckedUpdateWithoutRatingsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    thumbnail?: StringFieldUpdateOperationsInput | string
+    category?: EnumCategoryFieldUpdateOperationsInput | $Enums.Category
+    price?: NullableFloatFieldUpdateOperationsInput | number | null
+    instructor?: NullableStringFieldUpdateOperationsInput | string | null
+    rating?: NullableFloatFieldUpdateOperationsInput | number | null
+    ratingCount?: IntFieldUpdateOperationsInput | number
+    trainerId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lectures?: LectureUncheckedUpdateManyWithoutCourseNestedInput
+    notes?: NoteUncheckedUpdateManyWithoutCourseNestedInput
+    enrollments?: EnrollmentUncheckedUpdateManyWithoutCourseNestedInput
+    cartItems?: CartItemUncheckedUpdateManyWithoutCourseNestedInput
+    orderItems?: OrderItemUncheckedUpdateManyWithoutCourseNestedInput
+  }
+
+  export type UserUpsertWithoutRatingInput = {
+    update: XOR<UserUpdateWithoutRatingInput, UserUncheckedUpdateWithoutRatingInput>
+    create: XOR<UserCreateWithoutRatingInput, UserUncheckedCreateWithoutRatingInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutRatingInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutRatingInput, UserUncheckedUpdateWithoutRatingInput>
+  }
+
+  export type UserUpdateWithoutRatingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    age?: NullableStringFieldUpdateOperationsInput | string | null
+    mobile?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePic?: NullableStringFieldUpdateOperationsInput | string | null
+    bibliography?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    courses?: CourseUpdateManyWithoutTrainerNestedInput
+    enrollments?: EnrollmentUpdateManyWithoutStudentNestedInput
+    carts?: CartUpdateManyWithoutStudentNestedInput
+    OrderStatus?: OrderUpdateManyWithoutStudentNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutRatingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    age?: NullableStringFieldUpdateOperationsInput | string | null
+    mobile?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePic?: NullableStringFieldUpdateOperationsInput | string | null
+    bibliography?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    courses?: CourseUncheckedUpdateManyWithoutTrainerNestedInput
+    enrollments?: EnrollmentUncheckedUpdateManyWithoutStudentNestedInput
+    carts?: CartUncheckedUpdateManyWithoutStudentNestedInput
+    OrderStatus?: OrderUncheckedUpdateManyWithoutStudentNestedInput
+  }
+
   export type UserCreateWithoutEnrollmentsInput = {
     id?: string
     username: string
@@ -17071,6 +18982,7 @@ export namespace Prisma {
     courses?: CourseCreateNestedManyWithoutTrainerInput
     carts?: CartCreateNestedManyWithoutStudentInput
     OrderStatus?: OrderCreateNestedManyWithoutStudentInput
+    rating?: RatingCreateNestedManyWithoutStudentInput
   }
 
   export type UserUncheckedCreateWithoutEnrollmentsInput = {
@@ -17088,6 +19000,7 @@ export namespace Prisma {
     courses?: CourseUncheckedCreateNestedManyWithoutTrainerInput
     carts?: CartUncheckedCreateNestedManyWithoutStudentInput
     OrderStatus?: OrderUncheckedCreateNestedManyWithoutStudentInput
+    rating?: RatingUncheckedCreateNestedManyWithoutStudentInput
   }
 
   export type UserCreateOrConnectWithoutEnrollmentsInput = {
@@ -17102,8 +19015,11 @@ export namespace Prisma {
     thumbnail: string
     category?: $Enums.Category
     price?: number | null
+    instructor?: string | null
     rating?: number | null
+    ratingCount?: number
     createdAt?: Date | string
+    ratings?: RatingCreateNestedManyWithoutCourseInput
     trainer: UserCreateNestedOneWithoutCoursesInput
     lectures?: LectureCreateNestedManyWithoutCourseInput
     notes?: NoteCreateNestedManyWithoutCourseInput
@@ -17118,9 +19034,12 @@ export namespace Prisma {
     thumbnail: string
     category?: $Enums.Category
     price?: number | null
+    instructor?: string | null
     rating?: number | null
+    ratingCount?: number
     trainerId: string
     createdAt?: Date | string
+    ratings?: RatingUncheckedCreateNestedManyWithoutCourseInput
     lectures?: LectureUncheckedCreateNestedManyWithoutCourseInput
     notes?: NoteUncheckedCreateNestedManyWithoutCourseInput
     cartItems?: CartItemUncheckedCreateNestedManyWithoutCourseInput
@@ -17158,6 +19077,7 @@ export namespace Prisma {
     courses?: CourseUpdateManyWithoutTrainerNestedInput
     carts?: CartUpdateManyWithoutStudentNestedInput
     OrderStatus?: OrderUpdateManyWithoutStudentNestedInput
+    rating?: RatingUpdateManyWithoutStudentNestedInput
   }
 
   export type UserUncheckedUpdateWithoutEnrollmentsInput = {
@@ -17175,6 +19095,7 @@ export namespace Prisma {
     courses?: CourseUncheckedUpdateManyWithoutTrainerNestedInput
     carts?: CartUncheckedUpdateManyWithoutStudentNestedInput
     OrderStatus?: OrderUncheckedUpdateManyWithoutStudentNestedInput
+    rating?: RatingUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type CourseUpsertWithoutEnrollmentsInput = {
@@ -17195,8 +19116,11 @@ export namespace Prisma {
     thumbnail?: StringFieldUpdateOperationsInput | string
     category?: EnumCategoryFieldUpdateOperationsInput | $Enums.Category
     price?: NullableFloatFieldUpdateOperationsInput | number | null
+    instructor?: NullableStringFieldUpdateOperationsInput | string | null
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
+    ratingCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ratings?: RatingUpdateManyWithoutCourseNestedInput
     trainer?: UserUpdateOneRequiredWithoutCoursesNestedInput
     lectures?: LectureUpdateManyWithoutCourseNestedInput
     notes?: NoteUpdateManyWithoutCourseNestedInput
@@ -17211,9 +19135,12 @@ export namespace Prisma {
     thumbnail?: StringFieldUpdateOperationsInput | string
     category?: EnumCategoryFieldUpdateOperationsInput | $Enums.Category
     price?: NullableFloatFieldUpdateOperationsInput | number | null
+    instructor?: NullableStringFieldUpdateOperationsInput | string | null
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
+    ratingCount?: IntFieldUpdateOperationsInput | number
     trainerId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ratings?: RatingUncheckedUpdateManyWithoutCourseNestedInput
     lectures?: LectureUncheckedUpdateManyWithoutCourseNestedInput
     notes?: NoteUncheckedUpdateManyWithoutCourseNestedInput
     cartItems?: CartItemUncheckedUpdateManyWithoutCourseNestedInput
@@ -17235,6 +19162,7 @@ export namespace Prisma {
     courses?: CourseCreateNestedManyWithoutTrainerInput
     enrollments?: EnrollmentCreateNestedManyWithoutStudentInput
     OrderStatus?: OrderCreateNestedManyWithoutStudentInput
+    rating?: RatingCreateNestedManyWithoutStudentInput
   }
 
   export type UserUncheckedCreateWithoutCartsInput = {
@@ -17252,6 +19180,7 @@ export namespace Prisma {
     courses?: CourseUncheckedCreateNestedManyWithoutTrainerInput
     enrollments?: EnrollmentUncheckedCreateNestedManyWithoutStudentInput
     OrderStatus?: OrderUncheckedCreateNestedManyWithoutStudentInput
+    rating?: RatingUncheckedCreateNestedManyWithoutStudentInput
   }
 
   export type UserCreateOrConnectWithoutCartsInput = {
@@ -17309,6 +19238,7 @@ export namespace Prisma {
     courses?: CourseUpdateManyWithoutTrainerNestedInput
     enrollments?: EnrollmentUpdateManyWithoutStudentNestedInput
     OrderStatus?: OrderUpdateManyWithoutStudentNestedInput
+    rating?: RatingUpdateManyWithoutStudentNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCartsInput = {
@@ -17326,6 +19256,7 @@ export namespace Prisma {
     courses?: CourseUncheckedUpdateManyWithoutTrainerNestedInput
     enrollments?: EnrollmentUncheckedUpdateManyWithoutStudentNestedInput
     OrderStatus?: OrderUncheckedUpdateManyWithoutStudentNestedInput
+    rating?: RatingUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type CartItemUpsertWithWhereUniqueWithoutCartInput = {
@@ -17370,8 +19301,11 @@ export namespace Prisma {
     thumbnail: string
     category?: $Enums.Category
     price?: number | null
+    instructor?: string | null
     rating?: number | null
+    ratingCount?: number
     createdAt?: Date | string
+    ratings?: RatingCreateNestedManyWithoutCourseInput
     trainer: UserCreateNestedOneWithoutCoursesInput
     lectures?: LectureCreateNestedManyWithoutCourseInput
     notes?: NoteCreateNestedManyWithoutCourseInput
@@ -17386,9 +19320,12 @@ export namespace Prisma {
     thumbnail: string
     category?: $Enums.Category
     price?: number | null
+    instructor?: string | null
     rating?: number | null
+    ratingCount?: number
     trainerId: string
     createdAt?: Date | string
+    ratings?: RatingUncheckedCreateNestedManyWithoutCourseInput
     lectures?: LectureUncheckedCreateNestedManyWithoutCourseInput
     notes?: NoteUncheckedCreateNestedManyWithoutCourseInput
     enrollments?: EnrollmentUncheckedCreateNestedManyWithoutCourseInput
@@ -17443,8 +19380,11 @@ export namespace Prisma {
     thumbnail?: StringFieldUpdateOperationsInput | string
     category?: EnumCategoryFieldUpdateOperationsInput | $Enums.Category
     price?: NullableFloatFieldUpdateOperationsInput | number | null
+    instructor?: NullableStringFieldUpdateOperationsInput | string | null
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
+    ratingCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ratings?: RatingUpdateManyWithoutCourseNestedInput
     trainer?: UserUpdateOneRequiredWithoutCoursesNestedInput
     lectures?: LectureUpdateManyWithoutCourseNestedInput
     notes?: NoteUpdateManyWithoutCourseNestedInput
@@ -17459,9 +19399,12 @@ export namespace Prisma {
     thumbnail?: StringFieldUpdateOperationsInput | string
     category?: EnumCategoryFieldUpdateOperationsInput | $Enums.Category
     price?: NullableFloatFieldUpdateOperationsInput | number | null
+    instructor?: NullableStringFieldUpdateOperationsInput | string | null
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
+    ratingCount?: IntFieldUpdateOperationsInput | number
     trainerId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ratings?: RatingUncheckedUpdateManyWithoutCourseNestedInput
     lectures?: LectureUncheckedUpdateManyWithoutCourseNestedInput
     notes?: NoteUncheckedUpdateManyWithoutCourseNestedInput
     enrollments?: EnrollmentUncheckedUpdateManyWithoutCourseNestedInput
@@ -17483,6 +19426,7 @@ export namespace Prisma {
     courses?: CourseCreateNestedManyWithoutTrainerInput
     enrollments?: EnrollmentCreateNestedManyWithoutStudentInput
     carts?: CartCreateNestedManyWithoutStudentInput
+    rating?: RatingCreateNestedManyWithoutStudentInput
   }
 
   export type UserUncheckedCreateWithoutOrderStatusInput = {
@@ -17500,6 +19444,7 @@ export namespace Prisma {
     courses?: CourseUncheckedCreateNestedManyWithoutTrainerInput
     enrollments?: EnrollmentUncheckedCreateNestedManyWithoutStudentInput
     carts?: CartUncheckedCreateNestedManyWithoutStudentInput
+    rating?: RatingUncheckedCreateNestedManyWithoutStudentInput
   }
 
   export type UserCreateOrConnectWithoutOrderStatusInput = {
@@ -17580,6 +19525,7 @@ export namespace Prisma {
     courses?: CourseUpdateManyWithoutTrainerNestedInput
     enrollments?: EnrollmentUpdateManyWithoutStudentNestedInput
     carts?: CartUpdateManyWithoutStudentNestedInput
+    rating?: RatingUpdateManyWithoutStudentNestedInput
   }
 
   export type UserUncheckedUpdateWithoutOrderStatusInput = {
@@ -17597,6 +19543,7 @@ export namespace Prisma {
     courses?: CourseUncheckedUpdateManyWithoutTrainerNestedInput
     enrollments?: EnrollmentUncheckedUpdateManyWithoutStudentNestedInput
     carts?: CartUncheckedUpdateManyWithoutStudentNestedInput
+    rating?: RatingUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type OrderItemUpsertWithWhereUniqueWithoutOrderInput = {
@@ -17672,8 +19619,11 @@ export namespace Prisma {
     thumbnail: string
     category?: $Enums.Category
     price?: number | null
+    instructor?: string | null
     rating?: number | null
+    ratingCount?: number
     createdAt?: Date | string
+    ratings?: RatingCreateNestedManyWithoutCourseInput
     trainer: UserCreateNestedOneWithoutCoursesInput
     lectures?: LectureCreateNestedManyWithoutCourseInput
     notes?: NoteCreateNestedManyWithoutCourseInput
@@ -17688,9 +19638,12 @@ export namespace Prisma {
     thumbnail: string
     category?: $Enums.Category
     price?: number | null
+    instructor?: string | null
     rating?: number | null
+    ratingCount?: number
     trainerId: string
     createdAt?: Date | string
+    ratings?: RatingUncheckedCreateNestedManyWithoutCourseInput
     lectures?: LectureUncheckedCreateNestedManyWithoutCourseInput
     notes?: NoteUncheckedCreateNestedManyWithoutCourseInput
     enrollments?: EnrollmentUncheckedCreateNestedManyWithoutCourseInput
@@ -17747,8 +19700,11 @@ export namespace Prisma {
     thumbnail?: StringFieldUpdateOperationsInput | string
     category?: EnumCategoryFieldUpdateOperationsInput | $Enums.Category
     price?: NullableFloatFieldUpdateOperationsInput | number | null
+    instructor?: NullableStringFieldUpdateOperationsInput | string | null
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
+    ratingCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ratings?: RatingUpdateManyWithoutCourseNestedInput
     trainer?: UserUpdateOneRequiredWithoutCoursesNestedInput
     lectures?: LectureUpdateManyWithoutCourseNestedInput
     notes?: NoteUpdateManyWithoutCourseNestedInput
@@ -17763,9 +19719,12 @@ export namespace Prisma {
     thumbnail?: StringFieldUpdateOperationsInput | string
     category?: EnumCategoryFieldUpdateOperationsInput | $Enums.Category
     price?: NullableFloatFieldUpdateOperationsInput | number | null
+    instructor?: NullableStringFieldUpdateOperationsInput | string | null
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
+    ratingCount?: IntFieldUpdateOperationsInput | number
     trainerId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ratings?: RatingUncheckedUpdateManyWithoutCourseNestedInput
     lectures?: LectureUncheckedUpdateManyWithoutCourseNestedInput
     notes?: NoteUncheckedUpdateManyWithoutCourseNestedInput
     enrollments?: EnrollmentUncheckedUpdateManyWithoutCourseNestedInput
@@ -17848,8 +19807,11 @@ export namespace Prisma {
     thumbnail: string
     category?: $Enums.Category
     price?: number | null
+    instructor?: string | null
     rating?: number | null
+    ratingCount?: number
     createdAt?: Date | string
+    ratings?: RatingCreateNestedManyWithoutCourseInput
     trainer: UserCreateNestedOneWithoutCoursesInput
     notes?: NoteCreateNestedManyWithoutCourseInput
     enrollments?: EnrollmentCreateNestedManyWithoutCourseInput
@@ -17864,9 +19826,12 @@ export namespace Prisma {
     thumbnail: string
     category?: $Enums.Category
     price?: number | null
+    instructor?: string | null
     rating?: number | null
+    ratingCount?: number
     trainerId: string
     createdAt?: Date | string
+    ratings?: RatingUncheckedCreateNestedManyWithoutCourseInput
     notes?: NoteUncheckedCreateNestedManyWithoutCourseInput
     enrollments?: EnrollmentUncheckedCreateNestedManyWithoutCourseInput
     cartItems?: CartItemUncheckedCreateNestedManyWithoutCourseInput
@@ -17923,8 +19888,11 @@ export namespace Prisma {
     thumbnail?: StringFieldUpdateOperationsInput | string
     category?: EnumCategoryFieldUpdateOperationsInput | $Enums.Category
     price?: NullableFloatFieldUpdateOperationsInput | number | null
+    instructor?: NullableStringFieldUpdateOperationsInput | string | null
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
+    ratingCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ratings?: RatingUpdateManyWithoutCourseNestedInput
     trainer?: UserUpdateOneRequiredWithoutCoursesNestedInput
     notes?: NoteUpdateManyWithoutCourseNestedInput
     enrollments?: EnrollmentUpdateManyWithoutCourseNestedInput
@@ -17939,9 +19907,12 @@ export namespace Prisma {
     thumbnail?: StringFieldUpdateOperationsInput | string
     category?: EnumCategoryFieldUpdateOperationsInput | $Enums.Category
     price?: NullableFloatFieldUpdateOperationsInput | number | null
+    instructor?: NullableStringFieldUpdateOperationsInput | string | null
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
+    ratingCount?: IntFieldUpdateOperationsInput | number
     trainerId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ratings?: RatingUncheckedUpdateManyWithoutCourseNestedInput
     notes?: NoteUncheckedUpdateManyWithoutCourseNestedInput
     enrollments?: EnrollmentUncheckedUpdateManyWithoutCourseNestedInput
     cartItems?: CartItemUncheckedUpdateManyWithoutCourseNestedInput
@@ -17955,8 +19926,11 @@ export namespace Prisma {
     thumbnail: string
     category?: $Enums.Category
     price?: number | null
+    instructor?: string | null
     rating?: number | null
+    ratingCount?: number
     createdAt?: Date | string
+    ratings?: RatingCreateNestedManyWithoutCourseInput
     trainer: UserCreateNestedOneWithoutCoursesInput
     lectures?: LectureCreateNestedManyWithoutCourseInput
     enrollments?: EnrollmentCreateNestedManyWithoutCourseInput
@@ -17971,9 +19945,12 @@ export namespace Prisma {
     thumbnail: string
     category?: $Enums.Category
     price?: number | null
+    instructor?: string | null
     rating?: number | null
+    ratingCount?: number
     trainerId: string
     createdAt?: Date | string
+    ratings?: RatingUncheckedCreateNestedManyWithoutCourseInput
     lectures?: LectureUncheckedCreateNestedManyWithoutCourseInput
     enrollments?: EnrollmentUncheckedCreateNestedManyWithoutCourseInput
     cartItems?: CartItemUncheckedCreateNestedManyWithoutCourseInput
@@ -18026,8 +20003,11 @@ export namespace Prisma {
     thumbnail?: StringFieldUpdateOperationsInput | string
     category?: EnumCategoryFieldUpdateOperationsInput | $Enums.Category
     price?: NullableFloatFieldUpdateOperationsInput | number | null
+    instructor?: NullableStringFieldUpdateOperationsInput | string | null
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
+    ratingCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ratings?: RatingUpdateManyWithoutCourseNestedInput
     trainer?: UserUpdateOneRequiredWithoutCoursesNestedInput
     lectures?: LectureUpdateManyWithoutCourseNestedInput
     enrollments?: EnrollmentUpdateManyWithoutCourseNestedInput
@@ -18042,9 +20022,12 @@ export namespace Prisma {
     thumbnail?: StringFieldUpdateOperationsInput | string
     category?: EnumCategoryFieldUpdateOperationsInput | $Enums.Category
     price?: NullableFloatFieldUpdateOperationsInput | number | null
+    instructor?: NullableStringFieldUpdateOperationsInput | string | null
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
+    ratingCount?: IntFieldUpdateOperationsInput | number
     trainerId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ratings?: RatingUncheckedUpdateManyWithoutCourseNestedInput
     lectures?: LectureUncheckedUpdateManyWithoutCourseNestedInput
     enrollments?: EnrollmentUncheckedUpdateManyWithoutCourseNestedInput
     cartItems?: CartItemUncheckedUpdateManyWithoutCourseNestedInput
@@ -18087,7 +20070,9 @@ export namespace Prisma {
     thumbnail: string
     category?: $Enums.Category
     price?: number | null
+    instructor?: string | null
     rating?: number | null
+    ratingCount?: number
     createdAt?: Date | string
   }
 
@@ -18109,6 +20094,13 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
+  export type RatingCreateManyStudentInput = {
+    id?: string
+    value?: number
+    courseId: string
+    createdAt?: Date | string
+  }
+
   export type CourseUpdateWithoutTrainerInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
@@ -18116,8 +20108,11 @@ export namespace Prisma {
     thumbnail?: StringFieldUpdateOperationsInput | string
     category?: EnumCategoryFieldUpdateOperationsInput | $Enums.Category
     price?: NullableFloatFieldUpdateOperationsInput | number | null
+    instructor?: NullableStringFieldUpdateOperationsInput | string | null
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
+    ratingCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ratings?: RatingUpdateManyWithoutCourseNestedInput
     lectures?: LectureUpdateManyWithoutCourseNestedInput
     notes?: NoteUpdateManyWithoutCourseNestedInput
     enrollments?: EnrollmentUpdateManyWithoutCourseNestedInput
@@ -18132,8 +20127,11 @@ export namespace Prisma {
     thumbnail?: StringFieldUpdateOperationsInput | string
     category?: EnumCategoryFieldUpdateOperationsInput | $Enums.Category
     price?: NullableFloatFieldUpdateOperationsInput | number | null
+    instructor?: NullableStringFieldUpdateOperationsInput | string | null
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
+    ratingCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ratings?: RatingUncheckedUpdateManyWithoutCourseNestedInput
     lectures?: LectureUncheckedUpdateManyWithoutCourseNestedInput
     notes?: NoteUncheckedUpdateManyWithoutCourseNestedInput
     enrollments?: EnrollmentUncheckedUpdateManyWithoutCourseNestedInput
@@ -18148,7 +20146,9 @@ export namespace Prisma {
     thumbnail?: StringFieldUpdateOperationsInput | string
     category?: EnumCategoryFieldUpdateOperationsInput | $Enums.Category
     price?: NullableFloatFieldUpdateOperationsInput | number | null
+    instructor?: NullableStringFieldUpdateOperationsInput | string | null
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
+    ratingCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -18212,6 +20212,34 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type RatingUpdateWithoutStudentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    value?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    course?: CourseUpdateOneRequiredWithoutRatingsNestedInput
+  }
+
+  export type RatingUncheckedUpdateWithoutStudentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    value?: FloatFieldUpdateOperationsInput | number
+    courseId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RatingUncheckedUpdateManyWithoutStudentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    value?: FloatFieldUpdateOperationsInput | number
+    courseId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RatingCreateManyCourseInput = {
+    id?: string
+    value?: number
+    studentId: string
+    createdAt?: Date | string
+  }
+
   export type LectureCreateManyCourseInput = {
     id?: string
     title: string
@@ -18246,6 +20274,27 @@ export namespace Prisma {
     orderId: string
     price: number
     createdAt?: Date | string
+  }
+
+  export type RatingUpdateWithoutCourseInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    value?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    student?: UserUpdateOneRequiredWithoutRatingNestedInput
+  }
+
+  export type RatingUncheckedUpdateWithoutCourseInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    value?: FloatFieldUpdateOperationsInput | number
+    studentId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RatingUncheckedUpdateManyWithoutCourseInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    value?: FloatFieldUpdateOperationsInput | number
+    studentId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type LectureUpdateWithoutCourseInput = {

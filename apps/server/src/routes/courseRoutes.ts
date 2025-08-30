@@ -1,5 +1,5 @@
 import express from "express";
-import { createCourse,getCourses,getCourse,updateCourse, deleteCourse,getAllCourses } from "../controllers/course.controller";
+import { createCourse,getCourses,getCourse,updateCourse, deleteCourse,getAllCourses} from "../controllers/course.controller";
 import { protect,authorizeRole } from "../middleware/authMiddleware";
 const router= express.Router();
 
