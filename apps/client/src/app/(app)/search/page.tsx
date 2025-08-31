@@ -34,7 +34,7 @@ const CourseCard = ({ course, router }: { course: Course, router: AppRouterInsta
 
 
 export default function SearchPage() {
-  // FIX 1: Call hooks inside the component body
+
   const router = useRouter(); 
   const searchParams = useSearchParams();
   const query = searchParams.get('q');

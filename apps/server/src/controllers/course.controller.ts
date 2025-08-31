@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import prisma from "../prisma/client";
+import { Category } from "../generated/prisma";
 
 //course creation
 export const createCourse = async(req:Request, res:Response)=>{
@@ -211,6 +212,36 @@ export const searchCourse=async(req:Request,res:Response)=>{
     res.status(200).json({courses});
   } catch (error) {
     console.error("Failed to search courses:", error);
+    res.status(500).json({ message: 'Something went wrong on the server.' });
+  }
+}
+
+// get courses by category
+
+export const getCourseByCategory= async(req:Request,res:Response)=>{
+  const category= req.params.category;
+
+  try {
+    const courses= await prisma.course.findMany({
+      where:{
+        category: category as Category
+      },
+      include:{
+        trainer:{
+          select:{
+            username:true,
+          }
+        }
+      }
+    })
+
+    if(courses.length === 0){
+      res.status(200).json({message:"No courses found in this category."});
+    }
+
+    res.status(200).json({courses});
+  } catch (error) {
+    console.error("Failed to Fetch courses:", error);
     res.status(500).json({ message: 'Something went wrong on the server.' });
   }
 }

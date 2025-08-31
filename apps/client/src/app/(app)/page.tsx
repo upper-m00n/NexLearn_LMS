@@ -14,33 +14,13 @@ import axios from "axios";
 import { toast } from "sonner";
 import { CourseCard } from "@/components/CourseCard";
 import Link from "next/link";
-
-// Array for the new image carousel
-const featuredImages = [
-  {
-    src: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=2070&auto=format&fit=crop",
-    alt: "A person coding on a laptop",
-  },
-  {
-    src: "https://images.unsplash.com/photo-1531297484001-80022131f5a1?q=80&w=2020&auto=format&fit=crop",
-    alt: "Modern technology setup with a laptop and monitor",
-  },
-  {
-    src: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=2072&auto=format&fit=crop",
-    alt: "Multiple devices showing responsive web design",
-  },
-  {
-    src: "https://images.unsplash.com/photo-1550745165-9bc0b252726a?q=80&w=2070&auto=format&fit=crop",
-    alt: "A retro computer and gaming setup",
-  },
-  {
-    src: "https://images.unsplash.com/photo-1542831371-29b0f74f9713?q=80&w=2070&auto=format&fit=crop",
-    alt: "Close-up of code on a screen",
-  },
-];
+import { featuredImages, categories } from "@/constants/constants";
+import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
   const [courses, setCourses] = useState<any[]>([]);
+  const router=useRouter();
 
   useEffect(() => {
     const fetchCourses = async () => {
@@ -99,8 +79,8 @@ export default function Home() {
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious />
-          <CarouselNext />
+          <CarouselPrevious className="bg-black text-white" />
+          <CarouselNext className="bg-black text-white"/>
         </Carousel>
       </section>
       
@@ -123,14 +103,15 @@ export default function Home() {
           Ready to start learning with us?
         </h2>
         <p className="text-gray-600 mb-6">
-          Join thousands of students and upskill yourself today.
+          Explore categories.
         </p>
-        <Link
-          href="/signup"
-          className="px-6 py-3 bg-indigo-600 text-white font-semibold rounded-xl shadow hover:bg-indigo-700 transition"
-        >
-          Get Started
-        </Link>
+
+        <div className="flex flex-wrap justify-center gap-5 p-4">
+          {categories.map((category)=>(
+            <Button className="text-2xl font-light p-6" onClick={()=>router.push(`/search/${category}`)}>{category}</Button>
+          ))}
+        </div>
+       
       </section>
     </div>
   );
