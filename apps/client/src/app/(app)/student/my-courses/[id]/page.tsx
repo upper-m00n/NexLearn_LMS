@@ -29,7 +29,7 @@ const course=()=>{
     title:"",
     description:"",
     price:0,
-    rating:"",
+    rating:0,
     createdAt:"",
     category:"",
   });

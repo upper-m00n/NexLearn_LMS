@@ -156,3 +156,61 @@ export const deleteCourse = async(req:Request,res:Response)=>{
     res.status(500).json({message:"Internal server error"})
   }
 }
+
+
+// search course
+
+const formatQuery= (query:string)=>{
+  if(!query || typeof query !== 'string')return '';
+  return query.charAt(0).toUpperCase() + query.slice(1).toLowerCase();
+}
+
+export const searchCourse=async(req:Request,res:Response)=>{
+  const {q}=req.query;
+
+  if(!q){
+    return res.status(400).json({message:"Search query is required"});
+  }
+
+  const formattedQuery=formatQuery(q as string);
+
+  try {
+    const courses=await prisma.course.findMany({
+      where:{
+        OR:[
+          {
+            title:{contains:q as string,
+              mode:'insensitive'
+            }
+          },
+          {
+            trainer: {
+              username: {
+                contains: q as string,
+                mode: 'insensitive',
+              },
+            },
+          },
+          // {
+          //   category:{
+          //     equals:formattedQuery,
+          //   }
+          // }
+        ]
+      },
+      include:{
+        trainer:{
+          select:{
+            username:true,
+            profilePic:true,
+          }
+        }
+      }
+    })
+
+    res.status(200).json({courses});
+  } catch (error) {
+    console.error("Failed to search courses:", error);
+    res.status(500).json({ message: 'Something went wrong on the server.' });
+  }
+}

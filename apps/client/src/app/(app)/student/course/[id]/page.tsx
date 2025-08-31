@@ -21,10 +21,11 @@ export default function Course() {
     title: "",
     description: "",
     price: 0,
-    rating: "",
+    rating:0,
     createdAt: "",
     id:"",
     category:"",
+    
   });
   const [thumbnail, setThumbnailUrl] = useState('');
   const [lectures, setLectures] = useState<Lecture[]>([]);
@@ -88,12 +89,12 @@ export default function Course() {
           <div className="md:col-span-2 flex flex-col gap-4">
             <h1 className="text-4xl font-bold">{course.title}</h1>
             <p className="text-lg opacity-90">{course.description}</p>
-            <p className="text-sm opacity-70">Published on {new Date(course.createdAt).toDateString()}</p>
+            <p className="text-sm opacity-70">{course.createdAt && `Published on ${new Date(course.createdAt).toDateString()}`}</p>
             <p>Language : English</p>
             <p>Category : {course.category}</p>
             <div>
                 <h2>Ratings:</h2>
-                <RatingsStarsForUnEnrolled totalRating={parseFloat(course.rating)}/>
+                <RatingsStarsForUnEnrolled totalRating={course.rating ?? 0}/>
             </div>
           </div>
 

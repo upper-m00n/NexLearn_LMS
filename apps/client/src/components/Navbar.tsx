@@ -15,11 +15,14 @@ import {
 import { Button } from "./ui/button";
 import { useRouter } from "next/navigation";
 import { Input } from "./ui/input";
+import { useState } from "react";
 
 const Navbar = () => {
   // Assuming your context provides a logout function
   const { user, token, logout } = useAuth();
   const router = useRouter();
+
+  const [query,setQuery]=useState('');
 
   const handleLogout = () => {
     logout();
@@ -35,15 +38,35 @@ const Navbar = () => {
     }
   }
 
+  const handleInputChange=async(event:React.ChangeEvent<HTMLInputElement>)=>{
+    setQuery(event.target.value);
+  }
+
+  const handleSearchSubmit= (event:React.FormEvent)=>{
+    event.preventDefault();
+
+    if(!query.trim()) return;
+
+    router.push(`/search?q=${query}`);
+  }
+
   return (
     <nav className="bg-black text-white p-4 shadow-md sticky top-0 z-50">
       <div className="container mx-auto flex justify-between items-center">
-        {/* Logo/Brand Name */}
         <Link href='/' className="text-2xl font-bold text-white">
           NexLearn
         </Link>
-        <Input type="text" className="max-w-2xl" placeholder="Search for Anything.."/>
-        {/* Right side of the Navbar */}
+
+        <form onSubmit={handleSearchSubmit} className="flex-grow max-w-2xl mx-4">
+          <Input 
+          type="text" 
+          className="max-w-2xl" 
+          placeholder="Search by title, instructor, or category..."
+          value={query}
+          onChange={handleInputChange}
+          />
+        </form>
+  
         <div className="flex items-center gap-6 text-sm font-medium">
           {user && token ? (
             // --- Logged-in User View ---
