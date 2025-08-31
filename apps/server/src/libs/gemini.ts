@@ -1,33 +1,34 @@
-import { GoogleGenerativeAI,Part } from "@google/generative-ai";
-import { PrismaClient } from "@prisma/client";
-import axios from "axios";
-import { Lecture } from "../generated/prisma";
 
+import { GoogleGenerativeAI, Part } from "@google/generative-ai";
+
+import { PrismaClient, Lecture } from "../generated/prisma"; 
+import axios from "axios";
 
 
 const prisma = new PrismaClient();
 
-const genAI= new GoogleGenerativeAI(process.env.GOOGLE_API_KEY!);
-const model= genAI.getGenerativeModel({model:'gemini-1.5-flash'});
+const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY!);
+const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
 
-async function urlToGenetaivePart(url:string,mimeType:string) {
-    const response= await axios.get(url,{responseType:'arraybuffer'});
-    const buffer= Buffer.from(response.data,'binary');
-    return{
-        inlineData:{
-            data:buffer.toString('base64'),
-            mimeType
-        }
-    }
+
+async function urlToGenerativePart(url: string, mimeType: string): Promise<Part> {
+    const response = await axios.get(url, { responseType: 'arraybuffer' });
+    const buffer = Buffer.from(response.data, 'binary');
+    return {
+        inlineData: {
+            data: buffer.toString('base64'),
+            mimeType,
+        },
+    };
 }
 
-export async function processLectureWithGemini(lecture:Lecture){
-    console.log(`Process lecture Id: ${lecture.id}`);
+export async function processLectureWithGemini(lecture: Lecture) {
+    console.log(`Processing lecture Id: ${lecture.id}`);
 
     try {
-        const videoPart= await urlToGenetaivePart(lecture.videoUrl, 'video/mp4');
+        const videoPart = await urlToGenerativePart(lecture.videoUrl, 'video/mp4');
 
-        const prompt= `You are an AI assistant for the 'NexLearn' e-learning platform.
+        const prompt = `You are an AI assistant for the 'NexLearn' e-learning platform.
         Your task is to analyze the provided lecture video and generate two pieces of content: a full transcript and a concise summary.
 
         Instructions:
@@ -40,35 +41,39 @@ export async function processLectureWithGemini(lecture:Lecture){
         {
             "transcript": "Hello everyone, and welcome to our first lesson on Node.js...",
             "summary": "This lecture provides an introduction to Node.js, covering its core concepts, architecture, and use cases. Key topics include the event loop, non-blocking I/O, and how to set up a basic server."
-        }`
+        }`;
 
-        const result = await model.generateContent([prompt,videoPart]);
-        const responseText= result.response.text();
+        const result = await model.generateContent([prompt, videoPart]);
+        let responseText = result.response.text();
 
         console.log("Received response from gemini");
 
-        const {transcript,summary}=JSON.parse(responseText);
-
-        if(!transcript || !summary){
-            throw new Error('AI response is missing transcirpt or summary');
+        if (responseText.startsWith("```json")) {
+            responseText = responseText.substring(7, responseText.length - 3);
         }
 
-        const updatedLecture= await prisma.lecture.update({
-            where:{
-                id:lecture.id
+        const { transcript, summary } = JSON.parse(responseText);
+
+        if (!transcript || !summary) {
+            // FIX: Corrected typo in 'transcirpt'
+            throw new Error('AI response is missing transcript or summary');
+        }
+
+        const updatedLecture = await prisma.lecture.update({
+            where: {
+                id: lecture.id
             },
-            data:{
+            data: {
                 transcript,
                 summary
             }
-        })
+        });
 
-        console.log(`Successfully updated lecture Id: ${lecture.id}`)
-
+        console.log(`Successfully updated lecture Id: ${lecture.id}`);
         return updatedLecture;
+
     } catch (error) {
         console.error('Error during Gemini processing:', error);
         throw new Error('Failed to process lecture with Gemini AI.');
     }
 }
-

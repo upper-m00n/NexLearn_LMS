@@ -9,7 +9,7 @@ router.get('/generate-upload-signature',generateUploadSignature);
 
 // lecture routes
 router.post('/create',protect,createLecture);
-router.post('/process/lectureId',processLecture);
+router.post('/process/:lectureId',processLecture);
 router.get('/get',getLectures);
 router.delete('/delete/:lectureId',deleteLecture);
 router.get('/get-lecture/:lectureId',getLecture);
