@@ -2,6 +2,7 @@ import { Request,Response } from "express";
 import  prisma  from "../prisma/client";
 import {v4 as uuidv4} from 'uuid'
 import cloudinary from "../libs/cloudinary";
+import { processLectureWithGemini } from "../libs/gemini";
 
 // generate cloudinary signature
 
@@ -147,5 +148,34 @@ export const getLecture= async(req:Request,res:Response)=>{
     } catch (error) {
         console.log("Error while fetching lecture.",error);
         res.status(500).json({message:"Internal Server Error"})
+    }
+}
+
+export const processLecture= async(req:Request,res:Response)=>{
+    try {
+        const {lectureId}= req.params;
+        if(!lectureId){
+            return res.status(400).json({message:"Lecture Id is required"})
+        }
+
+        const lecture= await prisma.lecture.findUnique({
+            where:{
+                id:lectureId
+            }
+        })
+
+        if(!lecture || !lecture.videoUrl){
+            return res.status(404).json({message:"Lecture or video url not found."});
+        }
+            const updatedLecture = await processLectureWithGemini(lecture);
+
+            res.status(200).json({
+                message:"Lecture processed successfully!",
+                lecture:updatedLecture,
+            })
+        
+    } catch (error) {
+        console.error('Error in processLecture controller:', error);
+    res.status(500).json({ error: 'Failed to process lecture.' });
     }
 }

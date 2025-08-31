@@ -210,7 +210,9 @@ exports.Prisma.LectureScalarFieldEnum = {
   videoUrl: 'videoUrl',
   noteId: 'noteId',
   courseId: 'courseId',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  transcript: 'transcript',
+  summary: 'summary'
 };
 
 exports.Prisma.NoteScalarFieldEnum = {

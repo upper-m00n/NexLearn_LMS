@@ -180,6 +180,9 @@ model Lecture {
   courseId    String
   course      Course   @relation(fields: [courseId], references: [id])
   createdAt   DateTime @default(now())
+
+  transcript String? @db.Text
+  summary    String? @db.Text
 }
 
 model Note {
