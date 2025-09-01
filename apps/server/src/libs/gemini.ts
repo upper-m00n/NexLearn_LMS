@@ -3,6 +3,7 @@ import { GoogleGenerativeAI, Part } from "@google/generative-ai";
 
 import { PrismaClient, Lecture } from "../generated/prisma"; 
 import axios from "axios";
+import { response } from "express";
 
 
 const prisma = new PrismaClient();
@@ -77,3 +78,79 @@ export async function processLectureWithGemini(lecture: Lecture) {
         throw new Error('Failed to process lecture with Gemini AI.');
     }
 }
+
+export async function generateQuizForLecture(lectureId:string) {
+    console.log(`Starting quiz generation for lecture Id:${lectureId}`);
+
+    const lecture= await prisma.lecture.findUnique({
+        where:{
+            id:lectureId,
+        },
+        select:{
+            transcript:true,
+            title:true
+        }
+    })
+
+    if(!lecture || !lecture.transcript){
+        throw new Error('Lecture or transcript not found.');
+    }
+
+    const prompt=`
+    You are an expert quiz designer for the 'NexLearn' e-learning platform.
+    Your task is to create a 5-question multiple-choice quiz based on the provided lecture transcript. The questions should test key concepts and learning objectives.
+
+    LECTURE TRANSCRIPT:
+    "${lecture.transcript}"
+
+    Return the result as a single, valid JSON object. The JSON object must have a single key "questions", which is an array of question objects. Each question object must have three keys: "text" (the question), "options" (an array of 4 strings), and "correctAnswer" (the 0-based index of the correct option).
+
+    IMPORTANT: The response MUST be only the JSON object, starting with { and ending with }. Do not include markdown code fences or any other text.
+    
+    Example JSON format:
+    {
+      "questions": [
+        {
+          "text": "What is the primary function of the event loop in Node.js?",
+          "options": ["To execute code line-by-line", "To manage asynchronous operations", "To render HTML", "To compile code"],
+          "correctAnswer": 1
+        }
+      ]
+    }
+  `;
+
+  const result= await model.generateContent(prompt);
+
+  let resText= result.response.text();
+
+  if(resText.startsWith("```json")){
+    resText=resText.substring(7,resText.length-3);
+  }
+
+  const {questions}= JSON.parse(resText);
+
+  if(!questions || !Array.isArray(questions) || questions.length===0){
+    throw new Error('AI failed to generate valid questions');
+  }
+
+  const newQuiz= await prisma.quiz.create({
+    data:{
+        lectureId:lectureId,
+        questions:{
+            create:questions.map((q:any)=>({
+                text:q.text,
+                options:q.options,
+                correctAnswer:q.correctAnswer
+            }))
+        },
+    },
+    include:{
+        questions:true
+    }
+  })
+
+  console.log(`Successfully generated quiz for lecture Id:${lectureId}`);
+    return newQuiz;
+
+}
+

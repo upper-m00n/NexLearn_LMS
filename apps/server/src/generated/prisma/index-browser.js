@@ -20,12 +20,12 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 6.12.0
- * Query Engine version: 8047c96bbd92db98a2abc7c9323ce77c02c89dbc
+ * Prisma Client JS version: 6.15.0
+ * Query Engine version: 85179d7826409ee107a6ba334b5e305ae3fba9fb
  */
 Prisma.prismaVersion = {
-  client: "6.12.0",
-  engine: "8047c96bbd92db98a2abc7c9323ce77c02c89dbc"
+  client: "6.15.0",
+  engine: "85179d7826409ee107a6ba334b5e305ae3fba9fb"
 }
 
 Prisma.PrismaClientKnownRequestError = () => {
@@ -215,6 +215,20 @@ exports.Prisma.LectureScalarFieldEnum = {
   summary: 'summary'
 };
 
+exports.Prisma.QuizScalarFieldEnum = {
+  id: 'id',
+  lectureId: 'lectureId',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.QuestionsScalarFieldEnum = {
+  id: 'id',
+  Text: 'Text',
+  options: 'options',
+  correctAnswer: 'correctAnswer',
+  quizId: 'quizId'
+};
+
 exports.Prisma.NoteScalarFieldEnum = {
   id: 'id',
   title: 'title',
@@ -284,6 +298,8 @@ exports.Prisma.ModelName = {
   OrderItem: 'OrderItem',
   Payment: 'Payment',
   Lecture: 'Lecture',
+  Quiz: 'Quiz',
+  Questions: 'Questions',
   Note: 'Note'
 };
 

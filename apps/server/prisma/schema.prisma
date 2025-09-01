@@ -185,6 +185,24 @@ model Lecture {
 
   transcript  String?  @db.Text
   summary     String?  @db.Text
+  quiz        Quiz?
+}
+
+model Quiz {
+  id        String     @id @default(uuid())
+  lectureId String     @unique // Each lecture has only one quiz
+  lecture   Lecture    @relation(fields: [lectureId], references: [id])
+  questions Question[]
+  createdAt DateTime   @default(now())
+}
+
+model Question {
+  id            String   @id @default(uuid())
+  text          String   @db.Text
+  options       String[] 
+  correctAnswer Int      
+  quizId        String
+  quiz          Quiz     @relation(fields: [quizId], references: [id])
 }
 
 model Note {
