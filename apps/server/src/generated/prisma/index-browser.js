@@ -131,7 +131,10 @@ exports.Prisma.UserScalarFieldEnum = {
   mobile: 'mobile',
   profilePic: 'profilePic',
   bibliography: 'bibliography',
-  gender: 'gender'
+  gender: 'gender',
+  verified: 'verified',
+  otp: 'otp',
+  otpExpires: 'otpExpires'
 };
 
 exports.Prisma.CourseScalarFieldEnum = {
@@ -221,9 +224,9 @@ exports.Prisma.QuizScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
-exports.Prisma.QuestionsScalarFieldEnum = {
+exports.Prisma.QuestionScalarFieldEnum = {
   id: 'id',
-  Text: 'Text',
+  text: 'text',
   options: 'options',
   correctAnswer: 'correctAnswer',
   quizId: 'quizId'
@@ -299,7 +302,7 @@ exports.Prisma.ModelName = {
   Payment: 'Payment',
   Lecture: 'Lecture',
   Quiz: 'Quiz',
-  Questions: 'Questions',
+  Question: 'Question',
   Note: 'Note'
 };
 

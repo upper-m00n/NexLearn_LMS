@@ -27,6 +27,10 @@ model User {
   bibliography String?
   gender       String?
 
+  verified   Boolean   @default(false)
+  otp        String?
+  otpExpires DateTime?
+
   courses     Course[]     @relation("TrainerCourses")
   enrollments Enrollment[] @relation("StudentEnrollments")
   carts       Cart[]
@@ -187,16 +191,16 @@ model Lecture {
 }
 
 model Quiz {
-  id        String      @id @default(uuid())
-  lectureId String      @unique
-  lecture   Lecture     @relation(fields: [lectureId], references: [id])
-  questions Questions[]
-  createdAt DateTime    @default(now())
+  id        String     @id @default(uuid())
+  lectureId String     @unique // Each lecture has only one quiz
+  lecture   Lecture    @relation(fields: [lectureId], references: [id])
+  questions Question[]
+  createdAt DateTime   @default(now())
 }
 
-model Questions {
+model Question {
   id            String   @id @default(uuid())
-  Text          String   @db.Text
+  text          String   @db.Text
   options       String[]
   correctAnswer Int
   quizId        String

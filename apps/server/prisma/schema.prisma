@@ -27,6 +27,10 @@ model User {
   bibliography  String?
   gender    String?
 
+  verified    Boolean  @default(false)
+  otp         String?
+  otpExpires  DateTime?
+
   courses     Course[]     @relation("TrainerCourses")
   enrollments Enrollment[] @relation("StudentEnrollments")
   carts       Cart[]
