@@ -68,7 +68,7 @@ export default function CourseForm() {
       })
       toast.success("Course created successfully!")
       //console.log("Submitted Course:", data)
-      router.push('/trainer/courses')
+      router.push('/trainer')
     } catch (error) {
       toast.error("Failed to create course")
       console.error("Error while creating course:", error)
@@ -147,7 +147,11 @@ export default function CourseForm() {
               <FormItem>
                 <FormLabel>Course Price</FormLabel>
                 <FormControl>
-                  <Input placeholder="set course price." {...field} />
+                  <Input placeholder="set course price." 
+                    {...field}
+                    type="number"
+                    onChange={(e)=> field.onChange(parseFloat(e.target.value))}
+                    />
                 </FormControl>
               </FormItem>
             )}
