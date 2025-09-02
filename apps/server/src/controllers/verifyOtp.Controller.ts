@@ -5,6 +5,8 @@ export const verifyOtp= async (req:Request,res:Response)=>{
     try {
         const {email,otp}=req.body;
 
+        console.log(email,otp);
+
         if(!email || !otp){
             return res.status(400).json({message:"Enter a valid otp"});
         }

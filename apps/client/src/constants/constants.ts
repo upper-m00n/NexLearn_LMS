@@ -28,10 +28,6 @@ export const featuredImages = [
     alt: "Multiple devices showing responsive web design",
   },
   {
-    src: "https://images.unsplash.com/photo-1550745165-9bc0b252726a?q=80&w=2070&auto=format&fit=crop",
-    alt: "A retro computer and gaming setup",
-  },
-  {
     src: "https://images.unsplash.com/photo-1542831371-29b0f74f9713?q=80&w=2070&auto=format&fit=crop",
     alt: "Close-up of code on a screen",
   },

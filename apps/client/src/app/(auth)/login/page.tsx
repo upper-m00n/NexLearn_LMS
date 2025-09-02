@@ -11,6 +11,7 @@ import axios from 'axios';
 import { toast } from 'sonner';
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 export default function Login(){
     const {setUser,setToken}= useAuth();
@@ -46,7 +47,7 @@ export default function Login(){
     }
 
     return (
-        <div className='flex justify-center items-center min-h-screen bg-gray-800'>
+        <div className='flex justify-center items-center min-h-screen bg-white-800'>
             <div className='w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md'>
                 <div className='text-center'>
                     <h1 className="text-4xl font-bold tracking-tight lg:text-5xl mb-6">
@@ -80,6 +81,7 @@ export default function Login(){
                         )}
                         />
                         <Button type="submit">Submit</Button>
+                        <p>Don't have an account? <Link href='/register' className='text-blue-600'>signup</Link></p>
                     </form>
                     </Form>
                 </div>

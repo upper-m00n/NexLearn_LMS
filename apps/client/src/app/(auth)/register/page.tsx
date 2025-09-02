@@ -10,8 +10,11 @@ import { Button } from '@/components/ui/button';
 import axios from 'axios'
 import { toast } from "sonner"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { useRouter } from 'next/navigation';
 
 export default function Register(){
+
+    const router= useRouter();
 
     const form = useForm<z.infer<typeof registerSchema>>({
         resolver:zodResolver(registerSchema)
@@ -20,9 +23,7 @@ export default function Register(){
     const onSubmit = async (data: z.infer<typeof registerSchema>) =>{
         try {
             const res = await axios.post('http://localhost:4000/api/auth/register',data);
-            localStorage.setItem("token",res.data.token)
-            console.log(res);
-            toast(res.data.message)
+            router.push('/verify')
         } catch (error) {
             console.log("error in signup",error);
             toast("error registering user....")
@@ -30,7 +31,7 @@ export default function Register(){
     }
 
     return (
-        <div className='flex justify-center items-center min-h-screen bg-gray-800'>
+        <div className='flex justify-center items-center min-h-screen bg-gray-200'>
             <div className='w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md'>
                 <div className='text-center'>
                     <h1 className="text-4xl font-bold tracking-tight lg:text-5xl mb-6">

@@ -9,6 +9,7 @@ import { toast } from "sonner";
 import { Separator } from "@/components/ui/separator";
 import AiContentModal from "@/components/AiContentModal"; // Import the modal
 import { BASE_URL } from "@/axios/axios";
+import QuizModal from "@/components/QuizModal";
 
 // Correct types
 type Lecture = {
@@ -35,6 +36,9 @@ const LecturePage = () => {
   const [lecture, setLecture] = useState<Lecture | null>(null);
   const [note, setNote] = useState<Note | null>(null);
   const [pageLoading, setPageLoading] = useState(true);
+  const [isLoadingQuiz, setIsloadingQuiz]= useState(false);
+  const [quizData,setQuizData]= useState(null);
+  const [isQuizModalOpen, setIsQuizModalOpen] = useState(false);
 
   // States for AI features
   const [isProcessing, setIsProcessing] = useState(false);
@@ -111,6 +115,22 @@ const LecturePage = () => {
     return <p className="text-center text-gray-500 p-8">Loading lecture...</p>;
   }
 
+  const handleStartQuiz= async ()=>{
+    setIsloadingQuiz(true);
+
+    try {
+      const res= await axios.post(`${BASE_URL}/api/quizzes/generate/${lectureId}`);
+      setQuizData(res.data.quiz);
+      setIsModalOpen(true);
+    } catch (error) {
+      toast.error("Failed to load the quiz. Please try again.");
+      console.log("failed to fetch quiz",error);
+    }
+    finally{
+      setIsloadingQuiz(false);
+    }
+  }
+
   return (
     <>
       <AiContentModal
@@ -153,6 +173,25 @@ const LecturePage = () => {
             <h2 className="text-2xl font-semibold text-gray-700">About the Lecture</h2>
             <p className="text-gray-600 leading-relaxed text-lg">{lecture?.description}</p>
           </div>
+
+          <div className="text-center p-4">
+            <h1 className="text-2xl mb-4">Ready to test your knowledge ? </h1>
+            <div 
+              onClick={handleStartQuiz}
+              className="flex-1 p-4 rounded-full text-center text-lg font-semibold bg-violet-200 text-violet-800 hover:bg-violet-300 transition disabled:opacity-50 disabled:cursor-not-allowed">
+              {isLoadingQuiz ? 'Generating Quiz...' : 'Start Quiz (Powered by AI)'}
+            </div>
+          </div>
+
+          {
+            quizData && (
+              <QuizModal
+                isOpen={isQuizModalOpen}
+                onClose={()=>setIsQuizModalOpen(false)}
+                quizData={quizData}
+              />
+            )
+          }
 
           {/* Notes */}
           {note?.pdfUrl && (
