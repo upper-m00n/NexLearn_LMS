@@ -74,6 +74,7 @@ export default function UpdateCourseForm() {
 
 
   const [thumbnailUrl, setThumbnailUrl] = useState('')
+  const[isGenerating, setIsGenerating] = useState(false);
   const [message,setMessage]=useState("");
 
   const form = useForm<z.infer<typeof courseSchema>>({
@@ -162,9 +163,47 @@ export default function UpdateCourseForm() {
   }
 };
 
+const handleGenerateThumbnail = async ()=>{
+  const {title, category}=form.getValues();
+
+  if(!title || !category){
+    toast.error("Please enter a title and select a category first.");
+    return;
+  }
+
+  setIsGenerating(true);
+  toast.info("Generating AI Thumbnail... This may take a while.");
+
+  try{
+    const res= await axios.post(`${BASE_URL}/api/course/generate-thumbnail`,
+      {
+        title,category
+      }
+    )
+
+    const {thumbnailUrl}=res.data;
+
+    if(thumbnailUrl){
+      setThumbnailUrl(thumbnailUrl);
+      toast.success("AI thumbnail generated and uploaded!");
+    }
+    else{
+      throw new Error("Failed to get thumbnail URL from backend");
+    }
+  }
+  catch(error){
+    console.error("Error generating thumbnail:", error);
+      toast.error("AI thumbnail generation failed.");
+  }
+  finally{
+    setIsGenerating(false);
+  }
+}
+
+
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100 text-black shadow-2xl">
-        <h1>Update Courses</h1>
+    <div className="justify-center items-center min-h-screen bg-gray-100 text-black shadow-2xl flex flex-col">
+        <h1 className="text-2xl font-bold mb-4">Update Courses</h1>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-full max-w-xl">
           <FormField
@@ -242,10 +281,20 @@ export default function UpdateCourseForm() {
             )}
             />
           <FormItem>
-            <FormLabel>Upload Thumbnail</FormLabel>
-            <FormControl>
-              <Input type="file" accept="image/*" onChange={handleThumbnailUpload} />
+            <FormLabel>Course Thumbnail</FormLabel>
+
+            <div className="flex items-center space-x-4">
+              <FormControl className="flex-grow">
+                <Input type="file" accept="image/*" onChange={handleThumbnailUpload} />
             </FormControl>
+              <Button
+                type="button"
+                onClick={handleGenerateThumbnail}
+                disabled={isGenerating}
+              >
+                { isGenerating ? "Generating..." : "✨ Generate with AI"}
+              </Button>
+            </div>
             {thumbnailUrl && (
               <img src={thumbnailUrl} alt="Thumbnail preview" className="mt-2 w-40 h-24 rounded object-cover" />
             )}

@@ -3,3 +3,6 @@ node_modules
 
 # Environment variables
 .env
+
+# Generated language client files
+gen-lang-client-0060726736-34aa0a1c80d8.json

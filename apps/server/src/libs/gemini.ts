@@ -3,7 +3,10 @@ import { GoogleGenerativeAI, Part } from "@google/generative-ai";
 
 import { PrismaClient, Lecture } from "../generated/prisma"; 
 import axios from "axios";
-import { response } from "express";
+import { Request,Response } from "express";
+import {v1} from '@google-cloud/aiplatform';
+import { protos } from "@google-cloud/aiplatform";
+import cloudinary from "./cloudinary";
 
 
 const prisma = new PrismaClient();
@@ -154,3 +157,89 @@ export async function generateQuizForLecture(lectureId:string) {
 
 }
 
+
+// image generation for thumbnail
+
+const clientOptions = {
+  apiEndpoint: 'us-central1-aiplatform.googleapis.com',
+};
+const predictionServiceClient = new v1.PredictionServiceClient(clientOptions);
+
+type IPredictRequest = protos.google.cloud.aiplatform.v1.IPredictRequest;
+type IValue = protos.google.protobuf.IValue;
+
+export const generateThumbnail = async (req: Request, res: Response) => {
+  const { title, category } = req.body;
+
+  if (!title || !category) {
+    return res.status(400).json({ message: 'Title and category are required' });
+  }
+
+  try {
+   const prompt = `Create a professional thumbnail for an online course titled "${title}".
+
+**Primary Requirement:** The full title, "${title}", must be clearly visible and legible on the image. Use a clean, modern, sans-serif font.
+
+**Background Art:** The background must be a vibrant, minimalist, digital art illustration that is directly related to the course topic. It should be an abstract visualization of concepts like data, databases, SQL code, and analytics. For example, use glowing lines representing data flows, interconnected nodes forming a database schema, or artistic graphs and charts.
+
+**Negative Constraints:** Do not use photographs, stock images, or depictions of people. The focus must be on clean, abstract graphics that are relevant to the course title.
+`;
+
+    const project = process.env.GCLOUD_PROJECT;
+    const endpoint = `projects/${project}/locations/us-central1/publishers/google/models/imagegeneration@005`;
+
+    const instances: IValue[] = [{
+      structValue: {
+        fields: {
+          prompt: { stringValue: prompt },
+        },
+      },
+    }];
+
+    const parameters: IValue = {
+      structValue: {
+        fields: {
+          sampleCount: { numberValue: 1 },
+          width:{numberValue:1536},
+          height:{numberValue:864}
+        },
+      },
+    };
+
+    const request: IPredictRequest = {
+      endpoint,
+      instances,
+      parameters,
+    };
+    const callOptions={
+        timeout:120000
+    }
+    
+    const [response] = await predictionServiceClient.predict(request,callOptions);
+
+    if (!response.predictions || response.predictions.length === 0) {
+      throw new Error('AI response did not contain predictions.');
+    }
+
+    const base64ImageData = response.predictions[0].structValue?.fields?.bytesBase64Encoded.stringValue;
+
+    if (!base64ImageData) {
+      throw new Error('No image data received from the AI model');
+    }
+
+    const uploadedImage = await cloudinary.uploader.upload(
+      `data:image/png;base64,${base64ImageData}`,
+      {
+        folder: 'thumbnails',
+        resource_type: 'image',
+      }
+    );
+
+    console.log(`Uploaded to Cloudinary, secure URL: ${uploadedImage.secure_url}`);
+    res.status(200).json({ thumbnailUrl: uploadedImage.secure_url });
+
+  } catch (error) {
+    console.error('Error generating AI thumbnail:', error);
+    res.status(500).json({ message: 'Failed to generate AI thumbnail.' });
+  }
+};

@@ -18,6 +18,7 @@ import axios from "axios"
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { BASE_URL } from "@/axios/axios";
 
 export default function CourseForm() {
   const router = useRouter();
@@ -38,6 +39,7 @@ export default function CourseForm() {
   
 
   const [thumbnailUrl, setThumbnailUrl] = useState("")
+  const [isGenerating, setIsGenerating] = useState(false);
 
   const form = useForm<z.infer<typeof courseSchema>>({
     resolver: zodResolver(courseSchema),
@@ -110,6 +112,43 @@ export default function CourseForm() {
     toast.error("Upload failed");
   }
 };
+
+const handleGenerateThumbnail = async ()=>{
+  const {title, category}=form.getValues();
+
+  if(!title || !category){
+    toast.error("Please enter a title and select a category first.");
+    return;
+  }
+
+  setIsGenerating(true);
+  toast.info("Generating AI Thumbnail... This may take a while.");
+
+  try{
+    const res= await axios.post(`${BASE_URL}/api/course/generate-thumbnail`,
+      {
+        title,category
+      }
+    )
+
+    const {thumbnailUrl}=res.data;
+
+    if(thumbnailUrl){
+      setThumbnailUrl(thumbnailUrl);
+      toast.success("AI thumbnail generated and uploaded!");
+    }
+    else{
+      throw new Error("Failed to get thumbnail URL from backend");
+    }
+  }
+  catch(error){
+    console.error("Error generating thumbnail:", error);
+      toast.error("AI thumbnail generation failed.");
+  }
+  finally{
+    setIsGenerating(false);
+  }
+}
 
 
   return (
@@ -186,10 +225,20 @@ export default function CourseForm() {
             )}
             />
           <FormItem>
-            <FormLabel>Upload Thumbnail</FormLabel>
-            <FormControl>
-              <Input type="file" accept="image/*" onChange={handleThumbnailUpload} />
+            <FormLabel>Course Thumbnail</FormLabel>
+
+            <div className="flex items-center space-x-4">
+              <FormControl className="flex-grow">
+                <Input type="file" accept="image/*" onChange={handleThumbnailUpload} />
             </FormControl>
+              <Button
+                type="button"
+                onClick={handleGenerateThumbnail}
+                disabled={isGenerating}
+              >
+                { isGenerating ? "Generating..." : "✨ Generate with AI"}
+              </Button>
+            </div>
             {thumbnailUrl && (
               <img src={thumbnailUrl} alt="Thumbnail preview" className="mt-2 w-40 h-24 rounded object-cover" />
             )}
