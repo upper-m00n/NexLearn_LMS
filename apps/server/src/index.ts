@@ -13,6 +13,7 @@ import paymentRoutes from './routes/paymentRoutes'
 import enrollmentRoutes from './routes/enrolledCoursesRoutes'
 import ratingRoutes from './routes/ratingRoutes'
 import quizRoutes from './routes/quizRoutes'
+import progressRoutes from './routes/progressRoutes'
 
 dotenv.config();
 
@@ -36,6 +37,7 @@ app.use('/api/payment',paymentRoutes);
 app.use('/api/enrolled-courses',enrollmentRoutes);
 app.use('/api/ratings',ratingRoutes);
 app.use('/api/quizzes',quizRoutes);
+app.use('/api/progress',progressRoutes);
 
 app.get('/', (_req,res)=>{
     res.send("Api is workinng");

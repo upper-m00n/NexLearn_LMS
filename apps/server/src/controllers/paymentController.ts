@@ -103,6 +103,7 @@ export const verifyPayment= async(req:Request,res:Response)=>{
                 <div style="border: 1px solid #ddd; padding: 10px; margin-bottom: 10px; border-radius: 5px; display: flex; align-items: center;">
                 <div>
                     <h3 style="margin: 0; font-size: 16px;">${item.course?.title}</h3>
+                    <img src="${item.course?.thumbnail}" alt="${item.course?.title}" style="width:150px; height:auto; margin-top:5px; border-radius:5px;">
                     <p style="margin: 5px 0 0; color: #555;">Price: ₹${item.course?.price}</p>
                 </div>
                 </div>
@@ -142,7 +143,6 @@ export const verifyPayment= async(req:Request,res:Response)=>{
                     }
                 }
             })
-
 
             res.status(200).json({success:true,message:"Payment verified and course enrolled successfully!"})
         }

@@ -218,6 +218,13 @@ exports.Prisma.LectureScalarFieldEnum = {
   summary: 'summary'
 };
 
+exports.Prisma.LectureCompletionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  lectureId: 'lectureId',
+  completedAt: 'completedAt'
+};
+
 exports.Prisma.QuizScalarFieldEnum = {
   id: 'id',
   lectureId: 'lectureId',
@@ -301,6 +308,7 @@ exports.Prisma.ModelName = {
   OrderItem: 'OrderItem',
   Payment: 'Payment',
   Lecture: 'Lecture',
+  LectureCompletion: 'LectureCompletion',
   Quiz: 'Quiz',
   Question: 'Question',
   Note: 'Note'

@@ -64,6 +64,11 @@ export type Payment = $Result.DefaultSelection<Prisma.$PaymentPayload>
  */
 export type Lecture = $Result.DefaultSelection<Prisma.$LecturePayload>
 /**
+ * Model LectureCompletion
+ * 
+ */
+export type LectureCompletion = $Result.DefaultSelection<Prisma.$LectureCompletionPayload>
+/**
  * Model Quiz
  * 
  */
@@ -365,6 +370,16 @@ export class PrismaClient<
     * ```
     */
   get lecture(): Prisma.LectureDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.lectureCompletion`: Exposes CRUD operations for the **LectureCompletion** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more LectureCompletions
+    * const lectureCompletions = await prisma.lectureCompletion.findMany()
+    * ```
+    */
+  get lectureCompletion(): Prisma.LectureCompletionDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.quiz`: Exposes CRUD operations for the **Quiz** model.
@@ -845,6 +860,7 @@ export namespace Prisma {
     OrderItem: 'OrderItem',
     Payment: 'Payment',
     Lecture: 'Lecture',
+    LectureCompletion: 'LectureCompletion',
     Quiz: 'Quiz',
     Question: 'Question',
     Note: 'Note'
@@ -866,7 +882,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "course" | "rating" | "enrollment" | "cart" | "cartItem" | "order" | "orderItem" | "payment" | "lecture" | "quiz" | "question" | "note"
+      modelProps: "user" | "course" | "rating" | "enrollment" | "cart" | "cartItem" | "order" | "orderItem" | "payment" | "lecture" | "lectureCompletion" | "quiz" | "question" | "note"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1610,6 +1626,80 @@ export namespace Prisma {
           }
         }
       }
+      LectureCompletion: {
+        payload: Prisma.$LectureCompletionPayload<ExtArgs>
+        fields: Prisma.LectureCompletionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.LectureCompletionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LectureCompletionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.LectureCompletionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LectureCompletionPayload>
+          }
+          findFirst: {
+            args: Prisma.LectureCompletionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LectureCompletionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.LectureCompletionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LectureCompletionPayload>
+          }
+          findMany: {
+            args: Prisma.LectureCompletionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LectureCompletionPayload>[]
+          }
+          create: {
+            args: Prisma.LectureCompletionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LectureCompletionPayload>
+          }
+          createMany: {
+            args: Prisma.LectureCompletionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.LectureCompletionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LectureCompletionPayload>[]
+          }
+          delete: {
+            args: Prisma.LectureCompletionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LectureCompletionPayload>
+          }
+          update: {
+            args: Prisma.LectureCompletionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LectureCompletionPayload>
+          }
+          deleteMany: {
+            args: Prisma.LectureCompletionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.LectureCompletionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.LectureCompletionUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LectureCompletionPayload>[]
+          }
+          upsert: {
+            args: Prisma.LectureCompletionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LectureCompletionPayload>
+          }
+          aggregate: {
+            args: Prisma.LectureCompletionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateLectureCompletion>
+          }
+          groupBy: {
+            args: Prisma.LectureCompletionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<LectureCompletionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.LectureCompletionCountArgs<ExtArgs>
+            result: $Utils.Optional<LectureCompletionCountAggregateOutputType> | number
+          }
+        }
+      }
       Quiz: {
         payload: Prisma.$QuizPayload<ExtArgs>
         fields: Prisma.QuizFieldRefs
@@ -1934,6 +2024,7 @@ export namespace Prisma {
     orderItem?: OrderItemOmit
     payment?: PaymentOmit
     lecture?: LectureOmit
+    lectureCompletion?: LectureCompletionOmit
     quiz?: QuizOmit
     question?: QuestionOmit
     note?: NoteOmit
@@ -2022,6 +2113,7 @@ export namespace Prisma {
     carts: number
     OrderStatus: number
     rating: number
+    completedLectures: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2030,6 +2122,7 @@ export namespace Prisma {
     carts?: boolean | UserCountOutputTypeCountCartsArgs
     OrderStatus?: boolean | UserCountOutputTypeCountOrderStatusArgs
     rating?: boolean | UserCountOutputTypeCountRatingArgs
+    completedLectures?: boolean | UserCountOutputTypeCountCompletedLecturesArgs
   }
 
   // Custom InputTypes
@@ -2076,6 +2169,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountRatingArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: RatingWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountCompletedLecturesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LectureCompletionWhereInput
   }
 
 
@@ -2214,6 +2314,37 @@ export namespace Prisma {
    */
   export type OrderCountOutputTypeCountItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: OrderItemWhereInput
+  }
+
+
+  /**
+   * Count Type LectureCountOutputType
+   */
+
+  export type LectureCountOutputType = {
+    completions: number
+  }
+
+  export type LectureCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    completions?: boolean | LectureCountOutputTypeCountCompletionsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * LectureCountOutputType without action
+   */
+  export type LectureCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LectureCountOutputType
+     */
+    select?: LectureCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * LectureCountOutputType without action
+   */
+  export type LectureCountOutputTypeCountCompletionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LectureCompletionWhereInput
   }
 
 
@@ -2493,6 +2624,7 @@ export namespace Prisma {
     carts?: boolean | User$cartsArgs<ExtArgs>
     OrderStatus?: boolean | User$OrderStatusArgs<ExtArgs>
     rating?: boolean | User$ratingArgs<ExtArgs>
+    completedLectures?: boolean | User$completedLecturesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -2554,6 +2686,7 @@ export namespace Prisma {
     carts?: boolean | User$cartsArgs<ExtArgs>
     OrderStatus?: boolean | User$OrderStatusArgs<ExtArgs>
     rating?: boolean | User$ratingArgs<ExtArgs>
+    completedLectures?: boolean | User$completedLecturesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -2567,6 +2700,7 @@ export namespace Prisma {
       carts: Prisma.$CartPayload<ExtArgs>[]
       OrderStatus: Prisma.$OrderPayload<ExtArgs>[]
       rating: Prisma.$RatingPayload<ExtArgs>[]
+      completedLectures: Prisma.$LectureCompletionPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -2982,6 +3116,7 @@ export namespace Prisma {
     carts<T extends User$cartsArgs<ExtArgs> = {}>(args?: Subset<T, User$cartsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CartPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     OrderStatus<T extends User$OrderStatusArgs<ExtArgs> = {}>(args?: Subset<T, User$OrderStatusArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     rating<T extends User$ratingArgs<ExtArgs> = {}>(args?: Subset<T, User$ratingArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RatingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    completedLectures<T extends User$completedLecturesArgs<ExtArgs> = {}>(args?: Subset<T, User$completedLecturesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LectureCompletionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3530,6 +3665,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: RatingScalarFieldEnum | RatingScalarFieldEnum[]
+  }
+
+  /**
+   * User.completedLectures
+   */
+  export type User$completedLecturesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LectureCompletion
+     */
+    select?: LectureCompletionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LectureCompletion
+     */
+    omit?: LectureCompletionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LectureCompletionInclude<ExtArgs> | null
+    where?: LectureCompletionWhereInput
+    orderBy?: LectureCompletionOrderByWithRelationInput | LectureCompletionOrderByWithRelationInput[]
+    cursor?: LectureCompletionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: LectureCompletionScalarFieldEnum | LectureCompletionScalarFieldEnum[]
   }
 
   /**
@@ -12741,7 +12900,9 @@ export namespace Prisma {
     summary?: boolean
     note?: boolean | Lecture$noteArgs<ExtArgs>
     course?: boolean | CourseDefaultArgs<ExtArgs>
+    completions?: boolean | Lecture$completionsArgs<ExtArgs>
     quiz?: boolean | Lecture$quizArgs<ExtArgs>
+    _count?: boolean | LectureCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["lecture"]>
 
   export type LectureSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -12788,7 +12949,9 @@ export namespace Prisma {
   export type LectureInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     note?: boolean | Lecture$noteArgs<ExtArgs>
     course?: boolean | CourseDefaultArgs<ExtArgs>
+    completions?: boolean | Lecture$completionsArgs<ExtArgs>
     quiz?: boolean | Lecture$quizArgs<ExtArgs>
+    _count?: boolean | LectureCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type LectureIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     note?: boolean | Lecture$noteArgs<ExtArgs>
@@ -12804,6 +12967,7 @@ export namespace Prisma {
     objects: {
       note: Prisma.$NotePayload<ExtArgs> | null
       course: Prisma.$CoursePayload<ExtArgs>
+      completions: Prisma.$LectureCompletionPayload<ExtArgs>[]
       quiz: Prisma.$QuizPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -13212,6 +13376,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     note<T extends Lecture$noteArgs<ExtArgs> = {}>(args?: Subset<T, Lecture$noteArgs<ExtArgs>>): Prisma__NoteClient<$Result.GetResult<Prisma.$NotePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     course<T extends CourseDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CourseDefaultArgs<ExtArgs>>): Prisma__CourseClient<$Result.GetResult<Prisma.$CoursePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    completions<T extends Lecture$completionsArgs<ExtArgs> = {}>(args?: Subset<T, Lecture$completionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LectureCompletionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     quiz<T extends Lecture$quizArgs<ExtArgs> = {}>(args?: Subset<T, Lecture$quizArgs<ExtArgs>>): Prisma__QuizClient<$Result.GetResult<Prisma.$QuizPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -13666,6 +13831,30 @@ export namespace Prisma {
   }
 
   /**
+   * Lecture.completions
+   */
+  export type Lecture$completionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LectureCompletion
+     */
+    select?: LectureCompletionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LectureCompletion
+     */
+    omit?: LectureCompletionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LectureCompletionInclude<ExtArgs> | null
+    where?: LectureCompletionWhereInput
+    orderBy?: LectureCompletionOrderByWithRelationInput | LectureCompletionOrderByWithRelationInput[]
+    cursor?: LectureCompletionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: LectureCompletionScalarFieldEnum | LectureCompletionScalarFieldEnum[]
+  }
+
+  /**
    * Lecture.quiz
    */
   export type Lecture$quizArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -13700,6 +13889,1059 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: LectureInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model LectureCompletion
+   */
+
+  export type AggregateLectureCompletion = {
+    _count: LectureCompletionCountAggregateOutputType | null
+    _min: LectureCompletionMinAggregateOutputType | null
+    _max: LectureCompletionMaxAggregateOutputType | null
+  }
+
+  export type LectureCompletionMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    lectureId: string | null
+    completedAt: Date | null
+  }
+
+  export type LectureCompletionMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    lectureId: string | null
+    completedAt: Date | null
+  }
+
+  export type LectureCompletionCountAggregateOutputType = {
+    id: number
+    userId: number
+    lectureId: number
+    completedAt: number
+    _all: number
+  }
+
+
+  export type LectureCompletionMinAggregateInputType = {
+    id?: true
+    userId?: true
+    lectureId?: true
+    completedAt?: true
+  }
+
+  export type LectureCompletionMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    lectureId?: true
+    completedAt?: true
+  }
+
+  export type LectureCompletionCountAggregateInputType = {
+    id?: true
+    userId?: true
+    lectureId?: true
+    completedAt?: true
+    _all?: true
+  }
+
+  export type LectureCompletionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which LectureCompletion to aggregate.
+     */
+    where?: LectureCompletionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LectureCompletions to fetch.
+     */
+    orderBy?: LectureCompletionOrderByWithRelationInput | LectureCompletionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: LectureCompletionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LectureCompletions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LectureCompletions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned LectureCompletions
+    **/
+    _count?: true | LectureCompletionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: LectureCompletionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: LectureCompletionMaxAggregateInputType
+  }
+
+  export type GetLectureCompletionAggregateType<T extends LectureCompletionAggregateArgs> = {
+        [P in keyof T & keyof AggregateLectureCompletion]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateLectureCompletion[P]>
+      : GetScalarType<T[P], AggregateLectureCompletion[P]>
+  }
+
+
+
+
+  export type LectureCompletionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LectureCompletionWhereInput
+    orderBy?: LectureCompletionOrderByWithAggregationInput | LectureCompletionOrderByWithAggregationInput[]
+    by: LectureCompletionScalarFieldEnum[] | LectureCompletionScalarFieldEnum
+    having?: LectureCompletionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: LectureCompletionCountAggregateInputType | true
+    _min?: LectureCompletionMinAggregateInputType
+    _max?: LectureCompletionMaxAggregateInputType
+  }
+
+  export type LectureCompletionGroupByOutputType = {
+    id: string
+    userId: string
+    lectureId: string
+    completedAt: Date
+    _count: LectureCompletionCountAggregateOutputType | null
+    _min: LectureCompletionMinAggregateOutputType | null
+    _max: LectureCompletionMaxAggregateOutputType | null
+  }
+
+  type GetLectureCompletionGroupByPayload<T extends LectureCompletionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<LectureCompletionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof LectureCompletionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], LectureCompletionGroupByOutputType[P]>
+            : GetScalarType<T[P], LectureCompletionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type LectureCompletionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    lectureId?: boolean
+    completedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    lecture?: boolean | LectureDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["lectureCompletion"]>
+
+  export type LectureCompletionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    lectureId?: boolean
+    completedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    lecture?: boolean | LectureDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["lectureCompletion"]>
+
+  export type LectureCompletionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    lectureId?: boolean
+    completedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    lecture?: boolean | LectureDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["lectureCompletion"]>
+
+  export type LectureCompletionSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    lectureId?: boolean
+    completedAt?: boolean
+  }
+
+  export type LectureCompletionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "lectureId" | "completedAt", ExtArgs["result"]["lectureCompletion"]>
+  export type LectureCompletionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    lecture?: boolean | LectureDefaultArgs<ExtArgs>
+  }
+  export type LectureCompletionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    lecture?: boolean | LectureDefaultArgs<ExtArgs>
+  }
+  export type LectureCompletionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    lecture?: boolean | LectureDefaultArgs<ExtArgs>
+  }
+
+  export type $LectureCompletionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "LectureCompletion"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+      lecture: Prisma.$LecturePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      lectureId: string
+      completedAt: Date
+    }, ExtArgs["result"]["lectureCompletion"]>
+    composites: {}
+  }
+
+  type LectureCompletionGetPayload<S extends boolean | null | undefined | LectureCompletionDefaultArgs> = $Result.GetResult<Prisma.$LectureCompletionPayload, S>
+
+  type LectureCompletionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<LectureCompletionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: LectureCompletionCountAggregateInputType | true
+    }
+
+  export interface LectureCompletionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['LectureCompletion'], meta: { name: 'LectureCompletion' } }
+    /**
+     * Find zero or one LectureCompletion that matches the filter.
+     * @param {LectureCompletionFindUniqueArgs} args - Arguments to find a LectureCompletion
+     * @example
+     * // Get one LectureCompletion
+     * const lectureCompletion = await prisma.lectureCompletion.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends LectureCompletionFindUniqueArgs>(args: SelectSubset<T, LectureCompletionFindUniqueArgs<ExtArgs>>): Prisma__LectureCompletionClient<$Result.GetResult<Prisma.$LectureCompletionPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one LectureCompletion that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {LectureCompletionFindUniqueOrThrowArgs} args - Arguments to find a LectureCompletion
+     * @example
+     * // Get one LectureCompletion
+     * const lectureCompletion = await prisma.lectureCompletion.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends LectureCompletionFindUniqueOrThrowArgs>(args: SelectSubset<T, LectureCompletionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__LectureCompletionClient<$Result.GetResult<Prisma.$LectureCompletionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first LectureCompletion that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LectureCompletionFindFirstArgs} args - Arguments to find a LectureCompletion
+     * @example
+     * // Get one LectureCompletion
+     * const lectureCompletion = await prisma.lectureCompletion.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends LectureCompletionFindFirstArgs>(args?: SelectSubset<T, LectureCompletionFindFirstArgs<ExtArgs>>): Prisma__LectureCompletionClient<$Result.GetResult<Prisma.$LectureCompletionPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first LectureCompletion that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LectureCompletionFindFirstOrThrowArgs} args - Arguments to find a LectureCompletion
+     * @example
+     * // Get one LectureCompletion
+     * const lectureCompletion = await prisma.lectureCompletion.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends LectureCompletionFindFirstOrThrowArgs>(args?: SelectSubset<T, LectureCompletionFindFirstOrThrowArgs<ExtArgs>>): Prisma__LectureCompletionClient<$Result.GetResult<Prisma.$LectureCompletionPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more LectureCompletions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LectureCompletionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all LectureCompletions
+     * const lectureCompletions = await prisma.lectureCompletion.findMany()
+     * 
+     * // Get first 10 LectureCompletions
+     * const lectureCompletions = await prisma.lectureCompletion.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const lectureCompletionWithIdOnly = await prisma.lectureCompletion.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends LectureCompletionFindManyArgs>(args?: SelectSubset<T, LectureCompletionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LectureCompletionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a LectureCompletion.
+     * @param {LectureCompletionCreateArgs} args - Arguments to create a LectureCompletion.
+     * @example
+     * // Create one LectureCompletion
+     * const LectureCompletion = await prisma.lectureCompletion.create({
+     *   data: {
+     *     // ... data to create a LectureCompletion
+     *   }
+     * })
+     * 
+     */
+    create<T extends LectureCompletionCreateArgs>(args: SelectSubset<T, LectureCompletionCreateArgs<ExtArgs>>): Prisma__LectureCompletionClient<$Result.GetResult<Prisma.$LectureCompletionPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many LectureCompletions.
+     * @param {LectureCompletionCreateManyArgs} args - Arguments to create many LectureCompletions.
+     * @example
+     * // Create many LectureCompletions
+     * const lectureCompletion = await prisma.lectureCompletion.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends LectureCompletionCreateManyArgs>(args?: SelectSubset<T, LectureCompletionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many LectureCompletions and returns the data saved in the database.
+     * @param {LectureCompletionCreateManyAndReturnArgs} args - Arguments to create many LectureCompletions.
+     * @example
+     * // Create many LectureCompletions
+     * const lectureCompletion = await prisma.lectureCompletion.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many LectureCompletions and only return the `id`
+     * const lectureCompletionWithIdOnly = await prisma.lectureCompletion.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends LectureCompletionCreateManyAndReturnArgs>(args?: SelectSubset<T, LectureCompletionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LectureCompletionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a LectureCompletion.
+     * @param {LectureCompletionDeleteArgs} args - Arguments to delete one LectureCompletion.
+     * @example
+     * // Delete one LectureCompletion
+     * const LectureCompletion = await prisma.lectureCompletion.delete({
+     *   where: {
+     *     // ... filter to delete one LectureCompletion
+     *   }
+     * })
+     * 
+     */
+    delete<T extends LectureCompletionDeleteArgs>(args: SelectSubset<T, LectureCompletionDeleteArgs<ExtArgs>>): Prisma__LectureCompletionClient<$Result.GetResult<Prisma.$LectureCompletionPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one LectureCompletion.
+     * @param {LectureCompletionUpdateArgs} args - Arguments to update one LectureCompletion.
+     * @example
+     * // Update one LectureCompletion
+     * const lectureCompletion = await prisma.lectureCompletion.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends LectureCompletionUpdateArgs>(args: SelectSubset<T, LectureCompletionUpdateArgs<ExtArgs>>): Prisma__LectureCompletionClient<$Result.GetResult<Prisma.$LectureCompletionPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more LectureCompletions.
+     * @param {LectureCompletionDeleteManyArgs} args - Arguments to filter LectureCompletions to delete.
+     * @example
+     * // Delete a few LectureCompletions
+     * const { count } = await prisma.lectureCompletion.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends LectureCompletionDeleteManyArgs>(args?: SelectSubset<T, LectureCompletionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more LectureCompletions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LectureCompletionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many LectureCompletions
+     * const lectureCompletion = await prisma.lectureCompletion.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends LectureCompletionUpdateManyArgs>(args: SelectSubset<T, LectureCompletionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more LectureCompletions and returns the data updated in the database.
+     * @param {LectureCompletionUpdateManyAndReturnArgs} args - Arguments to update many LectureCompletions.
+     * @example
+     * // Update many LectureCompletions
+     * const lectureCompletion = await prisma.lectureCompletion.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more LectureCompletions and only return the `id`
+     * const lectureCompletionWithIdOnly = await prisma.lectureCompletion.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends LectureCompletionUpdateManyAndReturnArgs>(args: SelectSubset<T, LectureCompletionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LectureCompletionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one LectureCompletion.
+     * @param {LectureCompletionUpsertArgs} args - Arguments to update or create a LectureCompletion.
+     * @example
+     * // Update or create a LectureCompletion
+     * const lectureCompletion = await prisma.lectureCompletion.upsert({
+     *   create: {
+     *     // ... data to create a LectureCompletion
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the LectureCompletion we want to update
+     *   }
+     * })
+     */
+    upsert<T extends LectureCompletionUpsertArgs>(args: SelectSubset<T, LectureCompletionUpsertArgs<ExtArgs>>): Prisma__LectureCompletionClient<$Result.GetResult<Prisma.$LectureCompletionPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of LectureCompletions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LectureCompletionCountArgs} args - Arguments to filter LectureCompletions to count.
+     * @example
+     * // Count the number of LectureCompletions
+     * const count = await prisma.lectureCompletion.count({
+     *   where: {
+     *     // ... the filter for the LectureCompletions we want to count
+     *   }
+     * })
+    **/
+    count<T extends LectureCompletionCountArgs>(
+      args?: Subset<T, LectureCompletionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], LectureCompletionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a LectureCompletion.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LectureCompletionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends LectureCompletionAggregateArgs>(args: Subset<T, LectureCompletionAggregateArgs>): Prisma.PrismaPromise<GetLectureCompletionAggregateType<T>>
+
+    /**
+     * Group by LectureCompletion.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LectureCompletionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends LectureCompletionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: LectureCompletionGroupByArgs['orderBy'] }
+        : { orderBy?: LectureCompletionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, LectureCompletionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetLectureCompletionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the LectureCompletion model
+   */
+  readonly fields: LectureCompletionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for LectureCompletion.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__LectureCompletionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    lecture<T extends LectureDefaultArgs<ExtArgs> = {}>(args?: Subset<T, LectureDefaultArgs<ExtArgs>>): Prisma__LectureClient<$Result.GetResult<Prisma.$LecturePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the LectureCompletion model
+   */
+  interface LectureCompletionFieldRefs {
+    readonly id: FieldRef<"LectureCompletion", 'String'>
+    readonly userId: FieldRef<"LectureCompletion", 'String'>
+    readonly lectureId: FieldRef<"LectureCompletion", 'String'>
+    readonly completedAt: FieldRef<"LectureCompletion", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * LectureCompletion findUnique
+   */
+  export type LectureCompletionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LectureCompletion
+     */
+    select?: LectureCompletionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LectureCompletion
+     */
+    omit?: LectureCompletionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LectureCompletionInclude<ExtArgs> | null
+    /**
+     * Filter, which LectureCompletion to fetch.
+     */
+    where: LectureCompletionWhereUniqueInput
+  }
+
+  /**
+   * LectureCompletion findUniqueOrThrow
+   */
+  export type LectureCompletionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LectureCompletion
+     */
+    select?: LectureCompletionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LectureCompletion
+     */
+    omit?: LectureCompletionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LectureCompletionInclude<ExtArgs> | null
+    /**
+     * Filter, which LectureCompletion to fetch.
+     */
+    where: LectureCompletionWhereUniqueInput
+  }
+
+  /**
+   * LectureCompletion findFirst
+   */
+  export type LectureCompletionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LectureCompletion
+     */
+    select?: LectureCompletionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LectureCompletion
+     */
+    omit?: LectureCompletionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LectureCompletionInclude<ExtArgs> | null
+    /**
+     * Filter, which LectureCompletion to fetch.
+     */
+    where?: LectureCompletionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LectureCompletions to fetch.
+     */
+    orderBy?: LectureCompletionOrderByWithRelationInput | LectureCompletionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for LectureCompletions.
+     */
+    cursor?: LectureCompletionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LectureCompletions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LectureCompletions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LectureCompletions.
+     */
+    distinct?: LectureCompletionScalarFieldEnum | LectureCompletionScalarFieldEnum[]
+  }
+
+  /**
+   * LectureCompletion findFirstOrThrow
+   */
+  export type LectureCompletionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LectureCompletion
+     */
+    select?: LectureCompletionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LectureCompletion
+     */
+    omit?: LectureCompletionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LectureCompletionInclude<ExtArgs> | null
+    /**
+     * Filter, which LectureCompletion to fetch.
+     */
+    where?: LectureCompletionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LectureCompletions to fetch.
+     */
+    orderBy?: LectureCompletionOrderByWithRelationInput | LectureCompletionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for LectureCompletions.
+     */
+    cursor?: LectureCompletionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LectureCompletions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LectureCompletions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LectureCompletions.
+     */
+    distinct?: LectureCompletionScalarFieldEnum | LectureCompletionScalarFieldEnum[]
+  }
+
+  /**
+   * LectureCompletion findMany
+   */
+  export type LectureCompletionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LectureCompletion
+     */
+    select?: LectureCompletionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LectureCompletion
+     */
+    omit?: LectureCompletionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LectureCompletionInclude<ExtArgs> | null
+    /**
+     * Filter, which LectureCompletions to fetch.
+     */
+    where?: LectureCompletionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LectureCompletions to fetch.
+     */
+    orderBy?: LectureCompletionOrderByWithRelationInput | LectureCompletionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing LectureCompletions.
+     */
+    cursor?: LectureCompletionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LectureCompletions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LectureCompletions.
+     */
+    skip?: number
+    distinct?: LectureCompletionScalarFieldEnum | LectureCompletionScalarFieldEnum[]
+  }
+
+  /**
+   * LectureCompletion create
+   */
+  export type LectureCompletionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LectureCompletion
+     */
+    select?: LectureCompletionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LectureCompletion
+     */
+    omit?: LectureCompletionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LectureCompletionInclude<ExtArgs> | null
+    /**
+     * The data needed to create a LectureCompletion.
+     */
+    data: XOR<LectureCompletionCreateInput, LectureCompletionUncheckedCreateInput>
+  }
+
+  /**
+   * LectureCompletion createMany
+   */
+  export type LectureCompletionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many LectureCompletions.
+     */
+    data: LectureCompletionCreateManyInput | LectureCompletionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * LectureCompletion createManyAndReturn
+   */
+  export type LectureCompletionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LectureCompletion
+     */
+    select?: LectureCompletionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the LectureCompletion
+     */
+    omit?: LectureCompletionOmit<ExtArgs> | null
+    /**
+     * The data used to create many LectureCompletions.
+     */
+    data: LectureCompletionCreateManyInput | LectureCompletionCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LectureCompletionIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * LectureCompletion update
+   */
+  export type LectureCompletionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LectureCompletion
+     */
+    select?: LectureCompletionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LectureCompletion
+     */
+    omit?: LectureCompletionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LectureCompletionInclude<ExtArgs> | null
+    /**
+     * The data needed to update a LectureCompletion.
+     */
+    data: XOR<LectureCompletionUpdateInput, LectureCompletionUncheckedUpdateInput>
+    /**
+     * Choose, which LectureCompletion to update.
+     */
+    where: LectureCompletionWhereUniqueInput
+  }
+
+  /**
+   * LectureCompletion updateMany
+   */
+  export type LectureCompletionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update LectureCompletions.
+     */
+    data: XOR<LectureCompletionUpdateManyMutationInput, LectureCompletionUncheckedUpdateManyInput>
+    /**
+     * Filter which LectureCompletions to update
+     */
+    where?: LectureCompletionWhereInput
+    /**
+     * Limit how many LectureCompletions to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * LectureCompletion updateManyAndReturn
+   */
+  export type LectureCompletionUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LectureCompletion
+     */
+    select?: LectureCompletionSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the LectureCompletion
+     */
+    omit?: LectureCompletionOmit<ExtArgs> | null
+    /**
+     * The data used to update LectureCompletions.
+     */
+    data: XOR<LectureCompletionUpdateManyMutationInput, LectureCompletionUncheckedUpdateManyInput>
+    /**
+     * Filter which LectureCompletions to update
+     */
+    where?: LectureCompletionWhereInput
+    /**
+     * Limit how many LectureCompletions to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LectureCompletionIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * LectureCompletion upsert
+   */
+  export type LectureCompletionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LectureCompletion
+     */
+    select?: LectureCompletionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LectureCompletion
+     */
+    omit?: LectureCompletionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LectureCompletionInclude<ExtArgs> | null
+    /**
+     * The filter to search for the LectureCompletion to update in case it exists.
+     */
+    where: LectureCompletionWhereUniqueInput
+    /**
+     * In case the LectureCompletion found by the `where` argument doesn't exist, create a new LectureCompletion with this data.
+     */
+    create: XOR<LectureCompletionCreateInput, LectureCompletionUncheckedCreateInput>
+    /**
+     * In case the LectureCompletion was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<LectureCompletionUpdateInput, LectureCompletionUncheckedUpdateInput>
+  }
+
+  /**
+   * LectureCompletion delete
+   */
+  export type LectureCompletionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LectureCompletion
+     */
+    select?: LectureCompletionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LectureCompletion
+     */
+    omit?: LectureCompletionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LectureCompletionInclude<ExtArgs> | null
+    /**
+     * Filter which LectureCompletion to delete.
+     */
+    where: LectureCompletionWhereUniqueInput
+  }
+
+  /**
+   * LectureCompletion deleteMany
+   */
+  export type LectureCompletionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which LectureCompletions to delete
+     */
+    where?: LectureCompletionWhereInput
+    /**
+     * Limit how many LectureCompletions to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * LectureCompletion without action
+   */
+  export type LectureCompletionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LectureCompletion
+     */
+    select?: LectureCompletionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LectureCompletion
+     */
+    omit?: LectureCompletionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LectureCompletionInclude<ExtArgs> | null
   }
 
 
@@ -17076,6 +18318,16 @@ export namespace Prisma {
   export type LectureScalarFieldEnum = (typeof LectureScalarFieldEnum)[keyof typeof LectureScalarFieldEnum]
 
 
+  export const LectureCompletionScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    lectureId: 'lectureId',
+    completedAt: 'completedAt'
+  };
+
+  export type LectureCompletionScalarFieldEnum = (typeof LectureCompletionScalarFieldEnum)[keyof typeof LectureCompletionScalarFieldEnum]
+
+
   export const QuizScalarFieldEnum: {
     id: 'id',
     lectureId: 'lectureId',
@@ -17281,6 +18533,7 @@ export namespace Prisma {
     carts?: CartListRelationFilter
     OrderStatus?: OrderListRelationFilter
     rating?: RatingListRelationFilter
+    completedLectures?: LectureCompletionListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -17303,6 +18556,7 @@ export namespace Prisma {
     carts?: CartOrderByRelationAggregateInput
     OrderStatus?: OrderOrderByRelationAggregateInput
     rating?: RatingOrderByRelationAggregateInput
+    completedLectures?: LectureCompletionOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -17328,6 +18582,7 @@ export namespace Prisma {
     carts?: CartListRelationFilter
     OrderStatus?: OrderListRelationFilter
     rating?: RatingListRelationFilter
+    completedLectures?: LectureCompletionListRelationFilter
   }, "id" | "username" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -17901,6 +19156,7 @@ export namespace Prisma {
     summary?: StringNullableFilter<"Lecture"> | string | null
     note?: XOR<NoteNullableScalarRelationFilter, NoteWhereInput> | null
     course?: XOR<CourseScalarRelationFilter, CourseWhereInput>
+    completions?: LectureCompletionListRelationFilter
     quiz?: XOR<QuizNullableScalarRelationFilter, QuizWhereInput> | null
   }
 
@@ -17916,6 +19172,7 @@ export namespace Prisma {
     summary?: SortOrderInput | SortOrder
     note?: NoteOrderByWithRelationInput
     course?: CourseOrderByWithRelationInput
+    completions?: LectureCompletionOrderByRelationAggregateInput
     quiz?: QuizOrderByWithRelationInput
   }
 
@@ -17934,6 +19191,7 @@ export namespace Prisma {
     summary?: StringNullableFilter<"Lecture"> | string | null
     note?: XOR<NoteNullableScalarRelationFilter, NoteWhereInput> | null
     course?: XOR<CourseScalarRelationFilter, CourseWhereInput>
+    completions?: LectureCompletionListRelationFilter
     quiz?: XOR<QuizNullableScalarRelationFilter, QuizWhereInput> | null
   }, "id" | "noteId">
 
@@ -17965,6 +19223,60 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"Lecture"> | Date | string
     transcript?: StringNullableWithAggregatesFilter<"Lecture"> | string | null
     summary?: StringNullableWithAggregatesFilter<"Lecture"> | string | null
+  }
+
+  export type LectureCompletionWhereInput = {
+    AND?: LectureCompletionWhereInput | LectureCompletionWhereInput[]
+    OR?: LectureCompletionWhereInput[]
+    NOT?: LectureCompletionWhereInput | LectureCompletionWhereInput[]
+    id?: StringFilter<"LectureCompletion"> | string
+    userId?: StringFilter<"LectureCompletion"> | string
+    lectureId?: StringFilter<"LectureCompletion"> | string
+    completedAt?: DateTimeFilter<"LectureCompletion"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    lecture?: XOR<LectureScalarRelationFilter, LectureWhereInput>
+  }
+
+  export type LectureCompletionOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    lectureId?: SortOrder
+    completedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+    lecture?: LectureOrderByWithRelationInput
+  }
+
+  export type LectureCompletionWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userId_lectureId?: LectureCompletionUserIdLectureIdCompoundUniqueInput
+    AND?: LectureCompletionWhereInput | LectureCompletionWhereInput[]
+    OR?: LectureCompletionWhereInput[]
+    NOT?: LectureCompletionWhereInput | LectureCompletionWhereInput[]
+    userId?: StringFilter<"LectureCompletion"> | string
+    lectureId?: StringFilter<"LectureCompletion"> | string
+    completedAt?: DateTimeFilter<"LectureCompletion"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    lecture?: XOR<LectureScalarRelationFilter, LectureWhereInput>
+  }, "id" | "userId_lectureId">
+
+  export type LectureCompletionOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    lectureId?: SortOrder
+    completedAt?: SortOrder
+    _count?: LectureCompletionCountOrderByAggregateInput
+    _max?: LectureCompletionMaxOrderByAggregateInput
+    _min?: LectureCompletionMinOrderByAggregateInput
+  }
+
+  export type LectureCompletionScalarWhereWithAggregatesInput = {
+    AND?: LectureCompletionScalarWhereWithAggregatesInput | LectureCompletionScalarWhereWithAggregatesInput[]
+    OR?: LectureCompletionScalarWhereWithAggregatesInput[]
+    NOT?: LectureCompletionScalarWhereWithAggregatesInput | LectureCompletionScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"LectureCompletion"> | string
+    userId?: StringWithAggregatesFilter<"LectureCompletion"> | string
+    lectureId?: StringWithAggregatesFilter<"LectureCompletion"> | string
+    completedAt?: DateTimeWithAggregatesFilter<"LectureCompletion"> | Date | string
   }
 
   export type QuizWhereInput = {
@@ -18150,6 +19462,7 @@ export namespace Prisma {
     carts?: CartCreateNestedManyWithoutStudentInput
     OrderStatus?: OrderCreateNestedManyWithoutStudentInput
     rating?: RatingCreateNestedManyWithoutStudentInput
+    completedLectures?: LectureCompletionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -18172,6 +19485,7 @@ export namespace Prisma {
     carts?: CartUncheckedCreateNestedManyWithoutStudentInput
     OrderStatus?: OrderUncheckedCreateNestedManyWithoutStudentInput
     rating?: RatingUncheckedCreateNestedManyWithoutStudentInput
+    completedLectures?: LectureCompletionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -18194,6 +19508,7 @@ export namespace Prisma {
     carts?: CartUpdateManyWithoutStudentNestedInput
     OrderStatus?: OrderUpdateManyWithoutStudentNestedInput
     rating?: RatingUpdateManyWithoutStudentNestedInput
+    completedLectures?: LectureCompletionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -18216,6 +19531,7 @@ export namespace Prisma {
     carts?: CartUncheckedUpdateManyWithoutStudentNestedInput
     OrderStatus?: OrderUncheckedUpdateManyWithoutStudentNestedInput
     rating?: RatingUncheckedUpdateManyWithoutStudentNestedInput
+    completedLectures?: LectureCompletionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -18786,6 +20102,7 @@ export namespace Prisma {
     summary?: string | null
     note?: NoteCreateNestedOneWithoutLectureInput
     course: CourseCreateNestedOneWithoutLecturesInput
+    completions?: LectureCompletionCreateNestedManyWithoutLectureInput
     quiz?: QuizCreateNestedOneWithoutLectureInput
   }
 
@@ -18799,6 +20116,7 @@ export namespace Prisma {
     createdAt?: Date | string
     transcript?: string | null
     summary?: string | null
+    completions?: LectureCompletionUncheckedCreateNestedManyWithoutLectureInput
     quiz?: QuizUncheckedCreateNestedOneWithoutLectureInput
   }
 
@@ -18812,6 +20130,7 @@ export namespace Prisma {
     summary?: NullableStringFieldUpdateOperationsInput | string | null
     note?: NoteUpdateOneWithoutLectureNestedInput
     course?: CourseUpdateOneRequiredWithoutLecturesNestedInput
+    completions?: LectureCompletionUpdateManyWithoutLectureNestedInput
     quiz?: QuizUpdateOneWithoutLectureNestedInput
   }
 
@@ -18825,6 +20144,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     transcript?: NullableStringFieldUpdateOperationsInput | string | null
     summary?: NullableStringFieldUpdateOperationsInput | string | null
+    completions?: LectureCompletionUncheckedUpdateManyWithoutLectureNestedInput
     quiz?: QuizUncheckedUpdateOneWithoutLectureNestedInput
   }
 
@@ -18860,6 +20180,53 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     transcript?: NullableStringFieldUpdateOperationsInput | string | null
     summary?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type LectureCompletionCreateInput = {
+    id?: string
+    completedAt?: Date | string
+    user: UserCreateNestedOneWithoutCompletedLecturesInput
+    lecture: LectureCreateNestedOneWithoutCompletionsInput
+  }
+
+  export type LectureCompletionUncheckedCreateInput = {
+    id?: string
+    userId: string
+    lectureId: string
+    completedAt?: Date | string
+  }
+
+  export type LectureCompletionUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    completedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutCompletedLecturesNestedInput
+    lecture?: LectureUpdateOneRequiredWithoutCompletionsNestedInput
+  }
+
+  export type LectureCompletionUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    lectureId?: StringFieldUpdateOperationsInput | string
+    completedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LectureCompletionCreateManyInput = {
+    id?: string
+    userId: string
+    lectureId: string
+    completedAt?: Date | string
+  }
+
+  export type LectureCompletionUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    completedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LectureCompletionUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    lectureId?: StringFieldUpdateOperationsInput | string
+    completedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type QuizCreateInput = {
@@ -19115,6 +20482,12 @@ export namespace Prisma {
     none?: RatingWhereInput
   }
 
+  export type LectureCompletionListRelationFilter = {
+    every?: LectureCompletionWhereInput
+    some?: LectureCompletionWhereInput
+    none?: LectureCompletionWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -19137,6 +20510,10 @@ export namespace Prisma {
   }
 
   export type RatingOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type LectureCompletionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -19782,6 +21159,32 @@ export namespace Prisma {
     isNot?: LectureWhereInput
   }
 
+  export type LectureCompletionUserIdLectureIdCompoundUniqueInput = {
+    userId: string
+    lectureId: string
+  }
+
+  export type LectureCompletionCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    lectureId?: SortOrder
+    completedAt?: SortOrder
+  }
+
+  export type LectureCompletionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    lectureId?: SortOrder
+    completedAt?: SortOrder
+  }
+
+  export type LectureCompletionMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    lectureId?: SortOrder
+    completedAt?: SortOrder
+  }
+
   export type QuestionListRelationFilter = {
     every?: QuestionWhereInput
     some?: QuestionWhereInput
@@ -19917,6 +21320,13 @@ export namespace Prisma {
     connect?: RatingWhereUniqueInput | RatingWhereUniqueInput[]
   }
 
+  export type LectureCompletionCreateNestedManyWithoutUserInput = {
+    create?: XOR<LectureCompletionCreateWithoutUserInput, LectureCompletionUncheckedCreateWithoutUserInput> | LectureCompletionCreateWithoutUserInput[] | LectureCompletionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: LectureCompletionCreateOrConnectWithoutUserInput | LectureCompletionCreateOrConnectWithoutUserInput[]
+    createMany?: LectureCompletionCreateManyUserInputEnvelope
+    connect?: LectureCompletionWhereUniqueInput | LectureCompletionWhereUniqueInput[]
+  }
+
   export type CourseUncheckedCreateNestedManyWithoutTrainerInput = {
     create?: XOR<CourseCreateWithoutTrainerInput, CourseUncheckedCreateWithoutTrainerInput> | CourseCreateWithoutTrainerInput[] | CourseUncheckedCreateWithoutTrainerInput[]
     connectOrCreate?: CourseCreateOrConnectWithoutTrainerInput | CourseCreateOrConnectWithoutTrainerInput[]
@@ -19950,6 +21360,13 @@ export namespace Prisma {
     connectOrCreate?: RatingCreateOrConnectWithoutStudentInput | RatingCreateOrConnectWithoutStudentInput[]
     createMany?: RatingCreateManyStudentInputEnvelope
     connect?: RatingWhereUniqueInput | RatingWhereUniqueInput[]
+  }
+
+  export type LectureCompletionUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<LectureCompletionCreateWithoutUserInput, LectureCompletionUncheckedCreateWithoutUserInput> | LectureCompletionCreateWithoutUserInput[] | LectureCompletionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: LectureCompletionCreateOrConnectWithoutUserInput | LectureCompletionCreateOrConnectWithoutUserInput[]
+    createMany?: LectureCompletionCreateManyUserInputEnvelope
+    connect?: LectureCompletionWhereUniqueInput | LectureCompletionWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -20046,6 +21463,20 @@ export namespace Prisma {
     deleteMany?: RatingScalarWhereInput | RatingScalarWhereInput[]
   }
 
+  export type LectureCompletionUpdateManyWithoutUserNestedInput = {
+    create?: XOR<LectureCompletionCreateWithoutUserInput, LectureCompletionUncheckedCreateWithoutUserInput> | LectureCompletionCreateWithoutUserInput[] | LectureCompletionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: LectureCompletionCreateOrConnectWithoutUserInput | LectureCompletionCreateOrConnectWithoutUserInput[]
+    upsert?: LectureCompletionUpsertWithWhereUniqueWithoutUserInput | LectureCompletionUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: LectureCompletionCreateManyUserInputEnvelope
+    set?: LectureCompletionWhereUniqueInput | LectureCompletionWhereUniqueInput[]
+    disconnect?: LectureCompletionWhereUniqueInput | LectureCompletionWhereUniqueInput[]
+    delete?: LectureCompletionWhereUniqueInput | LectureCompletionWhereUniqueInput[]
+    connect?: LectureCompletionWhereUniqueInput | LectureCompletionWhereUniqueInput[]
+    update?: LectureCompletionUpdateWithWhereUniqueWithoutUserInput | LectureCompletionUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: LectureCompletionUpdateManyWithWhereWithoutUserInput | LectureCompletionUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: LectureCompletionScalarWhereInput | LectureCompletionScalarWhereInput[]
+  }
+
   export type CourseUncheckedUpdateManyWithoutTrainerNestedInput = {
     create?: XOR<CourseCreateWithoutTrainerInput, CourseUncheckedCreateWithoutTrainerInput> | CourseCreateWithoutTrainerInput[] | CourseUncheckedCreateWithoutTrainerInput[]
     connectOrCreate?: CourseCreateOrConnectWithoutTrainerInput | CourseCreateOrConnectWithoutTrainerInput[]
@@ -20114,6 +21545,20 @@ export namespace Prisma {
     update?: RatingUpdateWithWhereUniqueWithoutStudentInput | RatingUpdateWithWhereUniqueWithoutStudentInput[]
     updateMany?: RatingUpdateManyWithWhereWithoutStudentInput | RatingUpdateManyWithWhereWithoutStudentInput[]
     deleteMany?: RatingScalarWhereInput | RatingScalarWhereInput[]
+  }
+
+  export type LectureCompletionUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<LectureCompletionCreateWithoutUserInput, LectureCompletionUncheckedCreateWithoutUserInput> | LectureCompletionCreateWithoutUserInput[] | LectureCompletionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: LectureCompletionCreateOrConnectWithoutUserInput | LectureCompletionCreateOrConnectWithoutUserInput[]
+    upsert?: LectureCompletionUpsertWithWhereUniqueWithoutUserInput | LectureCompletionUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: LectureCompletionCreateManyUserInputEnvelope
+    set?: LectureCompletionWhereUniqueInput | LectureCompletionWhereUniqueInput[]
+    disconnect?: LectureCompletionWhereUniqueInput | LectureCompletionWhereUniqueInput[]
+    delete?: LectureCompletionWhereUniqueInput | LectureCompletionWhereUniqueInput[]
+    connect?: LectureCompletionWhereUniqueInput | LectureCompletionWhereUniqueInput[]
+    update?: LectureCompletionUpdateWithWhereUniqueWithoutUserInput | LectureCompletionUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: LectureCompletionUpdateManyWithWhereWithoutUserInput | LectureCompletionUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: LectureCompletionScalarWhereInput | LectureCompletionScalarWhereInput[]
   }
 
   export type RatingCreateNestedManyWithoutCourseInput = {
@@ -20700,10 +22145,24 @@ export namespace Prisma {
     connect?: CourseWhereUniqueInput
   }
 
+  export type LectureCompletionCreateNestedManyWithoutLectureInput = {
+    create?: XOR<LectureCompletionCreateWithoutLectureInput, LectureCompletionUncheckedCreateWithoutLectureInput> | LectureCompletionCreateWithoutLectureInput[] | LectureCompletionUncheckedCreateWithoutLectureInput[]
+    connectOrCreate?: LectureCompletionCreateOrConnectWithoutLectureInput | LectureCompletionCreateOrConnectWithoutLectureInput[]
+    createMany?: LectureCompletionCreateManyLectureInputEnvelope
+    connect?: LectureCompletionWhereUniqueInput | LectureCompletionWhereUniqueInput[]
+  }
+
   export type QuizCreateNestedOneWithoutLectureInput = {
     create?: XOR<QuizCreateWithoutLectureInput, QuizUncheckedCreateWithoutLectureInput>
     connectOrCreate?: QuizCreateOrConnectWithoutLectureInput
     connect?: QuizWhereUniqueInput
+  }
+
+  export type LectureCompletionUncheckedCreateNestedManyWithoutLectureInput = {
+    create?: XOR<LectureCompletionCreateWithoutLectureInput, LectureCompletionUncheckedCreateWithoutLectureInput> | LectureCompletionCreateWithoutLectureInput[] | LectureCompletionUncheckedCreateWithoutLectureInput[]
+    connectOrCreate?: LectureCompletionCreateOrConnectWithoutLectureInput | LectureCompletionCreateOrConnectWithoutLectureInput[]
+    createMany?: LectureCompletionCreateManyLectureInputEnvelope
+    connect?: LectureCompletionWhereUniqueInput | LectureCompletionWhereUniqueInput[]
   }
 
   export type QuizUncheckedCreateNestedOneWithoutLectureInput = {
@@ -20730,6 +22189,20 @@ export namespace Prisma {
     update?: XOR<XOR<CourseUpdateToOneWithWhereWithoutLecturesInput, CourseUpdateWithoutLecturesInput>, CourseUncheckedUpdateWithoutLecturesInput>
   }
 
+  export type LectureCompletionUpdateManyWithoutLectureNestedInput = {
+    create?: XOR<LectureCompletionCreateWithoutLectureInput, LectureCompletionUncheckedCreateWithoutLectureInput> | LectureCompletionCreateWithoutLectureInput[] | LectureCompletionUncheckedCreateWithoutLectureInput[]
+    connectOrCreate?: LectureCompletionCreateOrConnectWithoutLectureInput | LectureCompletionCreateOrConnectWithoutLectureInput[]
+    upsert?: LectureCompletionUpsertWithWhereUniqueWithoutLectureInput | LectureCompletionUpsertWithWhereUniqueWithoutLectureInput[]
+    createMany?: LectureCompletionCreateManyLectureInputEnvelope
+    set?: LectureCompletionWhereUniqueInput | LectureCompletionWhereUniqueInput[]
+    disconnect?: LectureCompletionWhereUniqueInput | LectureCompletionWhereUniqueInput[]
+    delete?: LectureCompletionWhereUniqueInput | LectureCompletionWhereUniqueInput[]
+    connect?: LectureCompletionWhereUniqueInput | LectureCompletionWhereUniqueInput[]
+    update?: LectureCompletionUpdateWithWhereUniqueWithoutLectureInput | LectureCompletionUpdateWithWhereUniqueWithoutLectureInput[]
+    updateMany?: LectureCompletionUpdateManyWithWhereWithoutLectureInput | LectureCompletionUpdateManyWithWhereWithoutLectureInput[]
+    deleteMany?: LectureCompletionScalarWhereInput | LectureCompletionScalarWhereInput[]
+  }
+
   export type QuizUpdateOneWithoutLectureNestedInput = {
     create?: XOR<QuizCreateWithoutLectureInput, QuizUncheckedCreateWithoutLectureInput>
     connectOrCreate?: QuizCreateOrConnectWithoutLectureInput
@@ -20740,6 +22213,20 @@ export namespace Prisma {
     update?: XOR<XOR<QuizUpdateToOneWithWhereWithoutLectureInput, QuizUpdateWithoutLectureInput>, QuizUncheckedUpdateWithoutLectureInput>
   }
 
+  export type LectureCompletionUncheckedUpdateManyWithoutLectureNestedInput = {
+    create?: XOR<LectureCompletionCreateWithoutLectureInput, LectureCompletionUncheckedCreateWithoutLectureInput> | LectureCompletionCreateWithoutLectureInput[] | LectureCompletionUncheckedCreateWithoutLectureInput[]
+    connectOrCreate?: LectureCompletionCreateOrConnectWithoutLectureInput | LectureCompletionCreateOrConnectWithoutLectureInput[]
+    upsert?: LectureCompletionUpsertWithWhereUniqueWithoutLectureInput | LectureCompletionUpsertWithWhereUniqueWithoutLectureInput[]
+    createMany?: LectureCompletionCreateManyLectureInputEnvelope
+    set?: LectureCompletionWhereUniqueInput | LectureCompletionWhereUniqueInput[]
+    disconnect?: LectureCompletionWhereUniqueInput | LectureCompletionWhereUniqueInput[]
+    delete?: LectureCompletionWhereUniqueInput | LectureCompletionWhereUniqueInput[]
+    connect?: LectureCompletionWhereUniqueInput | LectureCompletionWhereUniqueInput[]
+    update?: LectureCompletionUpdateWithWhereUniqueWithoutLectureInput | LectureCompletionUpdateWithWhereUniqueWithoutLectureInput[]
+    updateMany?: LectureCompletionUpdateManyWithWhereWithoutLectureInput | LectureCompletionUpdateManyWithWhereWithoutLectureInput[]
+    deleteMany?: LectureCompletionScalarWhereInput | LectureCompletionScalarWhereInput[]
+  }
+
   export type QuizUncheckedUpdateOneWithoutLectureNestedInput = {
     create?: XOR<QuizCreateWithoutLectureInput, QuizUncheckedCreateWithoutLectureInput>
     connectOrCreate?: QuizCreateOrConnectWithoutLectureInput
@@ -20748,6 +22235,34 @@ export namespace Prisma {
     delete?: QuizWhereInput | boolean
     connect?: QuizWhereUniqueInput
     update?: XOR<XOR<QuizUpdateToOneWithWhereWithoutLectureInput, QuizUpdateWithoutLectureInput>, QuizUncheckedUpdateWithoutLectureInput>
+  }
+
+  export type UserCreateNestedOneWithoutCompletedLecturesInput = {
+    create?: XOR<UserCreateWithoutCompletedLecturesInput, UserUncheckedCreateWithoutCompletedLecturesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCompletedLecturesInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type LectureCreateNestedOneWithoutCompletionsInput = {
+    create?: XOR<LectureCreateWithoutCompletionsInput, LectureUncheckedCreateWithoutCompletionsInput>
+    connectOrCreate?: LectureCreateOrConnectWithoutCompletionsInput
+    connect?: LectureWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutCompletedLecturesNestedInput = {
+    create?: XOR<UserCreateWithoutCompletedLecturesInput, UserUncheckedCreateWithoutCompletedLecturesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCompletedLecturesInput
+    upsert?: UserUpsertWithoutCompletedLecturesInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutCompletedLecturesInput, UserUpdateWithoutCompletedLecturesInput>, UserUncheckedUpdateWithoutCompletedLecturesInput>
+  }
+
+  export type LectureUpdateOneRequiredWithoutCompletionsNestedInput = {
+    create?: XOR<LectureCreateWithoutCompletionsInput, LectureUncheckedCreateWithoutCompletionsInput>
+    connectOrCreate?: LectureCreateOrConnectWithoutCompletionsInput
+    upsert?: LectureUpsertWithoutCompletionsInput
+    connect?: LectureWhereUniqueInput
+    update?: XOR<XOR<LectureUpdateToOneWithWhereWithoutCompletionsInput, LectureUpdateWithoutCompletionsInput>, LectureUncheckedUpdateWithoutCompletionsInput>
   }
 
   export type LectureCreateNestedOneWithoutQuizInput = {
@@ -21304,6 +22819,28 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type LectureCompletionCreateWithoutUserInput = {
+    id?: string
+    completedAt?: Date | string
+    lecture: LectureCreateNestedOneWithoutCompletionsInput
+  }
+
+  export type LectureCompletionUncheckedCreateWithoutUserInput = {
+    id?: string
+    lectureId: string
+    completedAt?: Date | string
+  }
+
+  export type LectureCompletionCreateOrConnectWithoutUserInput = {
+    where: LectureCompletionWhereUniqueInput
+    create: XOR<LectureCompletionCreateWithoutUserInput, LectureCompletionUncheckedCreateWithoutUserInput>
+  }
+
+  export type LectureCompletionCreateManyUserInputEnvelope = {
+    data: LectureCompletionCreateManyUserInput | LectureCompletionCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type CourseUpsertWithWhereUniqueWithoutTrainerInput = {
     where: CourseWhereUniqueInput
     update: XOR<CourseUpdateWithoutTrainerInput, CourseUncheckedUpdateWithoutTrainerInput>
@@ -21442,6 +22979,32 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Rating"> | Date | string
   }
 
+  export type LectureCompletionUpsertWithWhereUniqueWithoutUserInput = {
+    where: LectureCompletionWhereUniqueInput
+    update: XOR<LectureCompletionUpdateWithoutUserInput, LectureCompletionUncheckedUpdateWithoutUserInput>
+    create: XOR<LectureCompletionCreateWithoutUserInput, LectureCompletionUncheckedCreateWithoutUserInput>
+  }
+
+  export type LectureCompletionUpdateWithWhereUniqueWithoutUserInput = {
+    where: LectureCompletionWhereUniqueInput
+    data: XOR<LectureCompletionUpdateWithoutUserInput, LectureCompletionUncheckedUpdateWithoutUserInput>
+  }
+
+  export type LectureCompletionUpdateManyWithWhereWithoutUserInput = {
+    where: LectureCompletionScalarWhereInput
+    data: XOR<LectureCompletionUpdateManyMutationInput, LectureCompletionUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type LectureCompletionScalarWhereInput = {
+    AND?: LectureCompletionScalarWhereInput | LectureCompletionScalarWhereInput[]
+    OR?: LectureCompletionScalarWhereInput[]
+    NOT?: LectureCompletionScalarWhereInput | LectureCompletionScalarWhereInput[]
+    id?: StringFilter<"LectureCompletion"> | string
+    userId?: StringFilter<"LectureCompletion"> | string
+    lectureId?: StringFilter<"LectureCompletion"> | string
+    completedAt?: DateTimeFilter<"LectureCompletion"> | Date | string
+  }
+
   export type RatingCreateWithoutCourseInput = {
     id?: string
     value?: number
@@ -21485,6 +23048,7 @@ export namespace Prisma {
     carts?: CartCreateNestedManyWithoutStudentInput
     OrderStatus?: OrderCreateNestedManyWithoutStudentInput
     rating?: RatingCreateNestedManyWithoutStudentInput
+    completedLectures?: LectureCompletionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCoursesInput = {
@@ -21506,6 +23070,7 @@ export namespace Prisma {
     carts?: CartUncheckedCreateNestedManyWithoutStudentInput
     OrderStatus?: OrderUncheckedCreateNestedManyWithoutStudentInput
     rating?: RatingUncheckedCreateNestedManyWithoutStudentInput
+    completedLectures?: LectureCompletionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCoursesInput = {
@@ -21522,6 +23087,7 @@ export namespace Prisma {
     transcript?: string | null
     summary?: string | null
     note?: NoteCreateNestedOneWithoutLectureInput
+    completions?: LectureCompletionCreateNestedManyWithoutLectureInput
     quiz?: QuizCreateNestedOneWithoutLectureInput
   }
 
@@ -21534,6 +23100,7 @@ export namespace Prisma {
     createdAt?: Date | string
     transcript?: string | null
     summary?: string | null
+    completions?: LectureCompletionUncheckedCreateNestedManyWithoutLectureInput
     quiz?: QuizUncheckedCreateNestedOneWithoutLectureInput
   }
 
@@ -21689,6 +23256,7 @@ export namespace Prisma {
     carts?: CartUpdateManyWithoutStudentNestedInput
     OrderStatus?: OrderUpdateManyWithoutStudentNestedInput
     rating?: RatingUpdateManyWithoutStudentNestedInput
+    completedLectures?: LectureCompletionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCoursesInput = {
@@ -21710,6 +23278,7 @@ export namespace Prisma {
     carts?: CartUncheckedUpdateManyWithoutStudentNestedInput
     OrderStatus?: OrderUncheckedUpdateManyWithoutStudentNestedInput
     rating?: RatingUncheckedUpdateManyWithoutStudentNestedInput
+    completedLectures?: LectureCompletionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type LectureUpsertWithWhereUniqueWithoutCourseInput = {
@@ -21902,6 +23471,7 @@ export namespace Prisma {
     enrollments?: EnrollmentCreateNestedManyWithoutStudentInput
     carts?: CartCreateNestedManyWithoutStudentInput
     OrderStatus?: OrderCreateNestedManyWithoutStudentInput
+    completedLectures?: LectureCompletionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutRatingInput = {
@@ -21923,6 +23493,7 @@ export namespace Prisma {
     enrollments?: EnrollmentUncheckedCreateNestedManyWithoutStudentInput
     carts?: CartUncheckedCreateNestedManyWithoutStudentInput
     OrderStatus?: OrderUncheckedCreateNestedManyWithoutStudentInput
+    completedLectures?: LectureCompletionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutRatingInput = {
@@ -22009,6 +23580,7 @@ export namespace Prisma {
     enrollments?: EnrollmentUpdateManyWithoutStudentNestedInput
     carts?: CartUpdateManyWithoutStudentNestedInput
     OrderStatus?: OrderUpdateManyWithoutStudentNestedInput
+    completedLectures?: LectureCompletionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutRatingInput = {
@@ -22030,6 +23602,7 @@ export namespace Prisma {
     enrollments?: EnrollmentUncheckedUpdateManyWithoutStudentNestedInput
     carts?: CartUncheckedUpdateManyWithoutStudentNestedInput
     OrderStatus?: OrderUncheckedUpdateManyWithoutStudentNestedInput
+    completedLectures?: LectureCompletionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutEnrollmentsInput = {
@@ -22051,6 +23624,7 @@ export namespace Prisma {
     carts?: CartCreateNestedManyWithoutStudentInput
     OrderStatus?: OrderCreateNestedManyWithoutStudentInput
     rating?: RatingCreateNestedManyWithoutStudentInput
+    completedLectures?: LectureCompletionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutEnrollmentsInput = {
@@ -22072,6 +23646,7 @@ export namespace Prisma {
     carts?: CartUncheckedCreateNestedManyWithoutStudentInput
     OrderStatus?: OrderUncheckedCreateNestedManyWithoutStudentInput
     rating?: RatingUncheckedCreateNestedManyWithoutStudentInput
+    completedLectures?: LectureCompletionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutEnrollmentsInput = {
@@ -22152,6 +23727,7 @@ export namespace Prisma {
     carts?: CartUpdateManyWithoutStudentNestedInput
     OrderStatus?: OrderUpdateManyWithoutStudentNestedInput
     rating?: RatingUpdateManyWithoutStudentNestedInput
+    completedLectures?: LectureCompletionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutEnrollmentsInput = {
@@ -22173,6 +23749,7 @@ export namespace Prisma {
     carts?: CartUncheckedUpdateManyWithoutStudentNestedInput
     OrderStatus?: OrderUncheckedUpdateManyWithoutStudentNestedInput
     rating?: RatingUncheckedUpdateManyWithoutStudentNestedInput
+    completedLectures?: LectureCompletionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CourseUpsertWithoutEnrollmentsInput = {
@@ -22243,6 +23820,7 @@ export namespace Prisma {
     enrollments?: EnrollmentCreateNestedManyWithoutStudentInput
     OrderStatus?: OrderCreateNestedManyWithoutStudentInput
     rating?: RatingCreateNestedManyWithoutStudentInput
+    completedLectures?: LectureCompletionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCartsInput = {
@@ -22264,6 +23842,7 @@ export namespace Prisma {
     enrollments?: EnrollmentUncheckedCreateNestedManyWithoutStudentInput
     OrderStatus?: OrderUncheckedCreateNestedManyWithoutStudentInput
     rating?: RatingUncheckedCreateNestedManyWithoutStudentInput
+    completedLectures?: LectureCompletionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCartsInput = {
@@ -22325,6 +23904,7 @@ export namespace Prisma {
     enrollments?: EnrollmentUpdateManyWithoutStudentNestedInput
     OrderStatus?: OrderUpdateManyWithoutStudentNestedInput
     rating?: RatingUpdateManyWithoutStudentNestedInput
+    completedLectures?: LectureCompletionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCartsInput = {
@@ -22346,6 +23926,7 @@ export namespace Prisma {
     enrollments?: EnrollmentUncheckedUpdateManyWithoutStudentNestedInput
     OrderStatus?: OrderUncheckedUpdateManyWithoutStudentNestedInput
     rating?: RatingUncheckedUpdateManyWithoutStudentNestedInput
+    completedLectures?: LectureCompletionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CartItemUpsertWithWhereUniqueWithoutCartInput = {
@@ -22519,6 +24100,7 @@ export namespace Prisma {
     enrollments?: EnrollmentCreateNestedManyWithoutStudentInput
     carts?: CartCreateNestedManyWithoutStudentInput
     rating?: RatingCreateNestedManyWithoutStudentInput
+    completedLectures?: LectureCompletionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutOrderStatusInput = {
@@ -22540,6 +24122,7 @@ export namespace Prisma {
     enrollments?: EnrollmentUncheckedCreateNestedManyWithoutStudentInput
     carts?: CartUncheckedCreateNestedManyWithoutStudentInput
     rating?: RatingUncheckedCreateNestedManyWithoutStudentInput
+    completedLectures?: LectureCompletionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutOrderStatusInput = {
@@ -22624,6 +24207,7 @@ export namespace Prisma {
     enrollments?: EnrollmentUpdateManyWithoutStudentNestedInput
     carts?: CartUpdateManyWithoutStudentNestedInput
     rating?: RatingUpdateManyWithoutStudentNestedInput
+    completedLectures?: LectureCompletionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutOrderStatusInput = {
@@ -22645,6 +24229,7 @@ export namespace Prisma {
     enrollments?: EnrollmentUncheckedUpdateManyWithoutStudentNestedInput
     carts?: CartUncheckedUpdateManyWithoutStudentNestedInput
     rating?: RatingUncheckedUpdateManyWithoutStudentNestedInput
+    completedLectures?: LectureCompletionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type OrderItemUpsertWithWhereUniqueWithoutOrderInput = {
@@ -22944,6 +24529,28 @@ export namespace Prisma {
     create: XOR<CourseCreateWithoutLecturesInput, CourseUncheckedCreateWithoutLecturesInput>
   }
 
+  export type LectureCompletionCreateWithoutLectureInput = {
+    id?: string
+    completedAt?: Date | string
+    user: UserCreateNestedOneWithoutCompletedLecturesInput
+  }
+
+  export type LectureCompletionUncheckedCreateWithoutLectureInput = {
+    id?: string
+    userId: string
+    completedAt?: Date | string
+  }
+
+  export type LectureCompletionCreateOrConnectWithoutLectureInput = {
+    where: LectureCompletionWhereUniqueInput
+    create: XOR<LectureCompletionCreateWithoutLectureInput, LectureCompletionUncheckedCreateWithoutLectureInput>
+  }
+
+  export type LectureCompletionCreateManyLectureInputEnvelope = {
+    data: LectureCompletionCreateManyLectureInput | LectureCompletionCreateManyLectureInput[]
+    skipDuplicates?: boolean
+  }
+
   export type QuizCreateWithoutLectureInput = {
     id?: string
     createdAt?: Date | string
@@ -23037,6 +24644,22 @@ export namespace Prisma {
     orderItems?: OrderItemUncheckedUpdateManyWithoutCourseNestedInput
   }
 
+  export type LectureCompletionUpsertWithWhereUniqueWithoutLectureInput = {
+    where: LectureCompletionWhereUniqueInput
+    update: XOR<LectureCompletionUpdateWithoutLectureInput, LectureCompletionUncheckedUpdateWithoutLectureInput>
+    create: XOR<LectureCompletionCreateWithoutLectureInput, LectureCompletionUncheckedCreateWithoutLectureInput>
+  }
+
+  export type LectureCompletionUpdateWithWhereUniqueWithoutLectureInput = {
+    where: LectureCompletionWhereUniqueInput
+    data: XOR<LectureCompletionUpdateWithoutLectureInput, LectureCompletionUncheckedUpdateWithoutLectureInput>
+  }
+
+  export type LectureCompletionUpdateManyWithWhereWithoutLectureInput = {
+    where: LectureCompletionScalarWhereInput
+    data: XOR<LectureCompletionUpdateManyMutationInput, LectureCompletionUncheckedUpdateManyWithoutLectureInput>
+  }
+
   export type QuizUpsertWithoutLectureInput = {
     update: XOR<QuizUpdateWithoutLectureInput, QuizUncheckedUpdateWithoutLectureInput>
     create: XOR<QuizCreateWithoutLectureInput, QuizUncheckedCreateWithoutLectureInput>
@@ -23060,6 +24683,178 @@ export namespace Prisma {
     questions?: QuestionUncheckedUpdateManyWithoutQuizNestedInput
   }
 
+  export type UserCreateWithoutCompletedLecturesInput = {
+    id?: string
+    username: string
+    email: string
+    password: string
+    role?: $Enums.Role
+    createdAt?: Date | string
+    age?: string | null
+    mobile?: string | null
+    profilePic?: string | null
+    bibliography?: string | null
+    gender?: string | null
+    verified?: boolean
+    otp?: string | null
+    otpExpires?: Date | string | null
+    courses?: CourseCreateNestedManyWithoutTrainerInput
+    enrollments?: EnrollmentCreateNestedManyWithoutStudentInput
+    carts?: CartCreateNestedManyWithoutStudentInput
+    OrderStatus?: OrderCreateNestedManyWithoutStudentInput
+    rating?: RatingCreateNestedManyWithoutStudentInput
+  }
+
+  export type UserUncheckedCreateWithoutCompletedLecturesInput = {
+    id?: string
+    username: string
+    email: string
+    password: string
+    role?: $Enums.Role
+    createdAt?: Date | string
+    age?: string | null
+    mobile?: string | null
+    profilePic?: string | null
+    bibliography?: string | null
+    gender?: string | null
+    verified?: boolean
+    otp?: string | null
+    otpExpires?: Date | string | null
+    courses?: CourseUncheckedCreateNestedManyWithoutTrainerInput
+    enrollments?: EnrollmentUncheckedCreateNestedManyWithoutStudentInput
+    carts?: CartUncheckedCreateNestedManyWithoutStudentInput
+    OrderStatus?: OrderUncheckedCreateNestedManyWithoutStudentInput
+    rating?: RatingUncheckedCreateNestedManyWithoutStudentInput
+  }
+
+  export type UserCreateOrConnectWithoutCompletedLecturesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutCompletedLecturesInput, UserUncheckedCreateWithoutCompletedLecturesInput>
+  }
+
+  export type LectureCreateWithoutCompletionsInput = {
+    id?: string
+    title: string
+    description: string
+    videoUrl: string
+    createdAt?: Date | string
+    transcript?: string | null
+    summary?: string | null
+    note?: NoteCreateNestedOneWithoutLectureInput
+    course: CourseCreateNestedOneWithoutLecturesInput
+    quiz?: QuizCreateNestedOneWithoutLectureInput
+  }
+
+  export type LectureUncheckedCreateWithoutCompletionsInput = {
+    id?: string
+    title: string
+    description: string
+    videoUrl: string
+    noteId?: string | null
+    courseId: string
+    createdAt?: Date | string
+    transcript?: string | null
+    summary?: string | null
+    quiz?: QuizUncheckedCreateNestedOneWithoutLectureInput
+  }
+
+  export type LectureCreateOrConnectWithoutCompletionsInput = {
+    where: LectureWhereUniqueInput
+    create: XOR<LectureCreateWithoutCompletionsInput, LectureUncheckedCreateWithoutCompletionsInput>
+  }
+
+  export type UserUpsertWithoutCompletedLecturesInput = {
+    update: XOR<UserUpdateWithoutCompletedLecturesInput, UserUncheckedUpdateWithoutCompletedLecturesInput>
+    create: XOR<UserCreateWithoutCompletedLecturesInput, UserUncheckedCreateWithoutCompletedLecturesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutCompletedLecturesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutCompletedLecturesInput, UserUncheckedUpdateWithoutCompletedLecturesInput>
+  }
+
+  export type UserUpdateWithoutCompletedLecturesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    age?: NullableStringFieldUpdateOperationsInput | string | null
+    mobile?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePic?: NullableStringFieldUpdateOperationsInput | string | null
+    bibliography?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    verified?: BoolFieldUpdateOperationsInput | boolean
+    otp?: NullableStringFieldUpdateOperationsInput | string | null
+    otpExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    courses?: CourseUpdateManyWithoutTrainerNestedInput
+    enrollments?: EnrollmentUpdateManyWithoutStudentNestedInput
+    carts?: CartUpdateManyWithoutStudentNestedInput
+    OrderStatus?: OrderUpdateManyWithoutStudentNestedInput
+    rating?: RatingUpdateManyWithoutStudentNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutCompletedLecturesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    age?: NullableStringFieldUpdateOperationsInput | string | null
+    mobile?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePic?: NullableStringFieldUpdateOperationsInput | string | null
+    bibliography?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    verified?: BoolFieldUpdateOperationsInput | boolean
+    otp?: NullableStringFieldUpdateOperationsInput | string | null
+    otpExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    courses?: CourseUncheckedUpdateManyWithoutTrainerNestedInput
+    enrollments?: EnrollmentUncheckedUpdateManyWithoutStudentNestedInput
+    carts?: CartUncheckedUpdateManyWithoutStudentNestedInput
+    OrderStatus?: OrderUncheckedUpdateManyWithoutStudentNestedInput
+    rating?: RatingUncheckedUpdateManyWithoutStudentNestedInput
+  }
+
+  export type LectureUpsertWithoutCompletionsInput = {
+    update: XOR<LectureUpdateWithoutCompletionsInput, LectureUncheckedUpdateWithoutCompletionsInput>
+    create: XOR<LectureCreateWithoutCompletionsInput, LectureUncheckedCreateWithoutCompletionsInput>
+    where?: LectureWhereInput
+  }
+
+  export type LectureUpdateToOneWithWhereWithoutCompletionsInput = {
+    where?: LectureWhereInput
+    data: XOR<LectureUpdateWithoutCompletionsInput, LectureUncheckedUpdateWithoutCompletionsInput>
+  }
+
+  export type LectureUpdateWithoutCompletionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    videoUrl?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    transcript?: NullableStringFieldUpdateOperationsInput | string | null
+    summary?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NoteUpdateOneWithoutLectureNestedInput
+    course?: CourseUpdateOneRequiredWithoutLecturesNestedInput
+    quiz?: QuizUpdateOneWithoutLectureNestedInput
+  }
+
+  export type LectureUncheckedUpdateWithoutCompletionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    videoUrl?: StringFieldUpdateOperationsInput | string
+    noteId?: NullableStringFieldUpdateOperationsInput | string | null
+    courseId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    transcript?: NullableStringFieldUpdateOperationsInput | string | null
+    summary?: NullableStringFieldUpdateOperationsInput | string | null
+    quiz?: QuizUncheckedUpdateOneWithoutLectureNestedInput
+  }
+
   export type LectureCreateWithoutQuizInput = {
     id?: string
     title: string
@@ -23070,6 +24865,7 @@ export namespace Prisma {
     summary?: string | null
     note?: NoteCreateNestedOneWithoutLectureInput
     course: CourseCreateNestedOneWithoutLecturesInput
+    completions?: LectureCompletionCreateNestedManyWithoutLectureInput
   }
 
   export type LectureUncheckedCreateWithoutQuizInput = {
@@ -23082,6 +24878,7 @@ export namespace Prisma {
     createdAt?: Date | string
     transcript?: string | null
     summary?: string | null
+    completions?: LectureCompletionUncheckedCreateNestedManyWithoutLectureInput
   }
 
   export type LectureCreateOrConnectWithoutQuizInput = {
@@ -23134,6 +24931,7 @@ export namespace Prisma {
     summary?: NullableStringFieldUpdateOperationsInput | string | null
     note?: NoteUpdateOneWithoutLectureNestedInput
     course?: CourseUpdateOneRequiredWithoutLecturesNestedInput
+    completions?: LectureCompletionUpdateManyWithoutLectureNestedInput
   }
 
   export type LectureUncheckedUpdateWithoutQuizInput = {
@@ -23146,6 +24944,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     transcript?: NullableStringFieldUpdateOperationsInput | string | null
     summary?: NullableStringFieldUpdateOperationsInput | string | null
+    completions?: LectureCompletionUncheckedUpdateManyWithoutLectureNestedInput
   }
 
   export type QuestionUpsertWithWhereUniqueWithoutQuizInput = {
@@ -23267,6 +25066,7 @@ export namespace Prisma {
     transcript?: string | null
     summary?: string | null
     course: CourseCreateNestedOneWithoutLecturesInput
+    completions?: LectureCompletionCreateNestedManyWithoutLectureInput
     quiz?: QuizCreateNestedOneWithoutLectureInput
   }
 
@@ -23279,6 +25079,7 @@ export namespace Prisma {
     createdAt?: Date | string
     transcript?: string | null
     summary?: string | null
+    completions?: LectureCompletionUncheckedCreateNestedManyWithoutLectureInput
     quiz?: QuizUncheckedCreateNestedOneWithoutLectureInput
   }
 
@@ -23356,6 +25157,7 @@ export namespace Prisma {
     transcript?: NullableStringFieldUpdateOperationsInput | string | null
     summary?: NullableStringFieldUpdateOperationsInput | string | null
     course?: CourseUpdateOneRequiredWithoutLecturesNestedInput
+    completions?: LectureCompletionUpdateManyWithoutLectureNestedInput
     quiz?: QuizUpdateOneWithoutLectureNestedInput
   }
 
@@ -23368,6 +25170,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     transcript?: NullableStringFieldUpdateOperationsInput | string | null
     summary?: NullableStringFieldUpdateOperationsInput | string | null
+    completions?: LectureCompletionUncheckedUpdateManyWithoutLectureNestedInput
     quiz?: QuizUncheckedUpdateOneWithoutLectureNestedInput
   }
 
@@ -23407,6 +25210,12 @@ export namespace Prisma {
     value?: number
     courseId: string
     createdAt?: Date | string
+  }
+
+  export type LectureCompletionCreateManyUserInput = {
+    id?: string
+    lectureId: string
+    completedAt?: Date | string
   }
 
   export type CourseUpdateWithoutTrainerInput = {
@@ -23541,6 +25350,24 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type LectureCompletionUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    completedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lecture?: LectureUpdateOneRequiredWithoutCompletionsNestedInput
+  }
+
+  export type LectureCompletionUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    lectureId?: StringFieldUpdateOperationsInput | string
+    completedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LectureCompletionUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    lectureId?: StringFieldUpdateOperationsInput | string
+    completedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type RatingCreateManyCourseInput = {
     id?: string
     value?: number
@@ -23616,6 +25443,7 @@ export namespace Prisma {
     transcript?: NullableStringFieldUpdateOperationsInput | string | null
     summary?: NullableStringFieldUpdateOperationsInput | string | null
     note?: NoteUpdateOneWithoutLectureNestedInput
+    completions?: LectureCompletionUpdateManyWithoutLectureNestedInput
     quiz?: QuizUpdateOneWithoutLectureNestedInput
   }
 
@@ -23628,6 +25456,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     transcript?: NullableStringFieldUpdateOperationsInput | string | null
     summary?: NullableStringFieldUpdateOperationsInput | string | null
+    completions?: LectureCompletionUncheckedUpdateManyWithoutLectureNestedInput
     quiz?: QuizUncheckedUpdateOneWithoutLectureNestedInput
   }
 
@@ -23779,6 +25608,30 @@ export namespace Prisma {
     courseId?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LectureCompletionCreateManyLectureInput = {
+    id?: string
+    userId: string
+    completedAt?: Date | string
+  }
+
+  export type LectureCompletionUpdateWithoutLectureInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    completedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutCompletedLecturesNestedInput
+  }
+
+  export type LectureCompletionUncheckedUpdateWithoutLectureInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    completedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LectureCompletionUncheckedUpdateManyWithoutLectureInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    completedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type QuestionCreateManyQuizInput = {

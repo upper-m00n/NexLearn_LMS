@@ -36,6 +36,7 @@ model User {
   carts       Cart[]
   OrderStatus Order[]
   rating      Rating[]
+  completedLectures LectureCompletion[]
 }
 
 enum Role {
@@ -186,10 +187,24 @@ model Lecture {
   course      Course   @relation(fields: [courseId], references: [id])
   createdAt   DateTime @default(now())
 
+  completions LectureCompletion[]
+
   transcript  String?  @db.Text
   summary     String?  @db.Text
   quiz        Quiz?
 }
+
+model LectureCompletion {
+  id          String    @id @default(uuid())
+  userId      String
+  user        User      @relation(fields:[userId],references:[id])
+  lectureId   String
+  lecture     Lecture   @relation(fields:[lectureId],references:[id])
+  completedAt DateTime  @default(now())
+
+  @@unique([userId,lectureId])
+}
+
 
 model Quiz {
   id        String     @id @default(uuid())
