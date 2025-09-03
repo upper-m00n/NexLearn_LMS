@@ -15,7 +15,7 @@ import {
 import { Button } from "./ui/button";
 import { useRouter } from "next/navigation";
 import { Input } from "./ui/input";
-import { useState } from "react";
+import { use, useState } from "react";
 
 const Navbar = () => {
   // Assuming your context provides a logout function
@@ -77,9 +77,18 @@ const Navbar = () => {
               <Link href="/student/cart" className="hover:text-gray-300 transition-colors text-2xl">
                 <FiShoppingCart/>
               </Link>
-              <Link href="/student/my-courses" className="hover:text-gray-300 transition-colors">
-                My Courses
-              </Link>
+
+              {
+                user.role==="STUDENT"?
+                (<Link href="/student/my-courses" className="hover:text-gray-300 transition-colors">
+                  My Courses
+                </Link>):(
+                <Link href="/trainer" className="hover:text-gray-300 transition-colors">
+                  Create Course
+                </Link>
+              )
+              }
+              
 
               <DropdownMenu>
                 <DropdownMenuTrigger>

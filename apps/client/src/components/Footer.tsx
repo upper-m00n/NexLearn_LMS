@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { FaGit, FaGithub, FaLinkedin, FaMailBulk } from "react-icons/fa";
 
 
 const Footer =()=>{
@@ -32,9 +33,9 @@ const Footer =()=>{
                 <div>
                     <h3 className="text-lg font-semibold mb-3">Connect With Us</h3>
                     <div className="flex space-x-4 text-lg">
-                        <a href="https://github.com/upper-m00n" target="_blank" rel="noreferrer" className="hover:text-white"></a>
-                        <a href="https://www.linkedin.com/in/ashutosh-sharma-063727144/" target="_blank" rel="noreferrer" className="hover:text-white"></a>
-                        <a href="mailto:ashu.toast@gmail.com" target="_blank" rel="noreferrer" className="hover:text-white"></a>
+                        <a href="https://github.com/upper-m00n" target="_blank" rel="noreferrer" className="hover:text-white"><FaGithub/></a>
+                        <a href="https://www.linkedin.com/in/ashutosh-sharma-063727144/" target="_blank" rel="noreferrer" className="hover:text-white"><FaLinkedin/></a>
+                        <a href="mailto:ashu.toast@gmail.com" target="_blank" rel="noreferrer" className="hover:text-white"><FaMailBulk/></a>
                     </div>
                 </div>
             </div>

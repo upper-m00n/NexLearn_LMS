@@ -152,7 +152,8 @@ const handleGenerateThumbnail = async ()=>{
 
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100 shadow-2xl text-black">
+    <div className="flex justify-center items-center min-h-screen bg-gray-100 shadow-2xl text-black flex-col">
+      <h1 className="text-2xl font-bold mb-4">Create Course</h1>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-full max-w-xl">
           <FormField
