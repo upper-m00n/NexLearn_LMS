@@ -13906,6 +13906,7 @@ export namespace Prisma {
     id: string | null
     userId: string | null
     lectureId: string | null
+    status: boolean | null
     completedAt: Date | null
   }
 
@@ -13913,6 +13914,7 @@ export namespace Prisma {
     id: string | null
     userId: string | null
     lectureId: string | null
+    status: boolean | null
     completedAt: Date | null
   }
 
@@ -13920,6 +13922,7 @@ export namespace Prisma {
     id: number
     userId: number
     lectureId: number
+    status: number
     completedAt: number
     _all: number
   }
@@ -13929,6 +13932,7 @@ export namespace Prisma {
     id?: true
     userId?: true
     lectureId?: true
+    status?: true
     completedAt?: true
   }
 
@@ -13936,6 +13940,7 @@ export namespace Prisma {
     id?: true
     userId?: true
     lectureId?: true
+    status?: true
     completedAt?: true
   }
 
@@ -13943,6 +13948,7 @@ export namespace Prisma {
     id?: true
     userId?: true
     lectureId?: true
+    status?: true
     completedAt?: true
     _all?: true
   }
@@ -14023,7 +14029,8 @@ export namespace Prisma {
     id: string
     userId: string
     lectureId: string
-    completedAt: Date
+    status: boolean
+    completedAt: Date | null
     _count: LectureCompletionCountAggregateOutputType | null
     _min: LectureCompletionMinAggregateOutputType | null
     _max: LectureCompletionMaxAggregateOutputType | null
@@ -14047,6 +14054,7 @@ export namespace Prisma {
     id?: boolean
     userId?: boolean
     lectureId?: boolean
+    status?: boolean
     completedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     lecture?: boolean | LectureDefaultArgs<ExtArgs>
@@ -14056,6 +14064,7 @@ export namespace Prisma {
     id?: boolean
     userId?: boolean
     lectureId?: boolean
+    status?: boolean
     completedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     lecture?: boolean | LectureDefaultArgs<ExtArgs>
@@ -14065,6 +14074,7 @@ export namespace Prisma {
     id?: boolean
     userId?: boolean
     lectureId?: boolean
+    status?: boolean
     completedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     lecture?: boolean | LectureDefaultArgs<ExtArgs>
@@ -14074,10 +14084,11 @@ export namespace Prisma {
     id?: boolean
     userId?: boolean
     lectureId?: boolean
+    status?: boolean
     completedAt?: boolean
   }
 
-  export type LectureCompletionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "lectureId" | "completedAt", ExtArgs["result"]["lectureCompletion"]>
+  export type LectureCompletionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "lectureId" | "status" | "completedAt", ExtArgs["result"]["lectureCompletion"]>
   export type LectureCompletionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     lecture?: boolean | LectureDefaultArgs<ExtArgs>
@@ -14101,7 +14112,8 @@ export namespace Prisma {
       id: string
       userId: string
       lectureId: string
-      completedAt: Date
+      status: boolean
+      completedAt: Date | null
     }, ExtArgs["result"]["lectureCompletion"]>
     composites: {}
   }
@@ -14530,6 +14542,7 @@ export namespace Prisma {
     readonly id: FieldRef<"LectureCompletion", 'String'>
     readonly userId: FieldRef<"LectureCompletion", 'String'>
     readonly lectureId: FieldRef<"LectureCompletion", 'String'>
+    readonly status: FieldRef<"LectureCompletion", 'Boolean'>
     readonly completedAt: FieldRef<"LectureCompletion", 'DateTime'>
   }
     
@@ -18322,6 +18335,7 @@ export namespace Prisma {
     id: 'id',
     userId: 'userId',
     lectureId: 'lectureId',
+    status: 'status',
     completedAt: 'completedAt'
   };
 
@@ -19232,7 +19246,8 @@ export namespace Prisma {
     id?: StringFilter<"LectureCompletion"> | string
     userId?: StringFilter<"LectureCompletion"> | string
     lectureId?: StringFilter<"LectureCompletion"> | string
-    completedAt?: DateTimeFilter<"LectureCompletion"> | Date | string
+    status?: BoolFilter<"LectureCompletion"> | boolean
+    completedAt?: DateTimeNullableFilter<"LectureCompletion"> | Date | string | null
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     lecture?: XOR<LectureScalarRelationFilter, LectureWhereInput>
   }
@@ -19241,7 +19256,8 @@ export namespace Prisma {
     id?: SortOrder
     userId?: SortOrder
     lectureId?: SortOrder
-    completedAt?: SortOrder
+    status?: SortOrder
+    completedAt?: SortOrderInput | SortOrder
     user?: UserOrderByWithRelationInput
     lecture?: LectureOrderByWithRelationInput
   }
@@ -19254,7 +19270,8 @@ export namespace Prisma {
     NOT?: LectureCompletionWhereInput | LectureCompletionWhereInput[]
     userId?: StringFilter<"LectureCompletion"> | string
     lectureId?: StringFilter<"LectureCompletion"> | string
-    completedAt?: DateTimeFilter<"LectureCompletion"> | Date | string
+    status?: BoolFilter<"LectureCompletion"> | boolean
+    completedAt?: DateTimeNullableFilter<"LectureCompletion"> | Date | string | null
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     lecture?: XOR<LectureScalarRelationFilter, LectureWhereInput>
   }, "id" | "userId_lectureId">
@@ -19263,7 +19280,8 @@ export namespace Prisma {
     id?: SortOrder
     userId?: SortOrder
     lectureId?: SortOrder
-    completedAt?: SortOrder
+    status?: SortOrder
+    completedAt?: SortOrderInput | SortOrder
     _count?: LectureCompletionCountOrderByAggregateInput
     _max?: LectureCompletionMaxOrderByAggregateInput
     _min?: LectureCompletionMinOrderByAggregateInput
@@ -19276,7 +19294,8 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"LectureCompletion"> | string
     userId?: StringWithAggregatesFilter<"LectureCompletion"> | string
     lectureId?: StringWithAggregatesFilter<"LectureCompletion"> | string
-    completedAt?: DateTimeWithAggregatesFilter<"LectureCompletion"> | Date | string
+    status?: BoolWithAggregatesFilter<"LectureCompletion"> | boolean
+    completedAt?: DateTimeNullableWithAggregatesFilter<"LectureCompletion"> | Date | string | null
   }
 
   export type QuizWhereInput = {
@@ -20184,7 +20203,8 @@ export namespace Prisma {
 
   export type LectureCompletionCreateInput = {
     id?: string
-    completedAt?: Date | string
+    status?: boolean
+    completedAt?: Date | string | null
     user: UserCreateNestedOneWithoutCompletedLecturesInput
     lecture: LectureCreateNestedOneWithoutCompletionsInput
   }
@@ -20193,12 +20213,14 @@ export namespace Prisma {
     id?: string
     userId: string
     lectureId: string
-    completedAt?: Date | string
+    status?: boolean
+    completedAt?: Date | string | null
   }
 
   export type LectureCompletionUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    completedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: BoolFieldUpdateOperationsInput | boolean
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user?: UserUpdateOneRequiredWithoutCompletedLecturesNestedInput
     lecture?: LectureUpdateOneRequiredWithoutCompletionsNestedInput
   }
@@ -20207,26 +20229,30 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     lectureId?: StringFieldUpdateOperationsInput | string
-    completedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: BoolFieldUpdateOperationsInput | boolean
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type LectureCompletionCreateManyInput = {
     id?: string
     userId: string
     lectureId: string
-    completedAt?: Date | string
+    status?: boolean
+    completedAt?: Date | string | null
   }
 
   export type LectureCompletionUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    completedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: BoolFieldUpdateOperationsInput | boolean
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type LectureCompletionUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     lectureId?: StringFieldUpdateOperationsInput | string
-    completedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: BoolFieldUpdateOperationsInput | boolean
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type QuizCreateInput = {
@@ -21168,6 +21194,7 @@ export namespace Prisma {
     id?: SortOrder
     userId?: SortOrder
     lectureId?: SortOrder
+    status?: SortOrder
     completedAt?: SortOrder
   }
 
@@ -21175,6 +21202,7 @@ export namespace Prisma {
     id?: SortOrder
     userId?: SortOrder
     lectureId?: SortOrder
+    status?: SortOrder
     completedAt?: SortOrder
   }
 
@@ -21182,6 +21210,7 @@ export namespace Prisma {
     id?: SortOrder
     userId?: SortOrder
     lectureId?: SortOrder
+    status?: SortOrder
     completedAt?: SortOrder
   }
 
@@ -22821,14 +22850,16 @@ export namespace Prisma {
 
   export type LectureCompletionCreateWithoutUserInput = {
     id?: string
-    completedAt?: Date | string
+    status?: boolean
+    completedAt?: Date | string | null
     lecture: LectureCreateNestedOneWithoutCompletionsInput
   }
 
   export type LectureCompletionUncheckedCreateWithoutUserInput = {
     id?: string
     lectureId: string
-    completedAt?: Date | string
+    status?: boolean
+    completedAt?: Date | string | null
   }
 
   export type LectureCompletionCreateOrConnectWithoutUserInput = {
@@ -23002,7 +23033,8 @@ export namespace Prisma {
     id?: StringFilter<"LectureCompletion"> | string
     userId?: StringFilter<"LectureCompletion"> | string
     lectureId?: StringFilter<"LectureCompletion"> | string
-    completedAt?: DateTimeFilter<"LectureCompletion"> | Date | string
+    status?: BoolFilter<"LectureCompletion"> | boolean
+    completedAt?: DateTimeNullableFilter<"LectureCompletion"> | Date | string | null
   }
 
   export type RatingCreateWithoutCourseInput = {
@@ -24531,14 +24563,16 @@ export namespace Prisma {
 
   export type LectureCompletionCreateWithoutLectureInput = {
     id?: string
-    completedAt?: Date | string
+    status?: boolean
+    completedAt?: Date | string | null
     user: UserCreateNestedOneWithoutCompletedLecturesInput
   }
 
   export type LectureCompletionUncheckedCreateWithoutLectureInput = {
     id?: string
     userId: string
-    completedAt?: Date | string
+    status?: boolean
+    completedAt?: Date | string | null
   }
 
   export type LectureCompletionCreateOrConnectWithoutLectureInput = {
@@ -25215,7 +25249,8 @@ export namespace Prisma {
   export type LectureCompletionCreateManyUserInput = {
     id?: string
     lectureId: string
-    completedAt?: Date | string
+    status?: boolean
+    completedAt?: Date | string | null
   }
 
   export type CourseUpdateWithoutTrainerInput = {
@@ -25352,20 +25387,23 @@ export namespace Prisma {
 
   export type LectureCompletionUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    completedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: BoolFieldUpdateOperationsInput | boolean
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lecture?: LectureUpdateOneRequiredWithoutCompletionsNestedInput
   }
 
   export type LectureCompletionUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     lectureId?: StringFieldUpdateOperationsInput | string
-    completedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: BoolFieldUpdateOperationsInput | boolean
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type LectureCompletionUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     lectureId?: StringFieldUpdateOperationsInput | string
-    completedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: BoolFieldUpdateOperationsInput | boolean
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type RatingCreateManyCourseInput = {
@@ -25613,25 +25651,29 @@ export namespace Prisma {
   export type LectureCompletionCreateManyLectureInput = {
     id?: string
     userId: string
-    completedAt?: Date | string
+    status?: boolean
+    completedAt?: Date | string | null
   }
 
   export type LectureCompletionUpdateWithoutLectureInput = {
     id?: StringFieldUpdateOperationsInput | string
-    completedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: BoolFieldUpdateOperationsInput | boolean
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user?: UserUpdateOneRequiredWithoutCompletedLecturesNestedInput
   }
 
   export type LectureCompletionUncheckedUpdateWithoutLectureInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
-    completedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: BoolFieldUpdateOperationsInput | boolean
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type LectureCompletionUncheckedUpdateManyWithoutLectureInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
-    completedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: BoolFieldUpdateOperationsInput | boolean
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type QuestionCreateManyQuizInput = {

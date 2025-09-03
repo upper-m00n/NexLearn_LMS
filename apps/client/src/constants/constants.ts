@@ -1,3 +1,4 @@
+
 export const categories = [
  "ITSoftware",
   "Business",
@@ -14,21 +15,26 @@ export const categories = [
   "TeachingAcademics"
 ]
 
+
 export const featuredImages = [
   {
-    src: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=2070&auto=format&fit=crop",
+    src: "/cloud.webp",
     alt: "A person coding on a laptop",
   },
   {
-    src: "https://images.unsplash.com/photo-1531297484001-80022131f5a1?q=80&w=2020&auto=format&fit=crop",
+    src: "/mern.webp",
     alt: "Modern technology setup with a laptop and monitor",
   },
   {
-    src: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=2072&auto=format&fit=crop",
+    src: "/bigData.jpg",
     alt: "Multiple devices showing responsive web design",
   },
   {
-    src: "https://images.unsplash.com/photo-1542831371-29b0f74f9713?q=80&w=2070&auto=format&fit=crop",
+    src: "/devOps.jpg",
+    alt: "Close-up of code on a screen",
+  },
+  {
+    src: "/dsa.jpg",
     alt: "Close-up of code on a screen",
   },
 ];

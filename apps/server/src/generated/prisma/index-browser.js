@@ -222,6 +222,7 @@ exports.Prisma.LectureCompletionScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   lectureId: 'lectureId',
+  status: 'status',
   completedAt: 'completedAt'
 };
 

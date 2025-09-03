@@ -200,7 +200,8 @@ model LectureCompletion {
   user        User      @relation(fields:[userId],references:[id])
   lectureId   String
   lecture     Lecture   @relation(fields:[lectureId],references:[id])
-  completedAt DateTime  @default(now())
+  status      Boolean   @default(false)
+  completedAt DateTime? @default(now())
 
   @@unique([userId,lectureId])
 }

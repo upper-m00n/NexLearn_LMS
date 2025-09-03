@@ -1,9 +1,10 @@
-import express from 'express'
-import { getCourseProgress, markLectureAsComplete } from '../controllers/progress.Controller';
+import express from 'express';
+import { checkLectureStatus, getCourseProgress, markLecture } from '../controllers/progress.Controller';
 
-const router= express.Router();
+const router = express.Router();
 
-router.post('/complete',markLectureAsComplete);
-router.post('/calculate',getCourseProgress);
+router.post('/complete', markLecture);
+router.get('/check', checkLectureStatus); 
+router.get('/calculate', getCourseProgress);
 
 export default router;

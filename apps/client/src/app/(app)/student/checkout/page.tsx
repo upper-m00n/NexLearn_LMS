@@ -3,6 +3,7 @@
 import { BASE_URL } from "@/axios/axios";
 import { useAuth } from "@/context/AuthContext";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
@@ -13,11 +14,14 @@ declare global {
 }
 
 const CheckoutButton = () => {
+
   const { user } = useAuth();
   const [cart, setCart] = useState<any>(null);
   const [loading, setLoading] = useState(false);
 
-  // load cart
+  const router= useRouter();
+
+// load cart
   useEffect(() => {
     const fetchCart = async () => {
       if (!user?.id) return;
@@ -90,6 +94,7 @@ const CheckoutButton = () => {
             studentEmail:user?.email,
             cartItems:cart.items,
           });
+
           toast.success("Payment successful!");
         },
         prefill: {
@@ -101,6 +106,10 @@ const CheckoutButton = () => {
 
       const rzp = new (window as any).Razorpay(options);
       rzp.open();
+
+      router.push('/student/my-courses')
+
+      
     } catch (error) {
       console.error("Checkout failed:", error);
       toast.error("Failed to start checkout");

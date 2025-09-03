@@ -1,4 +1,3 @@
-// The complete, updated LecturePage component
 'use client';
 
 import { useAuth } from "@/context/AuthContext";
@@ -6,11 +5,14 @@ import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "sonner";
-import { Separator } from "@/components/ui/separator";
+import { Switch } from "@/components/ui/switch"
 import AiContentModal from "@/components/AiContentModal";
 import { BASE_URL } from "@/axios/axios";
 import QuizModal from "@/components/QuizModal";
 import { BookOpen, BrainCircuit, FileText } from 'lucide-react'; // For icons
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { boolean } from "zod";
 
 // --- Types ---
 type Lecture = {
@@ -44,6 +46,8 @@ const LecturePage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalTitle, setModalTitle] = useState("");
   const [modalContent, setModalContent] = useState("");
+  const [status, setStatus]=useState(false);
+  const [statusLoading,setStatusLoading]=useState(false);
 
   // --- Effects ---
   useEffect(() => {
@@ -59,8 +63,10 @@ const LecturePage = () => {
       setPageLoading(true);
       try {
         const res = await axios.get(`${BASE_URL}/api/lecture/get-lecture/${lectureId}`);
+
         setLecture(res.data.lec);
         setNote(res.data.note);
+
         toast.success("Lecture data loaded!");
       } catch (error) {
         console.error("Error fetching lecture", error);
@@ -71,6 +77,33 @@ const LecturePage = () => {
     };
     fetchLecture();
   }, [lectureId]);
+
+  useEffect(()=>{
+    const fetchLectureStatus=async()=>{
+      if(!user?.id || !lectureId){
+        return;
+      }
+      setStatusLoading(true);
+      try {
+        const res= await axios.get(`${BASE_URL}/api/progress/check`,{
+          params:{
+            userId:user.id,
+            lectureId
+          }
+        })
+        setStatus(res.data.check.status || false);
+        console.log("status",res.data);
+      }
+      catch(error){
+        console.log("Errorr while fetching status",error)
+        setStatus(false);
+      }
+      finally{
+        setStatusLoading(false);
+      }
+    }
+    fetchLectureStatus();
+  },[user?.id]);
 
   // --- Handlers ---
   const handleAiButtonClick = async (type: 'summary' | 'transcript') => {
@@ -115,7 +148,30 @@ const LecturePage = () => {
     }
   };
 
-  // --- Render Logic ---
+  const handleMarkLecture=async()=>{
+
+    const newStatus=!status;
+
+    setStatus(newStatus);
+    try {
+      const res=await axios.post(`${BASE_URL}/api/progress/complete`,{
+        userId:user?.id,
+        lectureId,
+        status:newStatus
+      })
+
+      //console.log("completion",res.data.completion)
+      toast.success("Lecture status changed!")
+
+    } catch (error) {
+      console.log("Error while marking lecture",error);
+      toast.error("Couldn't mark lecture as completed!")
+
+      setStatus(!newStatus);
+    }
+  }
+
+  
   if (pageLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -142,23 +198,26 @@ const LecturePage = () => {
         />
       )}
 
-      {/* Main Page Content */}
+     
       <div className="min-h-screen bg-slate-50 dark:bg-slate-900 p-4 sm:p-6 lg:p-8">
         <div className="max-w-7xl mx-auto flex flex-col items-center gap-8">
-          
-          {/* Header */}
+         
           <div className="text-center">
             <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-slate-800 dark:text-white">
               {lecture?.title}
             </h1>
           </div>
 
-          {/* Video Player */}
+         
           <div className="w-full max-w-5xl bg-black rounded-xl shadow-2xl overflow-hidden aspect-video">
             <video controls className="w-full h-full" src={lecture?.videoUrl} />
           </div>
 
-          {/* AI Tools Section */}
+           <div className="flex items-center space-x-2">
+            <Switch id="mark-lectue" onCheckedChange={handleMarkLecture} checked={status}/>
+            <Label htmlFor="mark-lecture">Mark lecture as Complete/Incomplete</Label>
+          </div>
+          
           <div className="w-full max-w-5xl p-6 bg-white dark:bg-slate-800 rounded-xl shadow-md">
             <h2 className="text-xl font-bold text-center mb-4 text-slate-700 dark:text-slate-200">Enhance Your Learning with AI ✨</h2>
             <div className="flex flex-col sm:flex-row gap-4">
@@ -181,7 +240,7 @@ const LecturePage = () => {
             </div>
           </div>
           
-          {/* Description Section */}
+          
           <div className="w-full max-w-5xl p-6 bg-white dark:bg-slate-800 rounded-xl shadow-md">
             <h2 className="text-2xl font-bold mb-3 text-slate-800 dark:text-slate-100">About the Lecture</h2>
             <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
@@ -189,7 +248,6 @@ const LecturePage = () => {
             </p>
           </div>
 
-          {/* Quiz Section */}
           <div className="w-full max-w-5xl text-center p-6 bg-violet-100 dark:bg-violet-900/30 rounded-xl">
             <h2 className="text-2xl font-bold mb-4 text-violet-900 dark:text-violet-200">Test Your Knowledge 🧠</h2>
             <p className="mb-6 text-violet-700 dark:text-violet-300">Generate a short quiz based on this lecture to check your understanding.</p>
@@ -201,8 +259,6 @@ const LecturePage = () => {
               {isLoadingQuiz ? 'Generating Quiz...' : 'Start AI Quiz'}
             </button>
           </div>
-          
-          {/* Notes Section */}
           {note?.pdfUrl && (
             <div className="w-full max-w-5xl p-6 bg-white dark:bg-slate-800 rounded-xl shadow-md">
               <h2 className="text-2xl font-bold mb-4 text-slate-800 dark:text-slate-100 flex items-center gap-2">

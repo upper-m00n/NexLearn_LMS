@@ -1,5 +1,5 @@
 'use client'
-import { useParams } from "next/navigation"
+import { useParams, useRouter } from "next/navigation"
 import { useEffect, useState } from "react";
 import type { Course } from "@/types/course";
 import { BASE_URL } from "@/axios/axios";
@@ -16,6 +16,8 @@ export default function Course() {
   const {user,token}= useAuth();
   const params = useParams();
   const courseId = params.id;
+
+  const router=useRouter();
 
   const [course, setCourse] = useState<Course>({
     title: "",
@@ -75,8 +77,35 @@ export default function Course() {
       toast.success("Item added to cart successfully.")
 
     } catch (error) {
-      console.log('error while adding to cart',error);
-      toast.error(cartMessage);
+      console.log('Error while adding to cart:', error);
+
+        if (axios.isAxiosError(error) && error.response) {
+            toast.error(error.response.data.message || "An unexpected error occurred.");
+        } else {
+            toast.error("Failed to add item to cart. Please check your connection.");
+        }
+    }
+  }
+
+  const handleBuyNow = async()=>{
+    try {
+      const courseId=course.id;
+      const studentId=user?.id as string
+
+      const res= await axios.post(`${BASE_URL}/api/cart/add`,{courseId,studentId});
+      setCartMessage(res.data.message);
+
+      toast.success("Redirecting to Checkout page.")
+      router.push('/student/checkout')
+      
+    } catch (error) {
+      console.log('Error while adding to cart:', error);
+
+        if (axios.isAxiosError(error) && error.response) {
+            toast.error(error.response.data.message || "An unexpected error occurred.");
+        } else {
+            toast.error("Failed to add item to cart. Please check your connection.");
+        }
     }
   }
 
@@ -98,7 +127,6 @@ export default function Course() {
             </div>
           </div>
 
-          {/* Right Side - Purchase Card */}
           <div className="bg-white  shadow-lg p-4 flex flex-col gap-4">
             <img
               src={thumbnail}
@@ -110,7 +138,7 @@ export default function Course() {
               Add to cart
             </Button>
             <div className="flex items-center justify-between gap-2">
-              <Button className="flex-1 bg-black hover:bg-green-700 text-white ">
+              <Button className="flex-1 bg-black hover:bg-green-700 text-white" >
                 Buy now
               </Button>
               <button className="p-3 border border-gray-300 hover:bg-gray-100">
@@ -121,15 +149,14 @@ export default function Course() {
         </div>
       </div>
 
-      {/* Course Body */}
+      
       <div className="max-w-6xl mx-auto py-10 px-6 md:px-12 flex flex-col gap-8">
-        {/* Description */}
+       
         <section>
           <h2 className="text-2xl font-semibold mb-3">Course Description</h2>
           <p className="text-gray-700 leading-relaxed">{course.description}</p>
         </section>
-
-        {/* Lectures */}
+   
         <section>
           <h2 className="text-2xl font-semibold mb-3">Course Content</h2>
           {loadingLectures ? (
@@ -139,7 +166,6 @@ export default function Course() {
           )}
         </section>
 
-        {/* Related Topics */}
         <section>
           <h2 className="text-2xl font-semibold mb-3">Explore Related Topics</h2>
           <p className="text-gray-600">Coming soon...</p>

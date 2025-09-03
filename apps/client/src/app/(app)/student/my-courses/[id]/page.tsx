@@ -10,6 +10,9 @@ import { toast } from "sonner";
 import { Separator } from "@/components/ui/separator"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Course } from "@/types/course";
+import { BASE_URL } from "@/axios/axios";
+import { Label } from "@/components/ui/label";
+import { Progress } from "@/components/ui/progress";
 
 
 type Lecture={
@@ -22,7 +25,7 @@ type Lecture={
 
 const course=()=>{
   const params = useParams();
-
+  const {user,loading}=useAuth();
   const courseId= params.id;
 
   const [course,setCourse]= useState<Course>({
@@ -39,32 +42,49 @@ const course=()=>{
 
   const [thumbnailUrl, setThumbnailUrl] = useState('')
 
+  const [progressvalue,setProgressValue]=useState(0);
+
   
   const router= useRouter();
 
 
   useEffect(()=>{
+    if(loading){
+      return;
+    }
+    if(!user){
+      router.push('/login')
+    }
+
     const fetchCourse= async()=>{
+  
       try {
-        const res= await axios.get(`http://localhost:4000/api/course/get/${courseId}`);
+        const res= await axios.get(`${BASE_URL}/api/course/get/${courseId}`);
+
         setCourse(res.data);
-        console.log("course",res.data);
+
+        //console.log("course",res.data);
         setThumbnailUrl(res.data.thumbnail);
         toast.success("Course fetched successfully!");
+
       } catch (error) {
         console.log("Error while fetching course");
         toast.error("Unable to fetch course.");
       }
     }
+
     const fetchLectures= async()=>{
       try {
         setLoadingLectures(true);
         toast("Fetching Lectures")
-        const res= await axios.get(`http://localhost:4000/api/lecture/get?courseId=${courseId}`)
+
+        const res= await axios.get(`${BASE_URL}/api/lecture/get?courseId=${courseId}`)
+
         if(res.data?.lectures){
           setLectures(res.data.lectures);
         }
-        setMessage(res.data.message);
+
+        setMessage("Lectures fetched successfully");
         toast(message);
         
       } catch (error) {
@@ -75,16 +95,41 @@ const course=()=>{
         setLoadingLectures(false);
       }
     }
+
+    const calculateProgress=async()=>{
+      try {
+        console.log("user and courseid",user?.id);
+        console.log(courseId);
+         if (!user?.id || !courseId) {
+              console.log("User or Course ID is not available yet. Skipping progress fetch.");
+              return;
+          }
+        const res= await axios.get(`${BASE_URL}/api/progress/calculate`,{
+          params:{
+            userId:user?.id,
+            courseId
+          }
+        })
+        console.log(res.data);
+        setProgressValue(res.data.progressPercentage);
+
+      } catch (error) {
+        console.log("couldn't fetch course progress",error);
+        toast.error("Couldn't fetch course progress");
+      }
+    }
+
     fetchCourse();
     fetchLectures();
-  },[])
+    calculateProgress();
+  },[user,loading])
 
     const handleView=(lectureId: string)=>{
         router.push(`/student/lecture/${lectureId}`)
     }
   
   return(
-    <div className="w-full max-w-4xl mx-auto bg-white p-6 rounded-lg shadow space-y-8">
+    <div className="w-full max-w-4xl mx-auto bg-white p-6 rounded-lg shadow space-y-8 mt-10">
     
   {/* Course Title and Thumbnail */}
   <div className="space-y-4">
@@ -101,6 +146,11 @@ const course=()=>{
 
     <p className="text-gray-600">{course.description}</p>
     
+  </div>
+
+  <div>
+    <Label className="text-2xl mb-2">Course Progress</Label>
+    <Progress value={progressvalue} />
   </div>
 
   <Separator />

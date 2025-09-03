@@ -12,12 +12,12 @@ import { BASE_URL } from "@/axios/axios";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "sonner";
-import { CourseCard } from "@/components/CourseCard";
 import Link from "next/link";
 import { featuredImages, categories } from "@/constants/constants";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { CourseCardForALL } from "@/components/CourseCardForALL";
+import { CheckCircle, FileText, Wand2 } from "lucide-react";
 
 export default function Home() {
   const [courses, setCourses] = useState<any[]>([]);
@@ -45,8 +45,7 @@ export default function Home() {
           Learn Anytime, Anywhere
         </h1>
         <p className="max-w-2xl text-lg sm:text-xl mb-6">
-          Explore top courses from expert trainers and start your journey
-          towards success today.
+          Explore top courses from expert trainers, now supercharged with AI to accelerate your learning journey.
         </p>
         <Link
           href="/courses"
@@ -55,6 +54,44 @@ export default function Home() {
           Browse Courses
         </Link>
       </section>
+
+      <section className="w-full max-w-6xl mx-auto mt-20 px-6">
+        <h2 className="text-3xl font-bold mb-4 text-center">
+          Supercharge Your Learning with AI
+        </h2>
+        <p className="text-gray-600 text-lg text-center mb-12">
+          Our platform uses cutting-edge AI to create a more effective and engaging learning experience.
+        </p>
+        <div className="grid gap-8 md:grid-cols-3">
+          {/* Feature 1: Transcripts & Summaries */}
+          <div className="flex flex-col items-center text-center p-6 bg-white rounded-lg shadow-md border border-gray-200">
+            <FileText className="h-12 w-12 text-indigo-500 mb-4" />
+            <h3 className="text-xl font-semibold mb-2">Instant Transcripts & Summaries</h3>
+            <p className="text-gray-500">
+              Never miss a detail. Get full transcripts for every lecture and concise AI-powered summaries to review key concepts in seconds.
+            </p>
+          </div>
+
+          {/* Feature 2: AI Quizzes */}
+          <div className="flex flex-col items-center text-center p-6 bg-white rounded-lg shadow-md border border-gray-200">
+            <CheckCircle className="h-12 w-12 text-green-500 mb-4" />
+            <h3 className="text-xl font-semibold mb-2">AI-Generated Quizzes</h3>
+            <p className="text-gray-500">
+              Test your knowledge after any lecture with intelligent quizzes created on the fly. Reinforce your learning and track your progress effectively.
+            </p>
+          </div>
+
+          {/* Feature 3: AI Thumbnails for Trainers */}
+          <div className="flex flex-col items-center text-center p-6 bg-white rounded-lg shadow-md border border-gray-200">
+            <Wand2 className="h-12 w-12 text-purple-500 mb-4" />
+            <h3 className="text-xl font-semibold mb-2">For Trainers: AI Thumbnails</h3>
+            <p className="text-gray-500">
+              Create stunning, relevant course thumbnails instantly. Just provide a title, and our AI will design a beautiful image so you can focus on content.
+            </p>
+          </div>
+        </div>
+      </section>
+      
 
       {/* FEATURED SECTION (NOW WITH IMAGES) */}
       <section className="w-full max-w-5xl mx-auto mt-16 px-6">
@@ -84,6 +121,7 @@ export default function Home() {
           <CarouselNext className="bg-black text-white"/>
         </Carousel>
       </section>
+
       
 
       {/* POPULAR COURSES SECTION */}
