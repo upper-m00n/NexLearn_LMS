@@ -60,18 +60,34 @@ export const getCourses = async(req:Request, res:Response)=>{
 }
 
 export const getAllCourses = async(req:Request, res:Response)=>{
+  const page= parseInt(req.query.page as string) || 1;
+  const limit= parseInt(req.query.limit as string) || 6;
+
+  const skip=(page - 1) * limit;
   
   try {
-    const courses= await prisma.course.findMany();
+    const [totalCourses, courses]= await prisma.$transaction([
+      prisma.course.count(),
+      prisma.course.findMany({
+        skip:skip,
+        take:limit,
+        orderBy:{
+          createdAt:'desc'
+        }
+      })
+    ])
 
-    if(!courses){
-      return res.status(404).json({error:"Trainer not found,"})
-    }
+    const totalPages= Math.ceil(totalCourses/limit);
 
-    res.status(200).json(courses);
+    res.status(200).json({
+      courses,
+      totalPages,
+      currentPage:page,
+    })
+
   } catch (error) {
-    console.log("Error while fetching course",error);
-    res.status(500).json({message:"Internal server error"})
+    console.log("Error while fetching courses with pagination",error);
+    res.status(500).json({message:"Failed to fetch courses."})
   }
 }
 

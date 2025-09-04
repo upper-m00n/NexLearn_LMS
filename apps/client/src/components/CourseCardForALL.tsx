@@ -61,10 +61,10 @@ export function CourseCardForALL({course}:CourseCardProps) {
 
   const handleView=(course:CourseCardProps["course"])=>{
     if(user?.role == 'TRAINER'){
-      router.push(`/trainer/courses/${course.id}`)
+      router.push(`/trainer/courses/${course?.id}`)
     }
     else{
-      router.push(`/student/course/${course.id}`)
+      router.push(`/student/course/${course?.id}`)
     }
   }
   

@@ -15,10 +15,10 @@ import {
 import { Button } from "./ui/button";
 import { useRouter } from "next/navigation";
 import { Input } from "./ui/input";
-import { use, useState } from "react";
+import { useState } from "react";
 
 const Navbar = () => {
-  // Assuming your context provides a logout function
+  
   const { user, token, logout } = useAuth();
   const router = useRouter();
 
@@ -26,7 +26,7 @@ const Navbar = () => {
 
   const handleLogout = () => {
     logout();
-    router.push('/login'); // Redirect to login page after logout
+    router.push('/login'); 
   };
   
   const handleProfileView=()=>{
@@ -71,7 +71,7 @@ const Navbar = () => {
           {user && token ? (
             // --- Logged-in User View ---
             <>
-              <Link href="/explore" className="hover:text-gray-300 transition-colors">
+              <Link href="/student/course" className="hover:text-gray-300 transition-colors">
                 Explore
               </Link>
               <Link href="/student/cart" className="hover:text-gray-300 transition-colors text-2xl">
@@ -104,6 +104,11 @@ const Navbar = () => {
                   {user.role === 'TRAINER' && (
                     <DropdownMenuItem onClick={() => router.push('/trainer')}>
                       Trainer Dashboard
+                    </DropdownMenuItem>
+                  )}
+                  {user.role === 'STUDENT' &&(
+                    <DropdownMenuItem onClick={() => router.push('/student/dashboard')}>
+                      Student Dashboard
                     </DropdownMenuItem>
                   )}
                   <DropdownMenuSeparator />
