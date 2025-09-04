@@ -36,11 +36,11 @@ const CheckoutButton = () => {
     fetchCart();
   }, [user]);
 
-  //  helper to load Razorpay SDK
+  
   const loadRazorpayScript = () => {
     return new Promise<boolean>((resolve) => {
       if (document.querySelector("#razorpay-sdk")) {
-        return resolve(true); // already loaded
+        return resolve(true); 
       }
       const script = document.createElement("script");
       script.id = "razorpay-sdk";
@@ -51,7 +51,6 @@ const CheckoutButton = () => {
     });
   };
 
-  //  checkout handler
   const handleCheckout = async () => {
     if (!cart) return;
     setLoading(true);
@@ -62,7 +61,6 @@ const CheckoutButton = () => {
     );
 
     try {
-      // create order in backend
       const res = await axios.post(`${BASE_URL}/api/payment/create-order`, {
         studentId: user?.id,
         totalAmount,
@@ -71,14 +69,12 @@ const CheckoutButton = () => {
 
       const { razorpayOrder } = res.data;
 
-      // load SDK
       const isLoaded = await loadRazorpayScript();
       if (!isLoaded) {
         toast.error("Failed to load Razorpay SDK. Please check your connection.");
         return;
       }
 
-      // open Razorpay checkout
       const options = {
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
         amount: razorpayOrder.amount,

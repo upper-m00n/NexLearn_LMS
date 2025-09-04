@@ -41,7 +41,6 @@ const MyCourses = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Hero Section */}
       <div className="bg-gradient-to-r from-indigo-600 to-purple-600 w-full text-white p-10 shadow-lg">
         <h1 className="text-4xl font-bold">📚 My Courses</h1>
         <p className="text-lg opacity-90 mt-2">
@@ -49,7 +48,6 @@ const MyCourses = () => {
         </p>
       </div>
 
-      {/* Courses Grid */}
       <div className="p-6 max-w-7xl mx-auto">
         {loading ? (
           <div className="flex justify-center items-center h-60">

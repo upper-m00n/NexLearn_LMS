@@ -4,14 +4,13 @@ import { Button } from "@/components/ui/button";
 import { PlusIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { CourseCard } from "@/components/CourseCard"; // adjust path as needed
+import { CourseCard } from "@/components/CourseCard"; 
 import { useEffect, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 import axios from "axios";
 import { toast } from "sonner";
 import { BASE_URL } from "@/axios/axios";
 
-// Dummy data - replace with fetched data or props
 export default function TrainerDashboard() {
   const router = useRouter();
   const {user,token,loading}= useAuth();
@@ -137,7 +136,6 @@ export default function TrainerDashboard() {
         </div>
       </div>
 
-      {/* Analytics Placeholder */}
       <div>
         <h2 className="text-xl font-semibold mb-4">Analytics (Coming Soon)</h2>
         <div className="p-6 border rounded-md text-muted-foreground">

@@ -71,11 +71,10 @@ export default function CourseForm() {
           Authorization:`Bearer ${token}`
         }
       })
-      // FIX: Call toast directly with the success message from the response
+
       toast.success(res.data.message || "Lecture created successfully!");
       router.push(`/trainer/courses/${courseId}`);
     } catch (error: any) {
-      // FIX: Call toast directly with the error message
       const errorMessage = error.response?.data?.message || "Failed to create lecture.";
       toast.error(errorMessage);
       console.error("Error while creating course:", error)
@@ -86,7 +85,6 @@ export default function CourseForm() {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    // This function seems to use ImageKit, which is fine.
     try {
       const authRes = await fetch(`${BASE_URL}/api/imagekit/imagekit-auth`);
       const auth = await authRes.json();
@@ -96,7 +94,7 @@ export default function CourseForm() {
       formData.append("fileName", file.name);
       formData.append("publicKey", "public_Mn4JpNN5SqQufk9nqa+bNgmdGNY=");
       formData.append("signature", auth.signature);
-      formData.append("expire", auth.expire.toString()); // Ensure expire is a string
+      formData.append("expire", auth.expire.toString()); 
       formData.append("token", auth.token);
       formData.append("folder", "/notes");
 
@@ -123,7 +121,6 @@ export default function CourseForm() {
     const file= e.target.files?.[0];
     if(!file)return;
 
-    // FIX: Check for environment variables before using them
     const apiKey = process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY;
     const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
     const uploadPreset = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET;
@@ -150,8 +147,8 @@ export default function CourseForm() {
       const formData= new FormData();
 
       formData.append('file',file);
-      formData.append('upload_preset', uploadPreset); // Add this
-     formData.append('cloud_name', cloudName); // Additional safety
+      formData.append('upload_preset', uploadPreset); 
+     formData.append('cloud_name', cloudName); 
       formData.append('resource_type', 'video');
 
       const cloudinaryUrl= `https://api.cloudinary.com/v1_1/${cloudName}/video/upload`;
@@ -166,7 +163,6 @@ export default function CourseForm() {
         }
       })
 
-      // FIX: Set the video URL from the correct property in the response
       setVideoUrl(uploadResponse.data.secure_url);
       toast.success("Video uploaded successfully!");
 
@@ -214,7 +210,6 @@ export default function CourseForm() {
           <FormItem>
             <FormLabel>Upload Notes (PDF)</FormLabel>
             <FormControl>
-              {/* FIX: Changed accept to application/pdf */}
               <Input type="file" accept="application/pdf" onChange={handlePdfUpload} />
             </FormControl>
             {noteUrl && (

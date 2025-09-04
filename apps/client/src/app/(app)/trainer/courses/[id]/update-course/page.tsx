@@ -27,9 +27,6 @@ export default function UpdateCourseForm() {
 
   const params=useParams();
   const courseId=params.id;
-  //console.log("courseId",courseId);
-
-  //states
   
   const [course,setCourse]=useState<Course>({
     title:"",
@@ -39,7 +36,6 @@ export default function UpdateCourseForm() {
     category:""
   });
 
-  //console.log("user",user)
   useEffect(()=>{
     if(loading) return;
 
@@ -48,7 +44,7 @@ export default function UpdateCourseForm() {
       router.push('/login');
     }
     else if (user?.role !== 'TRAINER') {
-      router.push('/unauthorized') // or '/not-found'
+      router.push('/unauthorized')
     }
   },[user,token,router,loading])
 
@@ -120,7 +116,7 @@ export default function UpdateCourseForm() {
       setMessage(res.data.message)
       toast.success(message)
       router.push('/trainer')
-      //console.log("Updated Course:", res.data)
+    
     } catch (error) {
       toast.error(message)
       console.error("Error while creating course:", error)
@@ -132,7 +128,7 @@ export default function UpdateCourseForm() {
   if (!file) return;
 
   try {
-    // 🔐 Get authentication params from backend
+    
     const authRes = await fetch("http://localhost:4000/api/imagekit/imagekit-auth");
     const auth = await authRes.json();
 

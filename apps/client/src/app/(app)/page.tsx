@@ -28,7 +28,7 @@ export default function Home() {
       try {
         const res = await axios.get(`${BASE_URL}/api/course/`);
         setCourses(res.data);
-        // We don't need a toast message on every page load
+  
       } catch (error) {
         console.log("error while fetching courses", error);
         toast.error("Couldn't fetch courses");
@@ -39,7 +39,7 @@ export default function Home() {
 
   return (
     <div className="font-sans min-h-screen flex flex-col">
-      {/* HERO SECTION */}
+      
       <section className="relative w-full flex flex-col items-center justify-center text-center py-20 px-6 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-b-2xl shadow-lg">
         <h1 className="text-4xl sm:text-5xl font-bold mb-4">
           Learn Anytime, Anywhere
@@ -63,7 +63,7 @@ export default function Home() {
           Our platform uses cutting-edge AI to create a more effective and engaging learning experience.
         </p>
         <div className="grid gap-8 md:grid-cols-3">
-          {/* Feature 1: Transcripts & Summaries */}
+        
           <div className="flex flex-col items-center text-center p-6 bg-white rounded-lg shadow-md border border-gray-200">
             <FileText className="h-12 w-12 text-indigo-500 mb-4" />
             <h3 className="text-xl font-semibold mb-2">Instant Transcripts & Summaries</h3>
@@ -72,7 +72,7 @@ export default function Home() {
             </p>
           </div>
 
-          {/* Feature 2: AI Quizzes */}
+        
           <div className="flex flex-col items-center text-center p-6 bg-white rounded-lg shadow-md border border-gray-200">
             <CheckCircle className="h-12 w-12 text-green-500 mb-4" />
             <h3 className="text-xl font-semibold mb-2">AI-Generated Quizzes</h3>
@@ -81,7 +81,6 @@ export default function Home() {
             </p>
           </div>
 
-          {/* Feature 3: AI Thumbnails for Trainers */}
           <div className="flex flex-col items-center text-center p-6 bg-white rounded-lg shadow-md border border-gray-200">
             <Wand2 className="h-12 w-12 text-purple-500 mb-4" />
             <h3 className="text-xl font-semibold mb-2">For Trainers: AI Thumbnails</h3>
@@ -93,7 +92,6 @@ export default function Home() {
       </section>
       
 
-      {/* FEATURED SECTION (NOW WITH IMAGES) */}
       <section className="w-full max-w-5xl mx-auto mt-16 px-6">
         <h2 className="text-2xl font-semibold mb-6 text-center">
           Featured Topics
@@ -123,8 +121,6 @@ export default function Home() {
       </section>
 
       
-
-      {/* POPULAR COURSES SECTION */}
       <section className="w-full max-w-6xl mx-auto mt-20 px-6">
         <h2 className="text-2xl font-semibold mb-6 text-center">
           Popular Courses
@@ -136,7 +132,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CTA SECTION */}
       <section className="w-full text-center py-20 mt-20 bg-gray-100 rounded-2xl">
         <h2 className="text-3xl font-bold mb-4">
           Ready to start learning with us?

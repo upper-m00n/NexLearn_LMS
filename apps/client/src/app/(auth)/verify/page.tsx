@@ -1,4 +1,4 @@
-// src/app/(auth)/verify/page.tsx (Corrected)
+
 'use client'
 
 import { BASE_URL } from "@/axios/axios";
@@ -6,12 +6,12 @@ import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
-import { useAuth } from "@/context/AuthContext"; // Assuming you have an AuthContext
+import { useAuth } from "@/context/AuthContext"; 
 import { verificationSchema } from "@/lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import Link from "next/link";
-import { useRouter } from "next/navigation"; // FIX 1: Correct router import
+import { useRouter } from "next/navigation"; 
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from 'zod';

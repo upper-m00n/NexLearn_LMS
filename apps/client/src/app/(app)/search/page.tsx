@@ -10,7 +10,6 @@ import { toast } from "sonner";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { Button } from "@/components/ui/button";
 
-// FIX 2: Correctly define props. The component now receives the course object and the router instance.
 const CourseCard = ({ course, router }: { course: Course, router: AppRouterInstance }) => (
   <div 
     className="course-card border p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer" 
@@ -23,7 +22,6 @@ const CourseCard = ({ course, router }: { course: Course, router: AppRouterInsta
       <span className="category-badge bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full">
         {course.category}
       </span>
-      {/* Ensure your Course type includes a 'rating' property */}
       <div className="mt-2">
         <RatingsStarsForUnEnrolled totalRating={parseFloat(course.rating as any || '0')} />
       </div>
@@ -82,12 +80,10 @@ export default function SearchPage() {
         
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-8">
           {results.map((course: Course) => (
-            // Pass both the course and the router instance as props
             <CourseCard key={course.id} course={course} router={router} />
           ))}
         </div>
-        
-        {/* FIX 4: Wrap text in a valid JSX tag */}
+    
         {!loading && (
           <p className="text-center text-gray-500 mt-8">
             Total Results: {results.length}

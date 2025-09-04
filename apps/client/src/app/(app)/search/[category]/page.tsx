@@ -23,7 +23,6 @@ const CourseCard = ({ course, router }: { course: Course, router: AppRouterInsta
       <span className="category-badge bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full">
         {course.category}
       </span>
-      {/* Ensure your Course type includes a 'rating' property */}
       <div className="mt-2">
         <RatingsStarsForUnEnrolled totalRating={parseFloat(course.rating as any || '0')} />
       </div>
@@ -32,7 +31,6 @@ const CourseCard = ({ course, router }: { course: Course, router: AppRouterInsta
   </div>
 );
 
-// A skeleton component for a more professional loading state
 const CourseCardSkeleton = () => (
   <div className="flex flex-col space-y-3">
     <Skeleton className="h-40 w-full rounded-lg" />
@@ -43,7 +41,6 @@ const CourseCardSkeleton = () => (
   </div>
 );
 
-// A reusable component to display centered messages
 const InfoMessage = ({ icon: Icon, title, message }: { icon: React.ElementType, title: string, message: string }) => (
   <div className="mt-16 flex flex-col items-center justify-center text-center">
     <Icon className="h-12 w-12 text-gray-400" />
@@ -55,7 +52,6 @@ const InfoMessage = ({ icon: Icon, title, message }: { icon: React.ElementType, 
 export default function CategoryPage() {
   const params = useParams();
   const router = useRouter();
-  // Decode URI component to handle spaces or special characters in category names
   const category = decodeURIComponent(params.category as string);
 
   const [courses, setCourses] = useState<Course[]>([]);
@@ -63,7 +59,7 @@ export default function CategoryPage() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // A guard clause to prevent running the effect without a category
+    
     if (!category) return;
 
     const fetchCoursesByCategory = async () => {
@@ -82,13 +78,13 @@ export default function CategoryPage() {
     };
 
     fetchCoursesByCategory();
-  }, [category]); // The effect correctly depends on the category
+  }, [category]); 
 
   const renderContent = () => {
     if (isLoading) {
       return (
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-          {/* Render 8 skeleton cards while loading */}
+         
           {Array.from({ length: 8 }).map((_, index) => (
             <CourseCardSkeleton key={index} />
           ))}

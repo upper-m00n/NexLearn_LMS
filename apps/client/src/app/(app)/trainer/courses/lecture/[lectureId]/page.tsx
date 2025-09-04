@@ -7,13 +7,12 @@ import axios from "axios";
 import { toast } from "sonner";
 import { Separator } from "@/components/ui/separator";
 
-// Define the type for a lecture object
 type Lecture = {
   id: string;
   title: string;
   description: string;
   videoUrl: string;
-  noteUrl: string; // This property is not used in the original type, but your code uses it
+  noteUrl: string; 
 };
 
 const LecturePage = () => {
@@ -26,9 +25,8 @@ const LecturePage = () => {
     // States
     const [lecture, setLecture] = useState<Lecture | null>(null);
     const [noteUrl, setNoteUrl] = useState('');
-    const [isLoading, setIsLoading] = useState(true); // Added loading state for better UX
+    const [isLoading, setIsLoading] = useState(true); 
 
-    // Effect for handling authentication and authorization
     useEffect(() => {
         if (loading) return;
 
@@ -39,7 +37,7 @@ const LecturePage = () => {
         }
     }, [user, token, router, loading]);
 
-    // Effect for fetching lecture data
+  
     useEffect(() => {
         if (!lectureId) return;
 
@@ -49,7 +47,6 @@ const LecturePage = () => {
                 const res = await axios.get(`http://localhost:4000/api/lecture/get-lecture/${lectureId}`);
                 
                 setLecture(res.data.lec);
-                // Assuming the note URL is directly available or constructed
                 setNoteUrl(res.data.note.pdfUrl);
 
                 toast.success("Lecture data loaded!");
@@ -83,19 +80,15 @@ const LecturePage = () => {
                     </div>
                 ) : (
                     <div className="flex flex-col gap-8">
-                        {/* Lecture Title */}
                         <h1 className="text-4xl font-bold tracking-tight text-slate-800 dark:text-white">
                             {lecture.title}
                         </h1>
 
-                        {/* Video Player Section */}
                         <div className="w-full mx-auto bg-black rounded-xl shadow-2xl overflow-hidden aspect-video max-w-5xl">
                             <video
                                 controls
                                 className="w-full h-full"
                                 src={lecture.videoUrl}
-                                // Optional: Add a poster image
-                                // poster="/path/to/poster.jpg"
                             />
                         </div>
 

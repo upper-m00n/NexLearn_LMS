@@ -9,10 +9,9 @@ import { Switch } from "@/components/ui/switch"
 import AiContentModal from "@/components/AiContentModal";
 import { BASE_URL } from "@/axios/axios";
 import QuizModal from "@/components/QuizModal";
-import { BookOpen, BrainCircuit, FileText } from 'lucide-react'; // For icons
-import { Button } from "@/components/ui/button";
+import { BookOpen, BrainCircuit, FileText } from 'lucide-react';
 import { Label } from "@/components/ui/label";
-import { boolean } from "zod";
+
 
 // --- Types ---
 type Lecture = {
@@ -49,7 +48,6 @@ const LecturePage = () => {
   const [status, setStatus]=useState(false);
   const [statusLoading,setStatusLoading]=useState(false);
 
-  // --- Effects ---
   useEffect(() => {
     if (authLoading) return;
     if (!authLoading && (!user || !token)) {
@@ -160,7 +158,6 @@ const LecturePage = () => {
         status:newStatus
       })
 
-      //console.log("completion",res.data.completion)
       toast.success("Lecture status changed!")
 
     } catch (error) {

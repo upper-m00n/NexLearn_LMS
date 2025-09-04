@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { FaGit, FaGithub, FaLinkedin, FaMailBulk } from "react-icons/fa";
+import { FaGithub, FaLinkedin, FaMailBulk } from "react-icons/fa";
 
 
 const Footer =()=>{

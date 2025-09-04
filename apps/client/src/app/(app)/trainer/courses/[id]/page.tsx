@@ -8,8 +8,6 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import { toast } from "sonner";
 import { Separator } from "@/components/ui/separator"
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { Course } from "@/types/course";
 import Lectures from "@/components/Lectures";
 
@@ -32,7 +30,7 @@ const course=()=>{
     title:"",
     description:"",
     price:0,
-    rating:"",
+    rating:0,
     createdAt:"",
     category:"",
   });

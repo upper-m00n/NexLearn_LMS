@@ -1,4 +1,3 @@
-// src/lib/validations/registerSchema.ts
 import { email, z } from "zod";
 
 export const registerSchema = z.object({

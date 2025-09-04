@@ -7,7 +7,6 @@ import { BASE_URL } from "@/axios/axios";
 import { toast } from "sonner";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
-import { Router } from "next/router";
 import { useRouter } from "next/navigation";
 import RatingsStarsForUnEnrolled from "@/components/RatingsStarsForUnEnrolled";
 
@@ -70,7 +69,6 @@ export default function CartPage() {
       <Separator className="my-4" />
 
       <div className="flex flex-col md:flex-row gap-8">
-        {/* Cart Items */}
         <div className="flex-1 flex flex-col gap-6">
           {cart.items && cart.items.length > 0 ? (
             cart.items.map((item: any) => (
@@ -108,7 +106,6 @@ export default function CartPage() {
           )}
         </div>
 
-        {/* Summary Section */}
         <div className="w-full md:w-1/3 p-4 bg-white rounded-lg shadow-md flex flex-col gap-4">
           <h2 className="text-2xl font-bold">Order Summary</h2>
           <div className="flex justify-between">
@@ -124,11 +121,9 @@ export default function CartPage() {
         </div>
       </div>
 
-      {/* Recommendations */}
       <div className="mt-12">
         <h2 className="text-2xl font-bold mb-4">You might also like</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* Example recommendation cards */}
           <div className="p-4 bg-white rounded-lg shadow-md">Recommendation 1</div>
           <div className="p-4 bg-white rounded-lg shadow-md">Recommendation 2</div>
           <div className="p-4 bg-white rounded-lg shadow-md">Recommendation 3</div>
