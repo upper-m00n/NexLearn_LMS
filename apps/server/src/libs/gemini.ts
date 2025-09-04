@@ -1,7 +1,8 @@
 
 import { GoogleGenerativeAI, Part } from "@google/generative-ai";
 
-import { PrismaClient, Lecture } from "../generated/prisma"; 
+import prisma from '../prisma/client';
+import { Lecture } from "@prisma/client";
 import axios from "axios";
 import { Request,Response } from "express";
 import {v1} from '@google-cloud/aiplatform';
@@ -9,7 +10,7 @@ import { protos } from "@google-cloud/aiplatform";
 import cloudinary from "./cloudinary";
 
 
-const prisma = new PrismaClient();
+
 
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY!);
 const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
