@@ -1,7 +1,7 @@
 'use client'
 import { BASE_URL } from "@/axios/axios";
 import { CourseCardForALL } from "@/components/CourseCardForALL";
-import { Course } from "@/types/course"; // It's good practice to use a specific type
+import { Course } from "@/types/course"; 
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -16,7 +16,7 @@ import {
 import { Loader2 } from "lucide-react";
 
 
-const COURSES_PER_PAGE = 6; // Define how many courses to show per page
+const COURSES_PER_PAGE = 6; 
 
 export default function ExplorePage() {
   const [courses, setCourses] = useState<Course[]>([]);
@@ -28,7 +28,6 @@ export default function ExplorePage() {
     const fetchCourses = async () => {
       setLoading(true);
       try {
-        // FIX: Fetch courses for the current page with a limit
         const res = await axios.get(`${BASE_URL}/api/course`, {
           params: {
             page: currentPage,
@@ -45,7 +44,7 @@ export default function ExplorePage() {
       }
     };
     fetchCourses();
-  }, [currentPage]); // FIX: Re-run the effect when the current page changes
+  }, [currentPage]); 
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
@@ -66,13 +65,13 @@ export default function ExplorePage() {
         <>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {courses
-            .filter(course => course.id) // This line ensures course.id is not undefined
-            .map((course:any) => (
+            .filter(course => course.id) 
+            .map((course:Course) => (
               <CourseCardForALL key={course.id} course={course} />
             ))}
           </div>
 
-          {/* --- Dynamic Pagination --- */}
+        
           <div className="mt-12">
             <Pagination>
               <PaginationContent>
@@ -84,7 +83,6 @@ export default function ExplorePage() {
                   />
                 </PaginationItem>
                 
-                {/* Render page numbers dynamically */}
                 {[...Array(totalPages)].map((_, i) => (
                   <PaginationItem key={i + 1}>
                     <PaginationLink

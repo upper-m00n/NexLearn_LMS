@@ -3,28 +3,28 @@
 import { createContext, useContext, useEffect, useState } from "react";
 
 interface User{
-    id:String;
-    username:String;
-    email:String;
-    profilePic:String;
+    id:string;
+    username:string;
+    email:string;
+    profilePic:string;
     role: 'STUDENT' | 'TRAINER' | 'ADMIN'
 }
 
 interface AuthContextType{
     user: User | null;
-    token: String | null;
-    isAuthenticated: Boolean;
+    token: string | null;
+    isAuthenticated: boolean;
     setUser:(user: User| null)=> void;
-    setToken:(token:String | null)=>void;
+    setToken:(token:string | null)=>void;
     logout:()=>void;
-    loading:Boolean
+    loading:boolean
 }
 
 const AuthContext = createContext<AuthContextType| undefined>(undefined);
 
 export const AuthProvider=({children}:{children:React.ReactNode})=>{
     const [user, setUser]= useState<User | null>(null);
-    const [token, setToken]= useState<String | null>(null);
+    const [token, setToken]= useState<string | null>(null);
     const [loading, setLoading]= useState(true);
 
     useEffect(()=>{

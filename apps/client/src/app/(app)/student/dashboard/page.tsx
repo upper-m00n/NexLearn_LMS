@@ -23,15 +23,19 @@ const StudentDashbaord = () => {
       console.log(res.data);
       setEnrolled(res.data.enrolledCourses);
       toast.success("Your enrolled courses fetched successfully");
-    } catch (error: any) {
-      console.log("Error while fetching enrolled courses", error);
-      
-      
-      if (error.response?.status === 404) {
-        setEnrolled([]);
-        toast.info("You haven't enrolled in any courses yet");
+    } catch (error) {
+       if (axios.isAxiosError(error)) {
+        if (error.response?.status === 404) {
+          setEnrolled([]);
+          console.info("User has no enrolled courses.");
+
+        } else {
+         
+          toast.error("Couldn't fetch enrolled courses.");
+        }
       } else {
-        toast.error("Couldn't fetch enrolled courses");
+        toast.error("An unexpected error occurred. Please try again.");
+        console.error("An unexpected error occurred:", error);
       }
     } finally {
       setLoading(false);
@@ -48,9 +52,6 @@ const StudentDashbaord = () => {
           Welcome back, {user?.username|| "Learner"}!
         </p>
       </div>
-
-
-   {/* courses */}
 
       <div className="p-6 max-w-7xl mx-auto">
         <h1 className="text-2xl font-semibold mb-4">Your Courses</h1>

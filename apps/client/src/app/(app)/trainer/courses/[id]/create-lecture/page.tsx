@@ -74,11 +74,18 @@ export default function CourseForm() {
 
       toast.success(res.data.message || "Lecture created successfully!");
       router.push(`/trainer/courses/${courseId}`);
-    } catch (error: any) {
-      const errorMessage = error.response?.data?.message || "Failed to create lecture.";
-      toast.error(errorMessage);
-      console.error("Error while creating course:", error)
-    }
+    } catch (error) {
+        let errorMessage = "Failed to create lecture.";
+
+        if (axios.isAxiosError(error)) {
+          if (error.response?.data?.message) {
+            errorMessage = error.response.data.message;
+          }
+        }
+        
+        toast.error(errorMessage);
+        console.error("Error while creating course:", error);
+      }
   }
 
   const handlePdfUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {

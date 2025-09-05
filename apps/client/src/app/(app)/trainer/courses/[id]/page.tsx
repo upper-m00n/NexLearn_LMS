@@ -19,9 +19,10 @@ type Lecture={
   noteUrl: string;
 }
 
-const course=()=>{
+const CoursePage=()=>{
   
-  const {user,token,loading}= useAuth();
+  //const {user,token,loading}= useAuth();
+
   const params = useParams();
 
   const courseId= params.id;
@@ -33,7 +34,10 @@ const course=()=>{
     rating:0,
     createdAt:"",
     category:"",
+    id:"",
+    thumbnail:"",
   });
+
   const [lectures, setLectures]= useState<Lecture[]>([]);
   const [loadingLectures,setLoadingLectures]= useState(false);
   const [message,setMessage]= useState("");
@@ -50,13 +54,16 @@ const course=()=>{
   useEffect(()=>{
     const fetchCourse= async()=>{
       try {
+
         const res= await axios.get(`http://localhost:4000/api/course/get/${courseId}`);
         setCourse(res.data);
         console.log("course",res.data);
+
         setThumbnailUrl(res.data.thumbnail);
         toast.success("Course fetched successfully!");
+
       } catch (error) {
-        console.log("Error while fetching course");
+        console.log("Error while fetching course",error);
         toast.error("Unable to fetch course.");
       }
     }
@@ -81,7 +88,7 @@ const course=()=>{
     }
     fetchCourse();
     fetchLectures();
-  },[])
+  },[courseId,message])
 
   
   return(
@@ -124,4 +131,4 @@ const course=()=>{
   )
 }
 
-export default course;
+export default CoursePage;

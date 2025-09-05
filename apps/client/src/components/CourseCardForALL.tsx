@@ -1,23 +1,18 @@
 import { Button } from "@/components/ui/button"
 import {
   Card,
-  CardAction,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
 import axios from "axios"
-
 import { useRouter } from "next/navigation"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { toast } from "sonner"
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "./ui/alert-dialog"
 import { useAuth } from "@/context/AuthContext"
 import RatingsStarsForUnEnrolled from "./RatingsStarsForUnEnrolled"
 import { ArrowRight } from "lucide-react"
-import { Progress } from "./ui/progress"
 
 
 
@@ -34,39 +29,10 @@ type CourseCardProps ={
 }
 
 export function CourseCardForALL({course}:CourseCardProps) {
-  const {user,token}=useAuth();
+  const {user}=useAuth();
   const router= useRouter();
   const[message,setMessage]=useState('');
 
-  // handle update
-  const handleUpdate=(course:CourseCardProps["course"])=>{
-  
-    router.push(`/trainer/courses/${course.id}/update-course`)
-  }
-
-  // handle delete
-  const handleDelete=async(course:CourseCardProps["course"])=>{
-    try {
-      const res= await axios.delete('http://localhost:4000/api/course/delete',{
-        params:{courseId:course.id},
-      })
-      setMessage(res.data.message);
-      toast(message)
-
-    } catch (error) {
-      console.error("Error deleting courses");
-      toast(message);
-    }
-  }
-
-  const handleView=(course:CourseCardProps["course"])=>{
-    if(user?.role == 'TRAINER'){
-      router.push(`/trainer/courses/${course?.id}`)
-    }
-    else{
-      router.push(`/student/course/${course?.id}`)
-    }
-  }
   
   return (
      <Card className="w-full max-w-sm overflow-hidden rounded-xl shadow-md transition-all duration-300 hover:shadow-xl hover:-translate-y-1 flex flex-col">

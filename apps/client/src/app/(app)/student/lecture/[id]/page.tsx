@@ -34,7 +34,7 @@ const LecturePage = () => {
 
   const lectureId = params.id as string;
 
-  // --- States ---
+
   const [lecture, setLecture] = useState<Lecture | null>(null);
   const [note, setNote] = useState<Note | null>(null);
   const [pageLoading, setPageLoading] = useState(true);
@@ -46,7 +46,7 @@ const LecturePage = () => {
   const [modalTitle, setModalTitle] = useState("");
   const [modalContent, setModalContent] = useState("");
   const [status, setStatus]=useState(false);
-  const [statusLoading,setStatusLoading]=useState(false);
+
 
   useEffect(() => {
     if (authLoading) return;
@@ -81,7 +81,7 @@ const LecturePage = () => {
       if(!user?.id || !lectureId){
         return;
       }
-      setStatusLoading(true);
+    
       try {
         const res= await axios.get(`${BASE_URL}/api/progress/check`,{
           params:{
@@ -96,12 +96,9 @@ const LecturePage = () => {
         console.log("Errorr while fetching status",error)
         setStatus(false);
       }
-      finally{
-        setStatusLoading(false);
-      }
     }
     fetchLectureStatus();
-  },[user?.id]);
+  },[user?.id, lectureId]);
 
   // --- Handlers ---
   const handleAiButtonClick = async (type: 'summary' | 'transcript') => {
@@ -152,7 +149,7 @@ const LecturePage = () => {
 
     setStatus(newStatus);
     try {
-      const res=await axios.post(`${BASE_URL}/api/progress/complete`,{
+      await axios.post(`${BASE_URL}/api/progress/complete`,{
         userId:user?.id,
         lectureId,
         status:newStatus

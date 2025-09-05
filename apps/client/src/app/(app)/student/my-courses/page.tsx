@@ -22,17 +22,19 @@ const MyCourses = () => {
       console.log(res.data);
       setEnrolled(res.data.enrolledCourses);
       toast.success("Your enrolled courses fetched successfully");
-    } catch (error: any) {
-      console.log("Error while fetching enrolled courses", error);
-      
-      
-      if (error.response?.status === 404) {
-        setEnrolled([]);
-        toast.info("You haven't enrolled in any courses yet");
-      } else {
-        toast.error("Couldn't fetch enrolled courses");
-      }
-    } finally {
+    } catch (error) {
+        console.log("Error while fetching enrolled courses", error);
+        if (axios.isAxiosError(error)) {
+          if (error.response?.status === 404) {
+            setEnrolled([]);
+            toast.info("You haven't enrolled in any courses yet");
+          } else {
+            toast.error("Couldn't fetch enrolled courses");
+          }
+        } else {
+          toast.error("An unexpected error occurred. Please try again.");
+        }
+} finally {
       setLoading(false);
     }
   };

@@ -46,10 +46,17 @@ export default function UserVerificationPage() {
                 toast.success(res.data.message);
                 router.push('/');
             }
-        } catch (error: any) {
-            const errorMessage = error.response?.data?.message || "Verification failed. Please try again.";
+        } catch (error) {
+            let errorMessage = "Verification failed. Please try again.";
+
+            if (axios.isAxiosError(error)) {
+                if (error.response?.data?.message) {
+                errorMessage = error.response.data.message;
+                }
+            }
+            
             toast.error(errorMessage);
-            console.error(error);
+            console.error("Verification error:", error);
         }
     }
 
@@ -100,7 +107,7 @@ export default function UserVerificationPage() {
                             <Button type="submit" className="w-full" disabled={form.formState.isSubmitting}>
                                 {form.formState.isSubmitting ? "Verifying..." : "Verify Account"}
                             </Button>
-                            <p className="text-center text-sm">Haven't registered yet? <Link href='/register' className="text-blue-600 hover:underline">Register</Link></p>
+                            <p className="text-center text-sm">Haven&apos;t registered yet? <Link href='/register' className="text-blue-600 hover:underline">Register</Link></p>
                         </form>
                     </Form>
                 </div>
