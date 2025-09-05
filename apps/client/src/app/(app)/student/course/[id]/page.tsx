@@ -27,6 +27,7 @@ export default function Course() {
     createdAt: "",
     id:"",
     category:"",
+    thumbnail:"",
     
   });
   const [thumbnail, setThumbnailUrl] = useState('');
