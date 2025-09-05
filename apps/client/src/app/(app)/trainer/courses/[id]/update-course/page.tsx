@@ -33,7 +33,8 @@ export default function UpdateCourseForm() {
     description:"",
     price:0,
     thumbnail:"",
-    category:""
+    category:"",
+    id:""
   });
 
   useEffect(()=>{
