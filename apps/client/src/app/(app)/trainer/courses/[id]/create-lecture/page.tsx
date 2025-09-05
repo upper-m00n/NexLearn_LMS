@@ -17,8 +17,7 @@ import axios from "axios"
 import { useAuth } from "@/context/AuthContext";
 import { useParams, useRouter } from "next/navigation";
 import lectureSchema from "@/lib/lecture";
-
-const BASE_URL='http://localhost:4000'
+import { BASE_URL } from "@/axios/axios";
 
 export default function CourseForm() {
   const router = useRouter();

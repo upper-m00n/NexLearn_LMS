@@ -12,6 +12,7 @@ import { toast } from 'sonner';
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { BASE_URL } from '@/axios/axios';
 
 export default function Login(){
     const {setUser,setToken}= useAuth();
@@ -23,7 +24,7 @@ export default function Login(){
 
     const onSubmit = async (data:z.infer<typeof loginSchema>) =>{
         try {
-            const res = await axios.post('http://localhost:4000/api/auth/login',data);
+            const res = await axios.post(`${BASE_URL}/api/auth/login`,data);
             //console.log("user",res);
             localStorage.setItem("token",res.data.token)
             localStorage.setItem('user',JSON.stringify(res.data.user));

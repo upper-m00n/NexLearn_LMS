@@ -1,8 +1,7 @@
 import { Suspense } from 'react';
-import SearchResults from '../../../components/SearchResults'; // We will create this component next
+import SearchResults from '../../../components/SearchResults';
 import { Loader2 } from 'lucide-react';
 
-// A simple loading fallback component
 const SearchLoading = () => (
   <div className="flex flex-col items-center justify-center pt-20">
     <Loader2 className="w-12 h-12 animate-spin text-indigo-600" />

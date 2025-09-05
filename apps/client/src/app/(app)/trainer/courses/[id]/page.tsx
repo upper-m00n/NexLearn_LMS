@@ -10,6 +10,7 @@ import { toast } from "sonner";
 import { Separator } from "@/components/ui/separator"
 import { Course } from "@/types/course";
 import Lectures from "@/components/Lectures";
+import { BASE_URL } from "@/axios/axios";
 
 type Lecture={
   id: string;
@@ -55,7 +56,7 @@ const CoursePage=()=>{
     const fetchCourse= async()=>{
       try {
 
-        const res= await axios.get(`http://localhost:4000/api/course/get/${courseId}`);
+        const res= await axios.get(`${BASE_URL}/api/course/get/${courseId}`);
         setCourse(res.data);
         console.log("course",res.data);
 
@@ -71,7 +72,7 @@ const CoursePage=()=>{
       try {
         setLoadingLectures(true);
         toast("Fetching Lectures")
-        const res= await axios.get(`http://localhost:4000/api/lecture/get?courseId=${courseId}`)
+        const res= await axios.get(`${BASE_URL}/api/lecture/get?courseId=${courseId}`)
         if(res.data?.lectures){
           setLectures(res.data.lectures);
         }

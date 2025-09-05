@@ -52,7 +52,7 @@ export default function UpdateCourseForm() {
   useEffect(()=>{
     const fetchCourse= async()=>{
       try {
-        const res= await axios.get(`http://localhost:4000/api/course/get/${courseId}`);
+        const res= await axios.get(`${BASE_URL}/api/course/get/${courseId}`);
         if(res.data.price === null){
           res.data.price=0;
         }
@@ -106,7 +106,7 @@ export default function UpdateCourseForm() {
 
     try {
        
-      const res = await axios.put("http://localhost:4000/api/course/update", data,{
+      const res = await axios.put(`${BASE_URL}/api/course/update`, data,{
         params:{trainerId:user?.id,
           courseId
         },
@@ -130,7 +130,7 @@ export default function UpdateCourseForm() {
 
   try {
     
-    const authRes = await fetch("http://localhost:4000/api/imagekit/imagekit-auth");
+    const authRes = await fetch(`${BASE_URL}/api/imagekit/imagekit-auth`);
     const auth = await authRes.json();
 
     const formData = new FormData();

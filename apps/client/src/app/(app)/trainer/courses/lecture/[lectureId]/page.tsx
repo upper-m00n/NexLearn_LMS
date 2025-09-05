@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "sonner";
 import { Separator } from "@/components/ui/separator";
+import { BASE_URL } from "@/axios/axios";
 
 type Lecture = {
   id: string;
@@ -44,7 +45,7 @@ const LecturePage = () => {
         const fetchLecture = async () => {
             setIsLoading(true);
             try {
-                const res = await axios.get(`http://localhost:4000/api/lecture/get-lecture/${lectureId}`);
+                const res = await axios.get(`${BASE_URL}/api/lecture/get-lecture/${lectureId}`);
                 
                 setLecture(res.data.lec);
                 setNoteUrl(res.data.note.pdfUrl);

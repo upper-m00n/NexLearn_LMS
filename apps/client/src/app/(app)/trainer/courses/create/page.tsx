@@ -33,7 +33,7 @@ export default function CourseForm() {
       router.push('/login');
     }
     else if (user?.role !== 'TRAINER') {
-      router.push('/unauthorized') // or '/not-found'
+      router.push('/unauthorized') 
     }
   },[user,token,router,loading])
   
@@ -63,7 +63,7 @@ export default function CourseForm() {
     }
 
     try {
-      const createCourse = await axios.post("http://localhost:4000/api/course/create", data,{
+      const createCourse = await axios.post(`${BASE_URL}/api/course/create`, data,{
         headers:{
           Authorization:`Bearer ${token}`
         }
@@ -83,7 +83,7 @@ export default function CourseForm() {
 
   try {
     // 🔐 Get authentication params from backend
-    const authRes = await fetch("http://localhost:4000/api/imagekit/imagekit-auth");
+    const authRes = await fetch(`${BASE_URL}/api/imagekit/imagekit-auth`);
     const auth = await authRes.json();
 
     const formData = new FormData();

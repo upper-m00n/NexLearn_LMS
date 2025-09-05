@@ -17,8 +17,7 @@ export default function TrainerDashboard() {
 
   const [courses,setCourses]= useState([]);
   const [totalStudents,setTotalStudents]=useState('');
-  const [totalStudentsPerCouurse,setTotalStudentsPerCourse]=useState('');
-
+ 
   useEffect(()=>{
     if(loading) return;
     if (!user || !token) {
@@ -32,7 +31,7 @@ export default function TrainerDashboard() {
     }
     const fetchCourses =async()=>{
         try {
-            const res = await axios.get('http://localhost:4000/api/course/getCourses',{
+            const res = await axios.get(`${BASE_URL}/api/course/getCourses`,{
                 params:{trainerId:user?.id},
                 headers:{
                     Authorization:`Bearer ${token}`

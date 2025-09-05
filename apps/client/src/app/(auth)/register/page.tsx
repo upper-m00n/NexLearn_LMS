@@ -11,6 +11,7 @@ import axios from 'axios'
 import { toast } from "sonner"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useRouter } from 'next/navigation';
+import { BASE_URL } from '@/axios/axios';
 
 export default function Register(){
 
@@ -22,7 +23,7 @@ export default function Register(){
 
     const onSubmit = async (data: z.infer<typeof registerSchema>) =>{
         try {
-            const res = await axios.post('http://localhost:4000/api/auth/register',data);
+            const res = await axios.post(`${BASE_URL}/api/auth/register`,data);
             router.push('/verify')
         } catch (error) {
             console.log("error in signup",error);
