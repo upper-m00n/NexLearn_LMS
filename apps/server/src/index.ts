@@ -20,7 +20,7 @@ dotenv.config();
 const app = express();
 
 app.use(cors({
-    origin: 'http://localhost:3000', // or whatever your frontend origin is
+    origin: 'https://nex-learn-j0p5byx6o-ashutosh-sharmas-projects-da368800.vercel.app', 
     credentials: true
 }));
 
