@@ -7,6 +7,7 @@ import axios from "axios"
 import { toast } from "sonner"
 import { useRouter } from "next/navigation"
 import { useAuth } from "@/context/AuthContext"
+import { BASE_URL } from "@/axios/axios"
 
 type LectureProps={
     lectures:Lecture[]
@@ -23,7 +24,7 @@ export default function Lectures({lectures}:LectureProps){
  // delete lecture
     const handleDeleteLecture= async(lectureId : string)=>{
     try {
-      const res=await axios.delete(`http://localhost:4000/api/lecture/delete/${lectureId}`,{
+      const res=await axios.delete(`${BASE_URL}/api/lecture/delete/${lectureId}`,{
         params:{lectureId}
       })
       setDeleteMessage(res.data.message);

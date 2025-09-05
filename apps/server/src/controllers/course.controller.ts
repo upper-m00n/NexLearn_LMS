@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import prisma from "../prisma/client";
 import { Category } from "../generated/prisma";
+import { Prisma } from '@prisma/client';
 
 //course creation
 export const createCourse = async(req:Request, res:Response)=>{
@@ -155,24 +156,57 @@ export const updateCourse = async(req:Request, res:Response)=>{
 
 // delete course
 
-export const deleteCourse = async(req:Request,res:Response)=>{
+export const deleteCourse = async (req: Request, res: Response) => {
   const courseId = req.query.courseId as string;
 
-  try {
-    const deleteCourse = await prisma.course.delete({
-      where:{id:courseId}
-    })
+  if (!courseId) {
+    return res.status(400).json({ message: "Course ID is required." });
+  }
 
-    if(!deleteCourse){
-      return res.status(400).json({message:"Error: Course is not deleted"})
+  try {
+    const deletedCourseData = await prisma.$transaction(async (tx) => {
+      
+      await tx.lectureCompletion.deleteMany({
+        where: { lecture: { courseId: courseId } },
+      });
+      await tx.quiz.deleteMany({
+        where: { lecture: { courseId: courseId } },
+      });
+      
+ 
+      await tx.lecture.deleteMany({
+        where: { courseId: courseId },
+      });
+
+    
+      await tx.rating.deleteMany({ where: { courseId: courseId } });
+      await tx.enrollment.deleteMany({ where: { courseId: courseId } });
+      await tx.cartItem.deleteMany({ where: { courseId: courseId } });
+      await tx.orderItem.deleteMany({ where: { courseId: courseId } });
+      await tx.note.deleteMany({ where: { courseId: courseId } });
+
+      const deletedCourse = await tx.course.delete({
+        where: { id: courseId },
+      });
+      
+      return deletedCourse;
+    });
+
+    res.status(200).json({ 
+      message: "Course and all related data deleted successfully.", 
+      course: deletedCourseData 
+    });
+
+  } catch (error) {
+    console.log("Error deleting course", error);
+
+    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2025') {
+        return res.status(404).json({ message: `Course with ID ${courseId} not found.` });
     }
 
-    res.status(200).json({message:"Course deleted Successfully!"})
-  } catch (error) {
-    console.log("Error deleting course",error);
-    res.status(500).json({message:"Internal server error"})
+    res.status(500).json({ message: "Internal server error" });
   }
-}
+};
 
 
 // search course
