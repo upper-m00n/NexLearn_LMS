@@ -16,6 +16,7 @@ import { toast } from "sonner"
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "./ui/alert-dialog"
 import { useAuth } from "@/context/AuthContext"
 import RatingsStarsForUnEnrolled from "./RatingsStarsForUnEnrolled"
+import { BASE_URL } from "@/axios/axios"
 
 
 
@@ -45,7 +46,7 @@ export function CourseCard({course}:CourseCardProps) {
   // handle delete
   const handleDelete=async(course:CourseCardProps["course"])=>{
     try {
-      const res= await axios.delete('http://localhost:4000/api/course/delete',{
+      const res= await axios.delete(`${BASE_URL}/api/course/delete`,{
         params:{courseId:course.id},
       })
       setMessage(res.data.message);
