@@ -9,124 +9,129 @@ import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import RatingsStarsForUnEnrolled from "@/components/RatingsStarsForUnEnrolled";
+import { Cart, CartItem } from "@/types/cart";
+import { Loader2 } from "lucide-react";
+import Link from "next/link";
 
 export default function CartPage() {
   const { user } = useAuth();
-  const [cart, setCart] = useState<any>(null);
-
-  const router= useRouter();
+  const [cart, setCart] = useState<Cart | null>(null);
+  const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchCart = async () => {
-      if (!user?.id) return;
+      if (!user?.id) {
+        setLoading(false);
+        return;
+      }
+      setLoading(true);
       try {
         const res = await axios.get(`${BASE_URL}/api/cart/${user.id}`);
-        toast.success('Cart loaded successfully!');
         setCart(res.data.cart);
-        console.log(res.data.cart);
       } catch (error) {
         console.log("Error while fetching cart", error);
-        toast.error("Error while loading cart");
+          toast.error("Error while loading cart");
+      } finally {
+        setLoading(false);
       }
     };
     fetchCart();
   }, [user]);
 
-  const handleDeleteItem= async(courseId: string)=>{
+  const handleDeleteItem = async (courseId: string) => {
+    if (!user?.id) return;
     try {
-        const studentId= user?.id;
-        console.log("Course id:",courseId)
-        const res= await axios.delete(`${BASE_URL}/api/cart/delete/${courseId}`,{
-            params:{
-                studentId
-            }
-        });
-        toast.success("Item removed from cart!");
+      await axios.delete(`${BASE_URL}/api/cart/delete/${courseId}`, {
+        params: { studentId: user.id }
+      });
+      toast.success("Item removed from cart!");
 
-        setCart((prevCart: any)=>({
-            ...prevCart,
-            items: prevCart.items.filter((item:any)=> item.course.id !== courseId)
-        }))
+      setCart((prevCart) => {
+        if (!prevCart) return null;
+        return {
+          ...prevCart,
+          items: prevCart.items.filter((item) => item.course.id !== courseId),
+        };
+      });
     } catch (error) {
-        console.log("Error while removing cart item",error);
-        toast.error("Failed to remove from cart!");
+      console.log("Error while removing cart item", error);
+      toast.error("Failed to remove from cart!");
     }
+  };
 
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-[80vh]">
+        <Loader2 className="w-12 h-12 animate-spin text-indigo-600" />
+      </div>
+    );
   }
 
-  if (!cart) return <p>Loading cart...</p>;
-
-  const totalItems = cart.items?.reduce((sum: number, item: any) => sum + item.quantity, 0) || 0;
-  const totalPrice = cart.items?.reduce((sum: number, item: any) => sum + item.quantity * item.course.price, 0) || 0;
+  const totalItems = cart?.items?.reduce((sum, item: CartItem) => sum + item.quantity, 0) || 0;
+  const totalPrice = cart?.items?.reduce((sum, item: CartItem) => sum + (item.quantity * item.course.price), 0) || 0;
 
   return (
-    <div className="min-h-screen p-6 bg-gray-50">
-      <div className="bg-black text-white p-6 rounded-md mb-6 shadow-md">
-        <h1 className="text-3xl font-bold">Shopping Cart</h1>
-        <p className="mt-2 text-gray-300">Total Items: {totalItems}</p>
-      </div>
+    <div className="min-h-screen p-4 sm:p-6 bg-gray-50">
+      <div className="max-w-7xl mx-auto">
+        <div className="bg-black text-white p-6 rounded-lg mb-6 shadow-md">
+          <h1 className="text-3xl font-bold">Shopping Cart</h1>
+          {totalItems > 0 && <p className="mt-2 text-gray-300">{totalItems} course(s) in your cart</p>}
+        </div>
 
-      <Separator className="my-4" />
+        <Separator className="my-4" />
 
-      <div className="flex flex-col md:flex-row gap-8">
-        <div className="flex-1 flex flex-col gap-6">
-          {cart.items && cart.items.length > 0 ? (
-            cart.items.map((item: any) => (
-              <div
-                key={item.id}
-                className="flex flex-col md:flex-row items-center gap-4 p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow"
-              >
-                <div className="w-full md:w-32 h-32 flex-shrink-0">
-                  <img
-                    src={item.course.thumbnail}
-                    alt={item.course.title}
-                    className="w-full h-full object-cover rounded-md"
-                  />
+        <div className="flex flex-col lg:flex-row gap-8">
+          <div className="flex-1 flex flex-col gap-6">
+            {cart && cart.items.length > 0 ? (
+              cart.items.map((item: CartItem) => (
+                <div key={item.id} className="flex flex-col md:flex-row items-center gap-4 p-4 bg-white rounded-lg shadow-sm">
+                  <div className="w-full md:w-40 h-32 flex-shrink-0">
+                    <img src={item.course.thumbnail} alt={item.course.title} className="w-full h-full object-cover rounded-md" />
+                  </div>
+                  <div className="flex-1 flex flex-col gap-1">
+                    <h2 className="text-xl font-semibold">{item.course.title}</h2>
+                    <p className="text-gray-700 font-bold">₹{item.course.price}</p>
+                    <RatingsStarsForUnEnrolled totalRating={item.course.rating ?? 0}/>
+                  </div>
+                  <div className="flex flex-col gap-2 self-stretch md:self-center">
+                    <Button variant="destructive" onClick={() => handleDeleteItem(item.course.id)}>
+                      Remove
+                    </Button>
+                  </div>
                 </div>
-
-                <div className="flex-1 flex flex-col gap-2">
-                  <h2 className="text-xl font-semibold">{item.course.title}</h2>
-                  <p className="text-gray-700">Price: Rs {item.course.price}</p>
-                  <RatingsStarsForUnEnrolled totalRating={parseFloat(item.course.rating)}/>
-                  <p className="text-gray-500">Quantity: {item.quantity}</p>
+              ))
+            ) : (
+                <div className="text-center py-20 bg-white rounded-lg shadow-sm">
+                    <h2 className="text-2xl font-semibold text-gray-700">Your cart is empty</h2>
+                    <p className="text-gray-500 mt-2">Looks like you haven't added anything to your cart yet.</p>
+                    <Button asChild className="mt-4 bg-indigo-600 hover:bg-indigo-700">
+                        <Link href="/courses">Keep Shopping</Link>
+                    </Button>
                 </div>
-
-                <div className="flex flex-col gap-2 md:justify-end md:items-end">
-                  <Button variant="destructive" className="w-full md:w-auto" onClick={()=>handleDeleteItem(item.course.id)}>
-                    Remove
-                  </Button>
-                  <Button variant="outline" className="w-full md:w-auto">
-                    Add to wishlist
-                  </Button>
+            )}
+          </div>
+          
+          {cart && cart.items.length > 0 && (
+            <div className="w-full lg:w-1/3 p-6 bg-white rounded-lg shadow-sm self-start">
+              <h2 className="text-2xl font-bold mb-4">Order Summary</h2>
+              <div className="space-y-3">
+                <div className="flex justify-between text-gray-600">
+                  <span>Subtotal:</span>
+                  <span>₹{totalPrice.toFixed(2)}</span>
+                </div>
+                <Separator/>
+                <div className="flex justify-between font-bold text-lg text-gray-800">
+                  <span>Total:</span>
+                  <span>₹{totalPrice.toFixed(2)}</span>
                 </div>
               </div>
-            ))
-          ) : (
-            <p className="text-gray-500 text-center">Your cart is empty</p>
+              <Button className="w-full mt-6 bg-indigo-600 hover:bg-indigo-700" onClick={() => router.push('/student/checkout')}>
+                Proceed to Checkout
+              </Button>
+              <p className="text-gray-500 text-xs text-center mt-2">You won’t be charged yet.</p>
+            </div>
           )}
-        </div>
-
-        <div className="w-full md:w-1/3 p-4 bg-white rounded-lg shadow-md flex flex-col gap-4">
-          <h2 className="text-2xl font-bold">Order Summary</h2>
-          <div className="flex justify-between">
-            <span>Total Items:</span>
-            <span>{totalItems}</span>
-          </div>
-          <div className="flex justify-between font-semibold text-lg">
-            <span>Total Price:</span>
-            <span>Rs {totalPrice}</span>
-          </div>
-          <Button className="w-full mt-4" onClick={()=>(router.push('/student/checkout'))}>Proceed to Checkout</Button>
-          <p className="text-gray-500 text-sm mt-2">You won’t be charged yet.</p>
-        </div>
-      </div>
-
-      <div className="mt-12">
-        <h2 className="text-2xl font-bold mb-4">You might also like</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="p-4 bg-white rounded-lg shadow-md">Recommendation 1</div>
-          <div className="p-4 bg-white rounded-lg shadow-md">Recommendation 2</div>
-          <div className="p-4 bg-white rounded-lg shadow-md">Recommendation 3</div>
         </div>
       </div>
     </div>

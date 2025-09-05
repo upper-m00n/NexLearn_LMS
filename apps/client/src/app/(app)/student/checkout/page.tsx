@@ -6,42 +6,48 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { Cart, CartItem } from "@/types/cart"; 
+import { Loader2 } from "lucide-react";
+import { RazorpayOptions, RazorpayResponse } from "@/types/Razorpay";
 
 declare global {
   interface Window {
-    Razorpay: any;
+    Razorpay: new (options: RazorpayOptions) => { open(): void; };
   }
 }
 
-const CheckoutButton = () => {
-
+const CartPage = () => {
   const { user } = useAuth();
-  const [cart, setCart] = useState<any>(null);
+  const [cart, setCart] = useState<Cart | null>(null);
   const [loading, setLoading] = useState(false);
+  const [cartLoading, setCartLoading] = useState(true);
 
-  const router= useRouter();
+  const router = useRouter();
 
-// load cart
+  // Load cart
   useEffect(() => {
     const fetchCart = async () => {
-      if (!user?.id) return;
+      if (!user?.id) {
+          setCartLoading(false);
+          return;
+      };
+      setCartLoading(true);
       try {
         const res = await axios.get(`${BASE_URL}/api/cart/${user.id}`);
         setCart(res.data.cart);
       } catch (error) {
         console.error("Error while fetching cart", error);
         toast.error("Error while loading cart");
+      } finally {
+        setCartLoading(false);
       }
     };
     fetchCart();
   }, [user]);
 
-  
   const loadRazorpayScript = () => {
     return new Promise<boolean>((resolve) => {
-      if (document.querySelector("#razorpay-sdk")) {
-        return resolve(true); 
-      }
+      if (document.getElementById("razorpay-sdk")) return resolve(true);
       const script = document.createElement("script");
       script.id = "razorpay-sdk";
       script.src = "https://checkout.razorpay.com/v1/checkout.js";
@@ -52,17 +58,17 @@ const CheckoutButton = () => {
   };
 
   const handleCheckout = async () => {
-    if (!cart) return;
+    if (!cart || !user) return;
     setLoading(true);
 
+
     const totalAmount = cart.items.reduce(
-      (sum: number, item: any) => sum + item.course.price,
-      0
+      (sum: number, item: CartItem) => sum + item.course.price, 0
     );
 
     try {
       const res = await axios.post(`${BASE_URL}/api/payment/create-order`, {
-        studentId: user?.id,
+        studentId: user.id,
         totalAmount,
         cartItems: cart.items,
       });
@@ -71,85 +77,89 @@ const CheckoutButton = () => {
 
       const isLoaded = await loadRazorpayScript();
       if (!isLoaded) {
-        toast.error("Failed to load Razorpay SDK. Please check your connection.");
+        toast.error("Failed to load payment gateway. Please check your connection.");
+        setLoading(false);
         return;
       }
 
-      const options = {
-        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+      const options: RazorpayOptions = {
+        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID!,
         amount: razorpayOrder.amount,
         currency: razorpayOrder.currency,
         name: "NexLearn",
         description: "Course Purchase",
         order_id: razorpayOrder.id,
-        handler: async function (response: any) {
-          await axios.post(`${BASE_URL}/api/payment/verify`, {
-            razorpay_order_id: response.razorpay_order_id,
-            razorpay_payment_id: response.razorpay_payment_id,
-            razorpay_signature: response.razorpay_signature,
-            studentEmail:user?.email,
-            cartItems:cart.items,
-          });
+        handler: async function (response: RazorpayResponse) {
+          try {
+            await axios.post(`${BASE_URL}/api/payment/verify`, {
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_signature: response.razorpay_signature,
+              studentEmail: user.email,
+              cartItems: cart.items,
+            });
 
-          toast.success("Payment successful!");
+            toast.success("Payment successful! Redirecting to your courses...");
+            router.push('/student/my-courses');
+            
+          } catch (verifyError) {
+             console.error("Payment verification failed:", verifyError);
+             toast.error("Payment verification failed. Please contact support.");
+          }
         },
         prefill: {
-          email: user?.email || "test@example.com",
+          email: "test@example.com",
           contact: "9999999999",
         },
-        theme: { color: "#3399cc" },
+        theme: { color: "#4F46E5" }, 
       };
 
-      const rzp = new (window as any).Razorpay(options);
+      const rzp = new window.Razorpay(options);
       rzp.open();
 
-      router.push('/student/my-courses')
-
-      
     } catch (error) {
       console.error("Checkout failed:", error);
-      toast.error("Failed to start checkout");
+      toast.error("Failed to start checkout. Please try again.");
     } finally {
       setLoading(false);
     }
   };
 
   const totalAmount = cart?.items?.reduce(
-    (sum: number, item: any) => sum + item.course.price,
-    0
+    (sum: number, item: CartItem) => sum + item.course.price, 0
   );
 
   return (
-    <div className="p-6 max-w-lg mx-auto bg-white rounded-2xl shadow-md mt-25">
-      <h2 className="text-xl font-bold mb-4">Order Summary</h2>
+    <div className="p-6 max-w-lg mx-auto bg-white rounded-2xl shadow-lg mt-10">
+      <h2 className="text-2xl font-bold mb-6 text-gray-800">Order Summary</h2>
 
-      {!cart ? (
-        <p className="text-gray-600">Loading your cart...</p>
-      ) : cart.items.length === 0 ? (
-        <p className="text-gray-600">Your cart is empty</p>
+      {cartLoading ? (
+         <div className="flex items-center justify-center h-40">
+            <Loader2 className="w-8 h-8 animate-spin text-indigo-600"/>
+         </div>
+      ) : !cart || cart.items.length === 0 ? (
+        <p className="text-gray-600 text-center py-10">Your cart is empty</p>
       ) : (
         <div className="space-y-3">
-          {cart.items.map((item: any) => (
-            <div
-              key={item.id}
-              className="flex justify-between border-b pb-2 text-sm"
-            >
-              <span>{item.course.title}</span>
-              <span>₹{item.course.price}</span>
+
+          {cart.items.map((item: CartItem) => (
+            <div key={item.id} className="flex justify-between border-b pb-2 text-sm text-gray-600">
+              <span className="flex-1 truncate pr-4">{item.course.title}</span>
+              <span className="font-medium text-gray-800">₹{item.course.price.toFixed(2)}</span>
             </div>
           ))}
 
-          <div className="flex justify-between font-semibold text-lg mt-4">
+          <div className="flex justify-between font-bold text-lg pt-4">
             <span>Total:</span>
-            <span>₹{totalAmount}</span>
+            <span>₹{totalAmount?.toFixed(2)}</span>
           </div>
 
           <button
             onClick={handleCheckout}
             disabled={loading}
-            className="mt-4 w-full bg-black text-white py-2 rounded-lg hover:bg-blue-700 disabled:opacity-50"
+            className="mt-4 w-full bg-indigo-600 text-white font-semibold py-3 rounded-lg hover:bg-indigo-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {loading ? "Processing..." : "Proceed to Checkout"}
+            {loading ? "Processing..." : "Proceed to Payment"}
           </button>
         </div>
       )}
@@ -157,4 +167,4 @@ const CheckoutButton = () => {
   );
 };
 
-export default CheckoutButton;
+export default CartPage;

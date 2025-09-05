@@ -23,12 +23,12 @@ import { Progress } from "./ui/progress"
 
 type CourseCardProps ={
   course:{
-    id:string;
+    id?:string;
     title:string;
     description:string;
     thumbnail:string;
-    price:string;
-    rating:string;
+    price:number;
+    rating?:number;
     category:string
   }
 }
@@ -93,7 +93,7 @@ export function CourseCardForALL({course}:CourseCardProps) {
     
           <div className="pt-2">
             <h2>Course Rating</h2>
-             <RatingsStarsForUnEnrolled totalRating={parseFloat(course.rating)}/>
+             <RatingsStarsForUnEnrolled totalRating={course.rating ?? 0}/>
           </div>
         </CardContent>
 

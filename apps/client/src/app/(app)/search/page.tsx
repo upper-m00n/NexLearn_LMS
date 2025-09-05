@@ -23,7 +23,7 @@ const CourseCard = ({ course, router }: { course: Course, router: AppRouterInsta
         {course.category}
       </span>
       <div className="mt-2">
-        <RatingsStarsForUnEnrolled totalRating={parseFloat(course.rating as any || '0')} />
+        <RatingsStarsForUnEnrolled totalRating={course.rating ?? 0} />
       </div>
       <Button className="mt-2 w-full"onClick={() => router.push(`/student/course/${course.id}`)}>View Course</Button>
     </div>
@@ -72,7 +72,7 @@ export default function SearchPage() {
     <div className="p-8">
       <div className="flex flex-row items-baseline gap-2">
         <h1 className="font-bold text-2xl">Search Results for:</h1>
-        <h1 className="text-2xl font-mono bg-gray-100 p-1 rounded">"{query}"</h1>
+        <h1 className="text-2xl font-mono bg-gray-100 p-1 rounded">{query}</h1>
       </div>
       <div>
         {loading && <p className="text-center mt-8">Loading...</p>}

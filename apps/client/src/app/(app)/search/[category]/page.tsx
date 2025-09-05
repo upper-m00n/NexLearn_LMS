@@ -24,7 +24,7 @@ const CourseCard = ({ course, router }: { course: Course, router: AppRouterInsta
         {course.category}
       </span>
       <div className="mt-2">
-        <RatingsStarsForUnEnrolled totalRating={parseFloat(course.rating as any || '0')} />
+        <RatingsStarsForUnEnrolled totalRating={course.rating ?? 0} />
       </div>
       <Button className="mt-2 w-full"onClick={() => router.push(`/student/course/${course.id}`)}>View Course</Button>
     </div>
