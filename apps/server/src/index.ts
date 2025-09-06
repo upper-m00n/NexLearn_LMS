@@ -39,6 +39,11 @@ app.use('/api/ratings',ratingRoutes);
 app.use('/api/quizzes',quizRoutes);
 app.use('/api/progress',progressRoutes);
 
+const router = express.Router();
+router.get('/ping', (req, res) => {
+  res.status(200).send('Lecture router is working!');
+});
+
 app.get('/', (_req,res)=>{
     res.send("Api is workinng");
 })
