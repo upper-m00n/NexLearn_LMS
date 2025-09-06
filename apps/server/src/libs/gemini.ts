@@ -33,19 +33,18 @@ export async function processLectureWithGemini(lecture: Lecture) {
     try {
         const videoPart = await urlToGenerativePart(lecture.videoUrl, 'video/mp4');
 
-        const prompt = `You are an AI assistant for the 'NexLearn' e-learning platform.
-        Your task is to analyze the provided lecture video and generate two pieces of content: a full transcript and a concise summary.
+        const prompt =  `You are an AI assistant for the 'NexLearn' e-learning platform.
+        Your task is to analyze the provided lecture video and generate two distinct pieces of content.
 
-        Instructions:
-        1.  **Transcript:** Create a complete and accurate text transcript of all spoken words in the video. Format it for readability.
-        2.  **Summary:** Write a clear, professional summary of the lecture's key topics and learning objectives. This should be easily understandable for a student reviewing the material.
+        Return the result as a single, valid JSON object with ONLY two keys: "transcript" and "summary". Do not include any extra text, introductions, or markdown code fences like \`\`\`json.
 
-        Return the result as a single, valid JSON object with two keys: "transcript" and "summary". Do not include any extra text, introductions, or markdown code fences.
+        1.  **"transcript":** Provide a complete and accurate text transcript of all spoken words in the video.
+        2.  **"summary":** Analyze the transcript and write a unique summary of the lecture's key concepts. Explain the main learning objectives in your own words. This summary is for a student reviewing the material.
 
         Example JSON format:
         {
-            "transcript": "Hello everyone, and welcome to our first lesson on Node.js...",
-            "summary": "This lecture provides an introduction to Node.js, covering its core concepts, architecture, and use cases. Key topics include the event loop, non-blocking I/O, and how to set up a basic server."
+          "transcript": "Hello everyone, and welcome to our first lesson on Node.js...",
+          "summary": "This lecture introduces the fundamentals of Node.js, focusing on its core architecture and primary use cases. Students will learn about the event loop and non-blocking I/O to understand how Node.js handles asynchronous tasks efficiently."
         }`;
 
         const result = await model.generateContent([prompt, videoPart]);
