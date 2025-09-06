@@ -49,13 +49,16 @@ const CoursePage = () => {
     
         const [courseRes, lecturesRes, progressRes] = await Promise.all([
           axios.get(`${BASE_URL}/api/course/get/${courseId}`),
-          axios.get(`${BASE_URL}/api/lecture/get?courseId=${courseId}`),
+          axios.get(`${BASE_URL}/api/lecture/get`,{params:{
+            courseId
+          }}),
           axios.get(`${BASE_URL}/api/progress/calculate`, {
             params: { userId: user.id, courseId }
           })
         ]);
 
         setCourse(courseRes.data);
+        console.log(lecturesRes.data.lectures);
         setLectures(lecturesRes.data?.lectures || []);
         setProgressValue(progressRes.data.progressPercentage);
         
