@@ -1,12 +1,11 @@
 import Mailjet from 'node-mailjet';
 
-// 1. Initialize the Mailjet client with your API keys
 const mailjet = new Mailjet({
   apiKey: process.env.MAILJET_API_KEY,
   apiSecret: process.env.MAILJET_SECRET_KEY,
 });
 
-// 2. Create the new email sending function
+
 export const sendEmail = async (to: string, subject: string, html: string) => {
   try {
     const request = await mailjet
@@ -15,7 +14,7 @@ export const sendEmail = async (to: string, subject: string, html: string) => {
         Messages: [
           {
             From: {
-              Email: "your-verified-email@domain.com", // IMPORTANT: Must be a verified sender
+              Email: "mr.proashutosh@gmail.com", 
               Name: "NexLearn"
             },
             To: [
