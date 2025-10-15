@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build":"prisma generate && tsc",
+    "build": "prisma generate && tsc",
     "start": "node dist/index.js"
   },
   "keywords": [],
@@ -27,6 +27,7 @@
     "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.533.0",
     "multer": "^2.0.2",
+    "node-mailjet": "^6.0.9",
     "nodemailer": "^7.0.6",
     "razorpay": "^2.9.6",
     "uuid": "^11.1.0",
