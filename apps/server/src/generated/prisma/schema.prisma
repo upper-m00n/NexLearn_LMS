@@ -1,0 +1,233 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(uuid())
+  username     String   @unique
+  email        String   @unique
+  password     String
+  role         Role     @default(STUDENT)
+  createdAt    DateTime @default(now())
+  age          String?
+  mobile       String?
+  profilePic   String?
+  bibliography String?
+  gender       String?
+
+  verified   Boolean   @default(false)
+  otp        String?
+  otpExpires DateTime?
+
+  courses           Course[]            @relation("TrainerCourses")
+  enrollments       Enrollment[]        @relation("StudentEnrollments")
+  carts             Cart[]
+  OrderStatus       Order[]
+  rating            Rating[]
+  completedLectures LectureCompletion[]
+}
+
+enum Role {
+  ADMIN
+  MANAGEMENT
+  STUDENT
+  TRAINER
+  VISITOR
+}
+
+model Course {
+  id          String   @id @default(uuid())
+  title       String
+  description String
+  thumbnail   String
+  category    Category @default(Development)
+  price       Float?
+  instructor  String?
+
+  rating      Float?       @default(0)
+  ratingCount Int          @default(0)
+  ratings     Rating[]
+  trainerId   String
+  trainer     User         @relation("TrainerCourses", fields: [trainerId], references: [id])
+  lectures    Lecture[]
+  notes       Note[]
+  enrollments Enrollment[] @relation("CourseEnrollments")
+  createdAt   DateTime     @default(now())
+
+  cartItems  CartItem[]
+  orderItems OrderItem[]
+}
+
+model Rating {
+  id    String @id @default(uuid())
+  value Float  @default(0)
+
+  course   Course @relation(fields: [courseId], references: [id])
+  courseId String
+
+  student   User   @relation(fields: [studentId], references: [id])
+  studentId String
+
+  createdAt DateTime @default(now())
+
+  @@unique([studentId, courseId])
+}
+
+enum Category {
+  ITSoftware
+  Business
+  Development
+  FinanceAccounting
+  OfficeProductivity
+  PersonalDevelopment
+  Design
+  Marketing
+  Lifestyle
+  PhotographyVideo
+  HealthFitness
+  Music
+  TeachingAcademics
+}
+
+model Enrollment {
+  id        String @id @default(uuid())
+  student   User   @relation("StudentEnrollments", fields: [studentId], references: [id])
+  studentId String
+
+  course    Course   @relation("CourseEnrollments", fields: [courseId], references: [id])
+  courseId  String
+  createdAt DateTime @default(now())
+}
+
+model Cart {
+  id        String     @id @default(uuid())
+  student   User       @relation(fields: [studentId], references: [id])
+  studentId String     @unique
+  items     CartItem[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+model CartItem {
+  id        String   @id @default(uuid())
+  cart      Cart     @relation(fields: [cartId], references: [id])
+  cartId    String
+  course    Course   @relation(fields: [courseId], references: [id])
+  courseId  String
+  quantity  Int      @default(1)
+  createdAt DateTime @default(now())
+
+  @@unique([cartId, courseId], name: "cartId_courseId")
+}
+
+model Order {
+  id        String      @id @default(uuid())
+  student   User        @relation(fields: [studentId], references: [id])
+  studentId String
+  items     OrderItem[]
+  payment   Payment?
+  status    OrderStatus @default(PENDING)
+  createdAt DateTime    @default(now())
+}
+
+model OrderItem {
+  id        String   @id @default(uuid())
+  order     Order    @relation(fields: [orderId], references: [id])
+  orderId   String
+  course    Course   @relation(fields: [courseId], references: [id])
+  courseId  String
+  price     Float
+  createdAt DateTime @default(now())
+}
+
+model Payment {
+  id              String        @id @default(uuid())
+  order           Order         @relation(fields: [orderId], references: [id])
+  orderId         String        @unique
+  razorpayOrderId String?       @unique
+  amount          Float
+  status          PaymentStatus @default(PENDING)
+  provider        String?
+  createdAt       DateTime      @default(now())
+}
+
+enum PaymentStatus {
+  PENDING
+  SUCCESS
+  FAILED
+}
+
+enum OrderStatus {
+  PENDING
+  COMPLETED
+  CANCELLED
+}
+
+model Lecture {
+  id          String   @id @default(uuid())
+  title       String
+  description String
+  videoUrl    String
+  note        Note?    @relation(fields: [noteId], references: [id])
+  noteId      String?  @unique
+  courseId    String
+  course      Course   @relation(fields: [courseId], references: [id])
+  createdAt   DateTime @default(now())
+
+  completions LectureCompletion[]
+
+  transcript String? @db.Text
+  summary    String? @db.Text
+  quiz       Quiz?
+}
+
+model LectureCompletion {
+  id          String    @id @default(uuid())
+  userId      String
+  user        User      @relation(fields: [userId], references: [id])
+  lectureId   String
+  lecture     Lecture   @relation(fields: [lectureId], references: [id])
+  status      Boolean   @default(false)
+  completedAt DateTime? @default(now())
+
+  @@unique([userId, lectureId])
+}
+
+model Quiz {
+  id        String     @id @default(uuid())
+  lectureId String     @unique // Each lecture has only one quiz
+  lecture   Lecture    @relation(fields: [lectureId], references: [id])
+  questions Question[]
+  createdAt DateTime   @default(now())
+}
+
+model Question {
+  id            String   @id @default(uuid())
+  text          String   @db.Text
+  options       String[]
+  correctAnswer Int
+  quizId        String
+  quiz          Quiz     @relation(fields: [quizId], references: [id])
+}
+
+model Note {
+  id        String   @id @default(uuid())
+  title     String
+  pdfUrl    String
+  courseId  String
+  course    Course   @relation(fields: [courseId], references: [id])
+  lecture   Lecture?
+  createdAt DateTime @default(now())
+}
