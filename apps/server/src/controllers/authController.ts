@@ -37,7 +37,7 @@ export const register= async (req:Request, res:Response) =>{
 
         const emailHtml = `<h1>Welcome to NexLearn!</h1><p>Your verification code is: <strong>${otp}</strong></p><p>This code will expire in 10 minutes.</p>`;
 
-        await sendEmail(newUser.email,"Verify Your NexLearn Account",emailHtml);
+        await sendEmail(email,"Verify Your NexLearn Account",emailHtml);
 
         res.status(201).json({ 
             message: "Registration successful. Please check your email for a verification OTP.",
